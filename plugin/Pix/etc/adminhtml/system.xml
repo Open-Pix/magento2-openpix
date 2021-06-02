@@ -4,6 +4,8 @@
             <group id="openpix_configurations" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>OpenPix</label>
                 <include path="OpenPix_Pix::system/credentials.xml"/>
+                <include path="OpenPix_Pix::system/pix.xml"/>
+<!--                <include path="OpenPix_Pix::system/order_management.xml"/>-->
             </group>
         </section>
     </system>

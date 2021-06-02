@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+    <group id="pix" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+<!--        <frontend_model>OpenPix\Pix\Block\Adminhtml\System\Config\Fieldset\Payment</frontend_model>-->
+        <label>Payment via Pix</label>
+
+        <field id="active" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
+            <label>Enabled</label>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+            <config_path>payment/openpix_pix/active</config_path>
+        </field>
+
+        <field id="title" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Payment Title</label>
+            <config_path>payment/openpix_pix/title</config_path>
+        </field>
+
+<!--        <field id="banner_checkout" translate="label comment" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0">-->
+<!--            <label>Banner Checkout</label>-->
+<!--            <config_path>payment/openpix_pix/banner_checkout</config_path>-->
+<!--            <comment>By default the module of Mercado Pago will configure a banner with the methods available according to your country, in case you want to customize it simply change the url of the image.</comment>-->
+<!--        </field>-->
+
+<!--        <field id="expiration_days" translate="label comment" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0">-->
+<!--            <label>Expiration of Pix</label>-->
+<!--            <source_model>OpenPix\Pix\Model\System\Config\Source\PixExpirationDays</source_model>-->
+<!--            <config_path>payment/openpix_pix/expiration_days</config_path>-->
+<!--            <comment>Set up to how many days your customers will be able to pay</comment>-->
+<!--        </field>-->
+
+<!--        <field id="sort_order" translate="label comment" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">-->
+<!--            <label>Checkout Position</label>-->
+<!--            <frontend_class>validate-number</frontend_class>-->
+<!--            <config_path>payment/openpix_pix/sort_order</config_path>-->
+<!--            <comment>This setting will be the position in which the payment method will be available to the buyer.</comment>-->
+<!--        </field>-->
+    </group>
+</include>
