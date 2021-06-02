@@ -32,9 +32,9 @@ Once the local development is already ok you can start to use the bin/magento CL
 Make sure docker is running and active
 
 #### Arch Linux
-**sudo systemctl status docker** - status docker
-**sudo systemctl start docker**  - start docker
-**sudo systemctl stop docker**   - start docker
+- **sudo systemctl status docker** - status docker
+- **sudo systemctl start docker**  - start docker
+- **sudo systemctl stop docker**   - start docker
 
 ### Start/Stop
 **bin/start** it will start all containers for your application
