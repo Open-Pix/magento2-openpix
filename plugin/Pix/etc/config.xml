@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <payment>
+            <openpix_pix>
+                <active>1</active>
+                <title translate="label">Pay with Pix</title>
+                <model>OpenPix\Pix\Model\Pix\Pix</model>
+            </openpix_pix>
+        </payment>
+    </default>
+</config>

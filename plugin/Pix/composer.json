@@ -9,7 +9,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "MercadoPago\\Core\\": ""
+            "OpenPix\\Pix\\": ""
         },
         "files": [
             "registration.php"
