@@ -47,6 +47,6 @@ class Data extends AbstractHelper {
     }
 
     public function getAppID() {
-        return $this->getConfig('payment/paghiper/api_key');
+        return $this->getConfig('payment/openpix/app_ID');
     }
 }
