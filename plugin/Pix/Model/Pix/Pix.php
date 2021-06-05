@@ -27,6 +27,11 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod {
     protected $_helperData;
     protected $_storeManager;
 
+    /**
+     *
+     */
+    const LOG_NAME = 'pix_checkout';
+
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
@@ -93,23 +98,25 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod {
     }
 
     public function order(\Magento\Payment\Model\InfoInterface $payment, $amount) {
-        $this->_helperData->log('Pix::initialize - Start create charge at OpenPix');
+        $this->_helperData->log('Pix::initialize - Start create charge at OpenPix', self::LOG_NAME);
 
         $info = $this->getInfoInstance();
         $order = $payment->getOrder();
 
         $payload = [
             'correlationID' => $order->getIncrementId(),
-            'value' => $this->get_openpix_amount($order->getGrandAmount()),
+            // @todo look for similar function wc_format_decimal
+//            'value' => $this->get_openpix_amount($order->getGrandAmount()),
+            'value' => $order->getGrandAmount(),
             'comment' => $this->getStoreName(),
         ];
 
 
-        $this->_helperData->log('Pix::Payload', $payload);
+        $this->_helperData->log('Pix::Payload', self::LOG_NAME, $payload);
 
         $response = $this->handleCreateCharge($payload);
 
-        $this->_helperData->log('Pix::Response', $response);
+        $this->_helperData->log('Pix::Response', self::LOG_NAME, $response);
 
         $payment->setSkipOrderProcessing(true);
     }
