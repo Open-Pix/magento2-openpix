@@ -72,6 +72,10 @@ class Data extends AbstractHelper {
         return $this->scopeConfig->getValue($path, $storeScope);
     }
 
+    public function getOpenPixEnabled() {
+        return $this->getConfig('payment/openpix_pix/active');
+    }
+
     public function getUrl() {
         return "https://api.openpix.com/openpix/v1/charge";
     }

@@ -24,7 +24,8 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod {
      *
      * @var OpenPix\Pix\Helper\Data;
      */
-    protected $helperData;
+    protected $_helperData;
+    protected $_storeManager;
 
     public function __construct(
         \Magento\Framework\Model\Context $context,
@@ -52,7 +53,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod {
             $resourceCollection,
             $data
         );
-        $this->helperData = $helper;
+        $this->_helperData = $helper;
         $this->_storeManager = $storeManager;
     }
 
@@ -63,7 +64,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod {
      * @return bool
      */
     public function isAvailable(\Magento\Quote\Api\Data\CartInterface $quote = null) {
-        if (!$this->helperData->getStatusPix()) {
+        if (!$this->_helperData->getOpenPixEnabled()) {
             return false;
         }
         return true;
@@ -79,22 +80,53 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod {
     // value
     // comment
 
-    public function createCharge(\Magento\Payment\Model\InfoInterface $payment, $amount) {
+    public function get_openpix_amount($total)
+    {
+        return absint(
+            wc_format_decimal((float) $total * 100, wc_get_price_decimals())
+        ); // In cents.
+    }
+
+    public function getStoreName()
+    {
+        return $this->_storeManager->getStore()->getName();
+    }
+
+    public function order(\Magento\Payment\Model\InfoInterface $payment, $amount) {
+        $this->_helperData->log('Pix::initialize - Start create charge at OpenPix');
+
         $info = $this->getInfoInstance();
-        $paymentInfo = $info->getAdditionalInformation();
-
-        $url = $this->helperData->getUrl();
-
         $order = $payment->getOrder();
-        $dataUser['order_id'] = $order->getIncrementId();
-        $dataUser['apiKey'] = $this->helperData->getAcessToken();
+
+        $payload = [
+            'correlationID' => $order->getIncrementId(),
+            'value' => $this->get_openpix_amount($order->getGrandAmount()),
+            'comment' => $this->getStoreName(),
+        ];
+
+
+        $this->_helperData->log('Pix::Payload', $payload);
+
+        $response = $this->handleCreateCharge($payload);
+
+        $this->_helperData->log('Pix::Response', $response);
+
+        $payment->setSkipOrderProcessing(true);
     }
 
     public function handleCreateCharge($data) {
         $curl = curl_init();
 
+        $app_ID = $this->helperData->getAppID();
+
+        $headers =[
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+            'Authorization' => $this->app_ID,
+        ];
+
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://api.openpix.dev/openpix/v1/charge',
+            CURLOPT_URL => 'http://localhost:5001/openpix/v1/charge',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
@@ -103,9 +135,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod {
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
             CURLOPT_POSTFIELDS => json_encode($data),
-            CURLOPT_HTTPHEADER => array(
-                "Content-Type: application/json"
-            ),
+            CURLOPT_HTTPHEADER => $headers,
         ));
     }
 
