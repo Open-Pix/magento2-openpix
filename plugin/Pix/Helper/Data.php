@@ -88,9 +88,10 @@ class Data extends AbstractHelper {
      * Log custom message using OpenPix logger instance
      *
      * @param        $message
+     * @param string $name
      * @param null $array
      */
-    public function log($message, $array = null)
+    public function log($message, $name = "mercadopago", $array = null)
     {
         //if extra data is provided, it's encoded for better visualization
         if (!is_null($array)) {
@@ -98,6 +99,7 @@ class Data extends AbstractHelper {
         }
 
         //set log
+        $this->_openpixLogger->setName($name);
         $this->_openpixLogger->debug($message);
     }
 }
