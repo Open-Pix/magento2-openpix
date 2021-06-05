@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<pagepage layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceBlock name="checkout.root">
@@ -39,4 +39,4 @@
             </arguments>
         </referenceBlock>
     </body>
-</pagepage>
+</page>

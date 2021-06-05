@@ -21,30 +21,6 @@
             <!-- /ko -->
             <!--/ko-->
         </div>
-        <form class="form" data-bind="attr: {'id': getCode() + '-form'}">
-
-            <div class="field number required">
-                <label data-bind="attr: {for: getCode() + '_cpf'}" class="label">
-          <span>
-            <!-- ko i18n: 'CPF/CNPJ'-->
-              <!-- /ko -->
-          </span>
-                </label>
-                <div class="control">
-                    <input maxlength=18 onkeypress='mascaraMutuario(this,cpfCnpj)' onblur='clearTimeout()'
-                           data-validate="{'required-entry':true}" type="text" name="payment[pix_cpf]" class="input-text cpf" value=""
-                           data-bind="attr: {
-                              autocomplete: off,
-                              id: getCode() + '_cpf',
-                              title: $t('CPF'),
-                              'data-container': getCode() + '-cpf',
-                              'data-validate': JSON.stringify({'required':true})},
-                      value: cpfCnpj,
-                      valueUpdate: 'keyup'" />
-                </div>
-                <span id="card-cpf-msg"></span>
-            </div>
-        </form>
         <!-- <p data-bind="html: getInstructions()"></p> -->
         <div class="checkout-agreements-block">
             <!-- ko foreach: $parent.getRegion('before-place-order') -->
