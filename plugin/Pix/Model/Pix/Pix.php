@@ -83,8 +83,30 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod {
         $info = $this->getInfoInstance();
         $paymentInfo = $info->getAdditionalInformation();
 
+        $url = $this->helperData->getUrl();
+
         $order = $payment->getOrder();
         $dataUser['order_id'] = $order->getIncrementId();
+        $dataUser['apiKey'] = $this->helperData->getAcessToken();
+    }
+
+    public function handleCreateCharge($data) {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://api.openpix.dev/openpix/v1/charge',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => json_encode($data),
+            CURLOPT_HTTPHEADER => array(
+                "Content-Type: application/json"
+            ),
+        ));
     }
 
 }
