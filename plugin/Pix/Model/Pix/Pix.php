@@ -56,7 +56,35 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod {
         $this->_storeManager = $storeManager;
     }
 
+    /**
+     * Determine method availability based on quote amount and config data
+     *
+     * @param \Magento\Quote\Api\Data\CartInterface|null $quote
+     * @return bool
+     */
+    public function isAvailable(\Magento\Quote\Api\Data\CartInterface $quote = null) {
+        if (!$this->helperData->getStatusPix()) {
+            return false;
+        }
+        return true;
+    }
+
     // @todo create a new charge
     // method preparing charge things
     // method creating charge
+
+    // @openpix values
+    // correlationID
+    // identifier
+    // value
+    // comment
+
+    public function createCharge(\Magento\Payment\Model\InfoInterface $payment, $amount) {
+        $info = $this->getInfoInstance();
+        $paymentInfo = $info->getAdditionalInformation();
+
+        $order = $payment->getOrder();
+        $dataUser['order_id'] = $order->getIncrementId();
+    }
+
 }
