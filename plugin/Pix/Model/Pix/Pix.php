@@ -55,4 +55,8 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod {
         $this->helperData = $helper;
         $this->_storeManager = $storeManager;
     }
+
+    // @todo create a new charge
+    // method preparing charge things
+    // method creating charge
 }
