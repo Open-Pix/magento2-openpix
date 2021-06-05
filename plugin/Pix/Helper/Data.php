@@ -55,7 +55,7 @@ class Data extends AbstractHelper {
         encryptor $encryptor
     ) {
         $this->storeManager = $storeManager;
-        $this->logger = $logger;
+        $this->_openpixLogger = $logger;
         $this->checkoutSession = $checkoutSession;
         $this->customerRepo = $customer;
         $this->productMetadata = $productMetadata;
@@ -78,5 +78,22 @@ class Data extends AbstractHelper {
 
     public function getAppID() {
         return $this->getConfig('payment/openpix/app_ID');
+    }
+
+    /**
+     * Log custom message using OpenPix logger instance
+     *
+     * @param        $message
+     * @param null $array
+     */
+    public function log($message, $array = null)
+    {
+        //if extra data is provided, it's encoded for better visualization
+        if (!is_null($array)) {
+            $message .= " - " . json_encode($array);
+        }
+
+        //set log
+        $this->_openpixLogger->debug($message);
     }
 }
