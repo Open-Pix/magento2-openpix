@@ -13,7 +13,7 @@ use \Magento\Framework\Module\ModuleListInterface;
 use \Magento\Framework\HTTP\Client\Curl;
 use \Magento\Framework\Serialize\SerializerInterface;
 use \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
-use OpenPix\Pix\Logger\Logger;
+use \OpenPix\Pix\Logger\Logger;
 
 class Data extends AbstractHelper {
     /**
@@ -67,6 +67,30 @@ class Data extends AbstractHelper {
         parent::__construct($context);
     }
 
+    public function console_log($message) {
+        print_r($message);
+        echo '<br />';
+    }
+
+    /**
+     * Log custom message using OpenPix logger instance
+     *
+     * @param        $message
+     * @param string $name
+     * @param null $array
+     */
+    public function log($message, $name = "openpix", $array = null)
+    {
+        //if extra data is provided, it's encoded for better visualization
+        if (!is_null($array)) {
+            $message .= " - " . json_encode($array);
+        }
+
+        //set log
+        $this->_openpixLogger->setName($name);
+        $this->_openpixLogger->debug($message);
+    }
+
     public function getConfig($path) {
         $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
         return $this->scopeConfig->getValue($path, $storeScope);
@@ -81,25 +105,6 @@ class Data extends AbstractHelper {
     }
 
     public function getAppID() {
-        return $this->getConfig('payment/openpix/app_ID');
-    }
-
-    /**
-     * Log custom message using OpenPix logger instance
-     *
-     * @param        $message
-     * @param string $name
-     * @param null $array
-     */
-    public function log($message, $name = "mercadopago", $array = null)
-    {
-        //if extra data is provided, it's encoded for better visualization
-        if (!is_null($array)) {
-            $message .= " - " . json_encode($array);
-        }
-
-        //set log
-        $this->_openpixLogger->setName($name);
-        $this->_openpixLogger->debug($message);
+        return $this->getConfig('payment/openpix_pix/app_ID');
     }
 }
