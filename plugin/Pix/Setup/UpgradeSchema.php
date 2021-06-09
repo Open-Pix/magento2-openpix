@@ -53,6 +53,19 @@ class UpgradeSchema implements UpgradeSchemaInterface {
                 ]
             );
 
+        $setup->getConnection()
+            ->addColumn(
+                $setup->getTable($orderTable),
+                "openpix_correlationid",
+                [
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                    'length' => '500',
+                    'default' => null,
+                    'nullable' => true,
+                    'comment' => 'OpenPix correlation ID uuid'
+                ]
+            );
+
         $setup->endSetup();
     }
 }
