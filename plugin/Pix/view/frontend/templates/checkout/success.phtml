@@ -8,23 +8,24 @@
 <?php /** @var $block \Magento\Checkout\Block\Onepage\Success */ ?>
 <?php
 $order = $block->getOrder();
-//$qrcodepix = $order->getPaghiperPix();
-//$chavepix = $order->getPaghiperChavepix();
+$paymentLinkUrl = $order->getOpenpixPaymentlinkurl();
+$brCodeImage = $order->getOpenpixQrcodeimage();
+$brCode = $order->getOpenpixBrcode();
 $payment = $order->getPayment();
 ?>
 <?php if ($payment->getMethod() === 'openpix_pix') : ?>
-    <div class="actions-toolbar flex">
-<!--        <div class="primary">-->
-<!--            <img src="--><?//= $qrcodepix ?><!--" />-->
-<!--        </div>-->
-        <div class="linhes">
-            <h3>Linha digitável:</h3>
-<!--            <textarea readonly rows="5" name="pixer" id="select-this">--><?//= $chavepix ?><!--</textarea>-->
-            <div class="actions-toolbar">
-                <div class="primary">
-                    <button id='clickMe'>Copiar</button>
-                </div>
+<div class="actions-toolbar flex">
+    <div class="primary">
+        <img src="<?= $brCodeImage ?>" width="400px" />
+    </div>
+    <div class="linhes">
+        <h3>Linha digitável:</h3>
+        <textarea readonly rows="5" name="pixer" id="select-this"><?= $brCode ?></textarea>
+        <div class="actions-toolbar">
+            <div class="primary">
+                <button id='clickMe'>Copiar OpenPix</button>
             </div>
         </div>
     </div>
+</div>
 <?php endif ?>
