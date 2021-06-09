@@ -41,11 +41,11 @@ class Info extends \Magento\Framework\View\Element\Template {
     $order_id = $this->getRequest()->getParam('order_id');
     $order = $this->_orderFactory->load($order_id);
 
-      return array(
-            'tipo' => 'Pix',
-            'qrcodeimage' => $order->getOpenpixQrcodeimage(),
-            'text' => 'Clique aqui para ver seu QRCode.',
-            'brcode' => $order->getOpenpixBrcode()
-          );
+    return array(
+        'tipo' => 'Pix',
+        'qrcodeimage' => $order->getOpenpixQrcodeimage(),
+        'text' => 'Clique aqui para ver seu QRCode.',
+        'brcode' => $order->getOpenpixBrcode()
+    );
   }
 }

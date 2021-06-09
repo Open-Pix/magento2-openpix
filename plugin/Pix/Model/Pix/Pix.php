@@ -11,10 +11,11 @@ namespace OpenPix\Pix\Model\Pix;
  * @license   https://www.gnu.org/licenses/gpl-3.0.pt-br.html GNU GPL, version 3
  * @package   OpenPix\Pix\Model
  */
-class Pix extends \Magento\Payment\Model\Method\AbstractMethod {
+class Pix extends \Magento\Payment\Model\Method\AbstractMethod
+{
     /**
      * @var string
-    */
+     */
     const CODE = 'openpix_pix';
 
     protected $_code = self::CODE;
@@ -45,7 +46,8 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod {
         \OpenPix\Pix\Helper\Data $helper,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         array $data = []
-    ) {
+    )
+    {
         parent::__construct(
             $context,
             $registry,
@@ -68,7 +70,8 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod {
      * @param \Magento\Quote\Api\Data\CartInterface|null $quote
      * @return bool
      */
-    public function isAvailable(\Magento\Quote\Api\Data\CartInterface $quote = null) {
+    public function isAvailable(\Magento\Quote\Api\Data\CartInterface $quote = null)
+    {
         if (!$this->_helperData->getOpenPixEnabled()) {
             return false;
         }
@@ -80,17 +83,22 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod {
         return $this->_storeManager->getStore()->getName();
     }
 
-    // @todo should be improved - zero on right its is not considering (danger)
-    public function get_openpix_amount ($grandTotal) {
-        $stringsToReplace = array(",", ".");
-        $amountString = str_replace($stringsToReplace, "", $grandTotal);
+    function get_amount_openpix($total)
+    {
+        try {
+            return $this->_helperData->absint(
+                $this->_helperData->format_decimal((float)$total * 100, 2)
+            ); // In cents.
+        } catch (\Exception $e) {
+            $this->_helperData->log('Pix::get_amount_openpix - Error while converting from double to int (cents)', self::LOG_NAME, "total: " . $total);
+            throw new \Magento\Framework\Exception\LocalizedException(__($e->getMessage()));
+        }
 
-        $amountAsInt =  +$amountString;
-
-        return $amountAsInt;
+        return $this;
     }
 
-    public function order(\Magento\Payment\Model\InfoInterface $payment, $amount) {
+    public function order(\Magento\Payment\Model\InfoInterface $payment, $amount)
+    {
         try {
             $this->_helperData->log('Pix::initialize - Start create charge at OpenPix', self::LOG_NAME);
 
@@ -100,26 +108,22 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod {
 
             $order = $payment->getOrder();
 
-            $correlationID = $order->getIncrementId();
+            $correlationID = $this->_helperData->uuid_v4();
 
             $payload = [
                 'correlationID' => $correlationID,
-                'value' => $this->get_openpix_amount($grandTotal),
+                'value' => $this->get_amount_openpix($grandTotal),
                 'comment' => "Magento2 Charge - " . $correlationID . " - " . $this->getStoreName(),
             ];
 
-            $this->_helperData->log('Pix::Payload - Payload to be called', self::LOG_NAME, $payload);
-
-            $response =  (array)$this->handleCreateCharge($payload);
-
-            $this->_helperData->log('Pix::Response - Payload Response', self::LOG_NAME, $response);
+            $response = (array)$this->handleCreateCharge($payload);
 
             if (isset($response["errors"])) {
                 throw new \Exception($response['errors'], 1);
 
                 $arrayLog = [
                     'response' => $response,
-                    'message'  => array($response["errors"]),
+                    'message' => array($response["errors"]),
                 ];
 
                 $this->_helperData->log('Pix::ResponseError - Error while creating OpenPix Charge', self::LOG_NAME, $response);
@@ -134,16 +138,12 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod {
             $qrCodeImage = $charge["qrCodeImage"];
             $brCode = $response["brCode"];
 
-
-            $this->_helperData->log('Pix::paymentLinkUrl - paymentLinkuUrl', self::LOG_NAME, $paymentLinkUrl);
-            $this->_helperData->log('Pix::qrCodeImage - qrCodeImage', self::LOG_NAME, $qrCodeImage);
-            $this->_helperData->log('Pix::brCode - brCode', self::LOG_NAME, $brCode);
-
+            $order->setOpenpixCorrelationid($correlationID);
             $order->setOpenpixPaymentlinkurl($paymentLinkUrl);
             $order->setOpenpixQrcodeimage($qrCodeImage);
             $order->setOpenpixBrcode($brCode);
 
-            $this->_helperData->log('Pix::Success - going to checkout success', self::LOG_NAME);
+            $this->_helperData->log('Pix::Success - going to checkout success', self::LOG_NAME, $response);
 
             $payment->setSkipOrderProcessing(true);
             return true;
@@ -155,7 +155,8 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod {
         return $this;
     }
 
-    public function handleCreateCharge($data) {
+    public function handleCreateCharge($data)
+    {
         try {
             $curl = curl_init();
 
@@ -165,10 +166,10 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod {
                 throw new \Exception("AppID undefined", 1);
             }
 
-            $ngrok = "https://3a66df056f22.ngrok.io";
+            $apiUrl = $this->_helperData->getOpenPixApiUrl();
 
             curl_setopt_array($curl, array(
-                CURLOPT_URL => $ngrok . '/api/openpix/v1/charge',
+                CURLOPT_URL => $apiUrl . '/api/openpix/v1/charge',
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => "",
                 CURLOPT_MAXREDIRS => 10,
@@ -189,12 +190,13 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod {
             curl_close($curl);
 
             return json_decode($response, true);
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             throw new \Magento\Framework\Exception\LocalizedException(__($e->getMessage()));
         }
     }
 
-    public function assignData(\Magento\Framework\DataObject $data) {
+    public function assignData(\Magento\Framework\DataObject $data)
+    {
         $info = $this->getInfoInstance();
         $info->setAdditionalInformation('cpfCnpjCustomer', $data['additional_data']['cpfCnpj'] ?? null);
         return $this;
