@@ -100,38 +100,55 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod {
 
             $order = $payment->getOrder();
 
+            $correlationID = $order->getIncrementId();
+
             $payload = [
-                'correlationID' => $order->getIncrementId(),
+                'correlationID' => $correlationID,
                 'value' => $this->get_openpix_amount($grandTotal),
-                'comment' => "Magento2 Charege - " . $this->getStoreName(),
+                'comment' => "Magento2 Charge - " . $correlationID . " - " . $this->getStoreName(),
             ];
 
             $this->_helperData->log('Pix::Payload - Payload to be called', self::LOG_NAME, $payload);
 
             $response =  (array)$this->handleCreateCharge($payload);
 
+            $this->_helperData->log('Pix::Response - Payload Response', self::LOG_NAME, $response);
 
-            $this->_helperData->log('Pix::Response - Payload Response', self::LOG_NAME, $payload);
+            if (isset($response["errors"])) {
+                throw new \Exception($response['errors'], 1);
 
-            // @todo improve error response handler
-//            if ((int) $response['status'] !== 200 || (int) $response['status'] !== 201) {
-//                throw new \Exception($response['errors'], 1);
-//
-//                $arrayLog = [
-//                    'response' => $response,
-//                    'message'  => array($response["errors"]),
-//                ];
-//
-//                $this->_helperData->log('Pix::ResponseError - Error while creating OpenPix Charge', self::LOG_NAME, $payload);
-//                throw new \Exception($response['errors'], 1);
-//            }
+                $arrayLog = [
+                    'response' => $response,
+                    'message'  => array($response["errors"]),
+                ];
+
+                $this->_helperData->log('Pix::ResponseError - Error while creating OpenPix Charge', self::LOG_NAME, $response);
+                throw new \Exception($response['errors'], 1);
+            }
 
             $this->_helperData->log('Pix::ResponseSuccess - Response Payload', self::LOG_NAME, $response);
 
-            $charge = $response['response'];
-            $this->getInfoInstance()->setAdditionalInformation('chargeResponse', $charge);
+            $charge = $response['charge'];
+
+            $paymentLinkUrl = $charge["paymentLinkUrl"];
+            $qrCodeImage = $charge["qrCodeImage"];
+            $brCode = $response["brCode"];
+
+
+            $this->_helperData->log('Pix::paymentLinkUrl - paymentLinkuUrl', self::LOG_NAME, $paymentLinkUrl);
+            $this->_helperData->log('Pix::qrCodeImage - qrCodeImage', self::LOG_NAME, $qrCodeImage);
+            $this->_helperData->log('Pix::brCode - brCode', self::LOG_NAME, $brCode);
+
+            $order->setOpenpixPaymentlinkurl($paymentLinkUrl);
+            $order->setOpenpixQrcodeimage($qrCodeImage);
+            $order->setOpenpixBrcode($brCode);
+
+            $this->_helperData->log('Pix::Success - going to checkout success', self::LOG_NAME);
+
+            $payment->setSkipOrderProcessing(true);
             return true;
         } catch (\Exception $e) {
+            $this->_helperData->log('Pix::Error - Error while creating charge', self::LOG_NAME, $e->getMessage());
             throw new \Magento\Framework\Exception\LocalizedException(__($e->getMessage()));
         }
 
@@ -144,20 +161,11 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod {
 
             $app_ID = $this->_helperData->getAppID();
 
-            if(!$app_ID) {
+            if (!$app_ID) {
                 throw new \Exception("AppID undefined", 1);
             }
 
-            $headers =[
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'Authorization' => $app_ID,
-            ];
-
-            $this->_helperData->console_log('$headers');
-            $this->_helperData->console_log($headers);
-
-            $ngrok = "https://584c90d9d3d4.ngrok.io";
+            $ngrok = "https://3a66df056f22.ngrok.io";
 
             curl_setopt_array($curl, array(
                 CURLOPT_URL => $ngrok . '/api/openpix/v1/charge',
@@ -169,17 +177,26 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod {
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => "POST",
                 CURLOPT_POSTFIELDS => json_encode($data),
-                CURLOPT_HTTPHEADER => $headers,
+                CURLOPT_HTTPHEADER => array(
+                    "Content-Type: application/json",
+                    "Accept: application/json",
+                    "Authorization: " . $app_ID,
+                ),
             ));
 
             $response = curl_exec($curl);
 
             curl_close($curl);
 
-            return json_decode($response);
+            return json_decode($response, true);
         }catch (\Exception $e) {
             throw new \Magento\Framework\Exception\LocalizedException(__($e->getMessage()));
         }
     }
 
+    public function assignData(\Magento\Framework\DataObject $data) {
+        $info = $this->getInfoInstance();
+        $info->setAdditionalInformation('cpfCnpjCustomer', $data['additional_data']['cpfCnpj'] ?? null);
+        return $this;
+    }
 }
