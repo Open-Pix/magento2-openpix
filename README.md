@@ -1,8 +1,8 @@
 ## OpenPix for Magento2
 OpenPix Magento2 Pix plugin.
 
-- **Installing the Magento2 Store**: if is your first time running the plugin go to [Installing the Magento2 Store](#installing_the_agento2_store).
-- **Existent Magento2 Store** - if your local environment is already done go to [Local development already prepared](#local_development_already_prepared).
+- **Installing the Magento2 Store**: if is your first time running the plugin go to [Installing the Magento2 Store](##installing-the-magento2-store).
+- **Existent Magento2 Store** - if your local environment is already done go to [Local development already prepared](#local-development-already-prepared).
 
 ## Installing the Magento2 Store
 The best way to go forward with Magento2 local development is by [docker-magento](https://github.com/markshust/docker-magento).
