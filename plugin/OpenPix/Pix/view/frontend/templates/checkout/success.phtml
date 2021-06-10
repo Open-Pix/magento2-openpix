@@ -18,12 +18,12 @@ $payment = $order->getPayment();
     <div class="primary">
         <img src="<?= $brCodeImage ?>" width="400px" />
     </div>
-    <div class="linhes">
+    <div class="flex linhes">
         <h3>Linha digitável:</h3>
         <textarea readonly rows="5" name="pixer" id="select-this"><?= $brCode ?></textarea>
         <div class="actions-toolbar">
             <div class="primary">
-                <button id='clickMe'>Copiar OpenPix</button>
+                <button id='clickMe'>Copiar</button>
             </div>
         </div>
     </div>

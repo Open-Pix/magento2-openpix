@@ -102,11 +102,8 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
         try {
             $this->_helperData->log('Pix::initialize - Start create charge at OpenPix', self::LOG_NAME);
 
-            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-            $cart = $objectManager->get('\Magento\Checkout\Model\Cart');
-            $grandTotal = $cart->getQuote()->getGrandTotal();
-
             $order = $payment->getOrder();
+            $grandTotal = $order->getGrandTotal();
 
             $correlationID = $this->_helperData->uuid_v4();
 
@@ -119,14 +116,12 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
             $response = (array)$this->handleCreateCharge($payload);
 
             if (isset($response["errors"])) {
-                throw new \Exception($response['errors'], 1);
-
                 $arrayLog = [
                     'response' => $response,
                     'message' => array($response["errors"]),
                 ];
 
-                $this->_helperData->log('Pix::ResponseError - Error while creating OpenPix Charge', self::LOG_NAME, $response);
+                $this->_helperData->log('Pix::ResponseError - Error while creating OpenPix Charge', self::LOG_NAME, $arrayLog);
                 throw new \Exception($response['errors'], 1);
             }
 
