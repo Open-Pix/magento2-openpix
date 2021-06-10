@@ -30,10 +30,10 @@ This is step is part of the **Automated Setup (New Project)** inside of [docker-
 - run `curl -s https://raw.githubusercontent.com/markshust/docker-magento/master/lib/onelinesetup | bash -s -- magento.test 2.4.2`
 - note that `magento.test` will be your store local host.
 
-- it will be requested a `Username`. Here, is where you copy and paste the public key from magento marketplace
-- after, it will be requested the `Password`, do the same for the private key
+- `Composer authentication required (repo.magento.com public and private keys):` - copy and paste the public key from magento marketplace
+- `Password: ` - copy and paste the private key from magento marketplace
 
-- will update dependencies
+- it will install the magento store, update dependencies
 - config the local store
 - open in `magento.test` or the name you choose
 
@@ -52,6 +52,13 @@ bin/magento setup:upgrade
 ```
 
 ### 4. Adding OpenPix Magento Plugin to your installation
+First, let clone the plugin inside of the root responsible for extensions on MagentoStore.
+
+- for this step should be necessary give to your pc user the permission of the folder. To do this run:
+
+```bash
+sudo chown userName -R src/app/code
+``` 
 
 ```bash
 mkdir src/app/code/OpenPix
