@@ -1,6 +1,5 @@
 <?php
 
-
 namespace OpenPix\Pix\Block\Checkout;
 
 class Success extends \Magento\Sales\Block\Order\Totals
@@ -26,8 +25,7 @@ class Success extends \Magento\Sales\Block\Order\Totals
         \Magento\Framework\Registry $registry,
         \OpenPix\Pix\Helper\Data $helper,
         array $data = []
-    )
-    {
+    ) {
         parent::__construct($context, $registry, $data);
         $this->checkoutSession = $checkoutSession;
         $this->customerSession = $customerSession;
@@ -37,17 +35,29 @@ class Success extends \Magento\Sales\Block\Order\Totals
 
     public function getOrder()
     {
-        $order = $this->_order = $this->_orderFactory->create()->loadByIncrementId(
-            $this->checkoutSession->getLastRealOrderId()
-        );
+        $order = $this->_order = $this->_orderFactory
+            ->create()
+            ->loadByIncrementId($this->checkoutSession->getLastRealOrderId());
 
         $paymentLinkUrl = $order->getOpenpixPaymentlinkurl();
         $brCodeImage = $order->getOpenpixQrcodeimage();
         $brCode = $order->getOpenpixBrcode();
 
-        $this->_helperData->log('Pix::Block - Checkout Success $paymentLinkUrl', self::LOG_NAME, $paymentLinkUrl);
-        $this->_helperData->log('Pix::Block - Checkout Success $brCodeImage', self::LOG_NAME, $brCodeImage);
-        $this->_helperData->log('Pix::Block - Checkout Success $brCode', self::LOG_NAME, $brCode);
+        $this->_helperData->log(
+            'Pix::Block - Checkout Success $paymentLinkUrl',
+            self::LOG_NAME,
+            $paymentLinkUrl
+        );
+        $this->_helperData->log(
+            'Pix::Block - Checkout Success $brCodeImage',
+            self::LOG_NAME,
+            $brCodeImage
+        );
+        $this->_helperData->log(
+            'Pix::Block - Checkout Success $brCode',
+            self::LOG_NAME,
+            $brCode
+        );
 
         return $order;
     }

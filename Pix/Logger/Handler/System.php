@@ -7,8 +7,7 @@ use Monolog\Logger;
 /**
  * OpenPix logger handler
  */
-class System
-    extends \Magento\Framework\Logger\Handler\Base
+class System extends \Magento\Framework\Logger\Handler\Base
 {
     /**
      * Logging level
@@ -23,5 +22,4 @@ class System
      * @var string
      */
     protected $fileName = '/var/log/openpix.log';
-
 }
