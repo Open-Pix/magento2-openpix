@@ -25,7 +25,7 @@ class Data extends AbstractHelper
 
     //    const OPENPIX_ENV = 'development';
     //    const OPENPIX_ENV = 'staging';
-        const OPENPIX_ENV = 'production';
+    const OPENPIX_ENV = 'production';
 
     // change this to work in development, staging or production
     /**
@@ -61,8 +61,7 @@ class Data extends AbstractHelper
         SerializerInterface $serializer,
         RemoteAddress $remoteAddress,
         encryptor $encryptor
-    )
-    {
+    ) {
         $this->storeManager = $storeManager;
         $this->_openpixLogger = $logger;
         $this->checkoutSession = $checkoutSession;
@@ -111,11 +110,11 @@ class Data extends AbstractHelper
      * @param string $name
      * @param null $array
      */
-    public function log($message, $name = "openpix", $array = null)
+    public function log($message, $name = 'openpix', $array = null)
     {
         //if extra data is provided, it's encoded for better visualization
         if (!is_null($array)) {
-            $message .= " - " . json_encode($array);
+            $message .= ' - ' . json_encode($array);
         }
 
         //set log
@@ -125,11 +124,11 @@ class Data extends AbstractHelper
 
     public function getOpenPixApiUrl()
     {
-        if (SELF::OPENPIX_ENV === 'development') {
+        if (self::OPENPIX_ENV === 'development') {
             return 'http://localhost:5001';
         }
 
-        if (SELF::OPENPIX_ENV === 'staging') {
+        if (self::OPENPIX_ENV === 'staging') {
             return 'https://api.openpix.dev';
         }
 
@@ -150,7 +149,7 @@ class Data extends AbstractHelper
 
     public function getUrl()
     {
-        return "https://api.openpix.com/openpix/v1/charge";
+        return 'https://api.openpix.com/openpix/v1/charge';
     }
 
     public function getAppID()
@@ -168,7 +167,7 @@ class Data extends AbstractHelper
      */
     public function absint($maybeint)
     {
-        return abs((int)$maybeint);
+        return abs((int) $maybeint);
     }
 
     /**
@@ -185,14 +184,18 @@ class Data extends AbstractHelper
      */
     public function format_decimal($number, $dp = false, $trim_zeros = false)
     {
-        $decimals = array(',', '.', '');
+        $decimals = [',', '.', ''];
 
         // Remove locale from string.
         if (!is_float($number)) {
             $number = str_replace($decimals, '.', $number);
 
             // Convert multiple dots to just one.
-            $number = preg_replace('/\.(?![^.]+$)|[^0-9.-]/', '', wc_clean($number));
+            $number = preg_replace(
+                '/\.(?![^.]+$)|[^0-9.-]/',
+                '',
+                wc_clean($number)
+            );
         }
 
         if (false !== $dp) {
@@ -200,7 +203,11 @@ class Data extends AbstractHelper
             $number = number_format(floatval($number), $dp, '.', '');
         } elseif (is_float($number)) {
             // DP is false - don't use number format, just return a string using whatever is given. Remove scientific notation using sprintf.
-            $number = str_replace($decimals, '.', sprintf('%.' . 2 . 'f', $number));
+            $number = str_replace(
+                $decimals,
+                '.',
+                sprintf('%.' . 2 . 'f', $number)
+            );
             // We already had a float, so trailing zeros are not needed.
             $trim_zeros = true;
         }
