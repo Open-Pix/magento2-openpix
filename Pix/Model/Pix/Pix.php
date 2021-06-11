@@ -177,7 +177,6 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
             );
 
             $payment->setSkipOrderProcessing(true);
-            return true;
         } catch (\Exception $e) {
             $this->messageManager->addErrorMessage(__('Error creating Pix'));
             $this->messageManager->addErrorMessage($e->getMessage());
@@ -208,6 +207,8 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
 
             $apiUrl = $this->_helperData->getOpenPixApiUrl();
 
+            $this->_helperData->log('API URL ', self::LOG_NAME, $apiUrl);
+
             curl_setopt_array($curl, [
                 CURLOPT_URL => $apiUrl . '/api/openpix/v1/charge',
                 CURLOPT_RETURNTRANSFER => true,
@@ -237,15 +238,14 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
                 throw new \Exception('Error creating Pix', 1);
             }
 
+            curl_close($curl);
+
             if ($statusCode === 401) {
                 $this->messageManager->addErrorMessage(__('Invalid AppID'));
                 throw new \Exception('Invalid AppID', 1);
             }
 
-            $body = substr(
-                $response,
-                curl_getinfo($curl, CURLINFO_HEADER_SIZE)
-            );
+            $responseBody = json_decode($response, true);
 
             if ($statusCode !== 200) {
                 $this->messageManager->addErrorMessage(
@@ -255,9 +255,11 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
                 throw new \Exception('Error creating Pix', 1);
             }
 
-            curl_close($curl);
-
-            $responseBody = json_decode($body, true);
+            $this->_helperData->log(
+                'API response ',
+                self::LOG_NAME,
+                $responseBody
+            );
 
             return $responseBody;
         } catch (\Exception $e) {
