@@ -33,6 +33,11 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
      */
     const LOG_NAME = 'pix_checkout';
 
+    /**
+     * @var \Magento\Framework\Message\ManagerInterface;
+     */
+    protected $messageManager;
+
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
@@ -45,6 +50,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
         \OpenPix\Pix\Helper\Data $helper,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Message\ManagerInterface $messageManager,
         array $data = []
     )
     {
@@ -62,6 +68,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
         );
         $this->_helperData = $helper;
         $this->_storeManager = $storeManager;
+        $this->messageManager = $messageManager;
     }
 
     /**
@@ -110,8 +117,10 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
             $payload = [
                 'correlationID' => $correlationID,
                 'value' => $this->get_amount_openpix($grandTotal),
-                'comment' => "Magento2 Charge - " . $correlationID . " - " . $this->getStoreName(),
+                'comment' => $this->getStoreName(),
             ];
+
+            $this->_helperData->log('Payload ', self::LOG_NAME, $payload);
 
             $response = (array)$this->handleCreateCharge($payload);
 
@@ -121,6 +130,8 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
                     'message' => array($response["errors"]),
                 ];
 
+                $this->messageManager->addErrorMessage(__('Error creating Pix'));
+                $this->messageManager->addErrorMessage($response["errors"]);
                 $this->_helperData->log('Pix::ResponseError - Error while creating OpenPix Charge', self::LOG_NAME, $arrayLog);
                 throw new \Exception($response['errors'], 1);
             }
@@ -143,6 +154,8 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
             $payment->setSkipOrderProcessing(true);
             return true;
         } catch (\Exception $e) {
+            $this->messageManager->addErrorMessage(__('Error creating Pix'));
+            $this->messageManager->addErrorMessage($e->getMessage());
             $this->_helperData->log('Pix::Error - Error while creating charge', self::LOG_NAME, $e->getMessage());
             throw new \Magento\Framework\Exception\LocalizedException(__($e->getMessage()));
         }
@@ -158,7 +171,8 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
             $app_ID = $this->_helperData->getAppID();
 
             if (!$app_ID) {
-                throw new \Exception("AppID undefined", 1);
+                $this->messageManager->addErrorMessage(__('Missing AppID'));
+                throw new \Exception("Missing AppID", 1);
             }
 
             $apiUrl = $this->_helperData->getOpenPixApiUrl();
@@ -181,11 +195,36 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
             ));
 
             $response = curl_exec($curl);
+            $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+            if (curl_errno($curl) || $response === false) {
+                $this->messageManager->addErrorMessage(__('Error creating Pix'));
+
+                curl_close($curl);
+                throw new \Exception("Error creating Pix", 1);
+            }
+
+            if ($statusCode === 401) {
+                $this->messageManager->addErrorMessage(__('Invalid AppID'));
+                throw new \Exception("Invalid AppID", 1);
+            }
+
+            $body = substr($response, curl_getinfo($curl, CURLINFO_HEADER_SIZE));
+
+            if ($statusCode !== 200) {
+                $this->messageManager->addErrorMessage(__('Error creating Pix'));
+                $this->messageManager->addErrorMessage($body);
+                throw new \Exception("Error creating Pix", 1);
+            }
 
             curl_close($curl);
 
-            return json_decode($response, true);
+            $responseBody = json_decode($body, true);
+
+            return $responseBody;
         } catch (\Exception $e) {
+            $this->messageManager->addErrorMessage(__('Error creating Pix'));
+            $this->messageManager->addErrorMessage($e->getMessage());
             throw new \Magento\Framework\Exception\LocalizedException(__($e->getMessage()));
         }
     }
