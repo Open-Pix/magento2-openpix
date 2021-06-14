@@ -23,8 +23,9 @@ class Data extends AbstractHelper
      * @var ScopeConfigInterface
      */
 
-    //        const OPENPIX_ENV = 'development';
-    //    const OPENPIX_ENV = 'staging';
+
+//    const OPENPIX_ENV = 'development';
+//    const OPENPIX_ENV = 'staging';
     const OPENPIX_ENV = 'production';
 
     // change this to work in development, staging or production
@@ -124,9 +125,6 @@ class Data extends AbstractHelper
 
     public function getOpenPixApiUrl()
     {
-        // docker local ip
-        //        return 'http://host.docker.internal:5001';
-
         if (self::OPENPIX_ENV === 'development') {
             return 'http://localhost:5001';
         }
