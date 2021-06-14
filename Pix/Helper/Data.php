@@ -153,6 +153,11 @@ class Data extends AbstractHelper
         return $this->getConfig('payment/openpix_pix/app_ID');
     }
 
+    public function getWebhookKey()
+    {
+        return $this->getConfig('payment/openpix_pix/webhook_keytw');
+    }
+
     /**
      * Convert a value to non-negative integer.
      *
