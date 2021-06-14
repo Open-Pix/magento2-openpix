@@ -8,7 +8,7 @@ interface OpenPixCustomerInterface {
      *
      * @return string Name.
      */
-    public function getCustomer();
+    public function getName();
 
     /**
      * Set the name of this customer.
@@ -16,7 +16,7 @@ interface OpenPixCustomerInterface {
      * @param string $name
      * @return $this
      */
-    public function setCustomer($name);
+    public function setName($name);
 
     /**
      * Return the email of this customer.
@@ -64,15 +64,19 @@ interface OpenPixCustomerInterface {
      * @return $this
      */
     public function setCorrelationID($correlationID);
-}
 
-//    "customer": {
-//        "name": "Julio",
-//        "email": "email0@entria.com.br",
-//        "phone": "119912345670",
-//        "taxID": {
-//            "taxID": "31928282008",
-//            "type": "BR:CPF"
-//        },
-//        "correlationID": "9134e286-6f71-427a-bf00-241681624586",
-//    },
+    /**
+     * Return the taxID.
+     *
+     * @return \OpenPix\Pix\Api\Data\OpenPixTaxIDInterface TaxID.
+     */
+    public function getTaxID();
+
+    /**
+     * Set the taxID
+     *
+     * @param \OpenPix\Pix\Api\Data\OpenPixTaxIDInterface $taxID
+     * @return $this
+     */
+    public function setTaxID($taxID);
+}
