@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <preference for="OpenPIx\Pix\Api\OpenPixWebhookInterface" type="OpenPIx\Pix\Model\OpenPixWebhook"/>
+    <preference for="OpenPIx\Pix\Api\OpenPixWebhookInterface" type="OpenPIx\Pix\Model\Webhook\OpenPixWebhook"/>
 
     <type name="OpenPix\Pix\Logger\Handler\System">
         <arguments>

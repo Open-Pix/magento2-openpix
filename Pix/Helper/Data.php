@@ -155,7 +155,7 @@ class Data extends AbstractHelper
 
     public function getWebhookKey()
     {
-        return $this->getConfig('payment/openpix_pix/webhook_keytw');
+        return $this->getConfig('payment/openpix_pix/webhook_key');
     }
 
     /**
