@@ -5,9 +5,9 @@ namespace OpenPix\Pix\Api;
 interface OpenPixWebhookInterface {
     /**
      * POST for OpenPix Webhook
-     * @param string $param
+     * @param string $correlationID
      * @return string
      */
 
-    public function processWebhook($param);
+    public function processWebhook($correlationID);
 }

@@ -7,8 +7,8 @@ class OpenPixWebhook {
     /**
      * {@inheritdoc}
      */
-    public function processWebhook($param)
+    public function processWebhook($correlationID)
     {
-        return 'api GET return the $param ' . $param;
+        return 'api GET return the $param ' . $correlationID;
     }
 }
