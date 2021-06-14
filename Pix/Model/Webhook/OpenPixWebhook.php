@@ -32,11 +32,13 @@ class OpenPixWebhook {
     /**
      * {@inheritdoc}
      */
-    public function processWebhook($charge)
+    public function processWebhook($charge, $pix)
     {
         $this->_helperData->log('OpenPix WebApi::ProcessWebhook Start', self::LOG_NAME);
         $this->_helperData->log('OpenPix WebApi::ProcessWebhook Charge', self::LOG_NAME, $charge);
-        return 'api GET return the $param ' . $charge;
+        $this->_helperData->log('OpenPix WebApi::ProcessWebhook Pix Transaction', self::LOG_NAME, $pix);
+
+        return 'api process webhook';
     }
 
     /**
