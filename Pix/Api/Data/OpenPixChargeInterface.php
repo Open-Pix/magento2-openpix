@@ -93,5 +93,18 @@ interface OpenPixChargeInterface {
      */
     public function setUpdatedAt($updatedAt);
 
-    // @todo implement customer getter and setter
+    /**
+     * Return the customer.
+     *
+     * @return \OpenPix\Pix\Api\Data\OpenPixCustomerInterface Customer.
+     */
+    public function getCustomer();
+
+    /**
+     * Set the customer
+     *
+     * @param \OpenPix\Pix\Api\Data\OpenPixCustomerInterface $customer
+     * @return $this
+     */
+    public function setCustomer($customer);
 }
