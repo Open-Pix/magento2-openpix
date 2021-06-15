@@ -1,20 +1,15 @@
 <?php
 
-namespace OpenPix\Pix\Api\Data\PixTransaction;
+namespace OpenPix\Pix\Api\Data;
 
 interface PixTransactionInterface {
-
     /**
-     * @var string
-     */
-    const END_TO_END_ID = 'end_to_end_id';
-
-        /**
      * Return the endToEndId.
      *
      * @return string EndToEndId.
      */
-    public function getEndToEndId();
+
+    public function getEndToEndId(): string;
 
     /**
      * Set the endToEndId
@@ -22,5 +17,5 @@ interface PixTransactionInterface {
      * @param string $endToEndId
      * @return $this
      */
-    public function setEndToEndId($endToEndId);
+    public function setEndToEndId(string $endToEndId): PixTransactionInterface;
 }

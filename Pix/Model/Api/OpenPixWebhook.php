@@ -1,8 +1,12 @@
 <?php
 
-namespace OpenPix\Pix\Model\Webhook;
+namespace OpenPix\Pix\Model\Api;
 
-class OpenPixWebhook {
+use OpenPix\Pix\Api\Data\OpenPixChargeInterface;
+use OpenPix\Pix\Api\Data\PixTransactionInterface;
+use OpenPix\Pix\Api\OpenPixWebhookInterface;
+
+class OpenPixWebhook implements OpenPixWebhookInterface {
     const MODULE_NAME = 'OpenPix_Pix';
 
     protected $_moduleList;
@@ -33,13 +37,13 @@ class OpenPixWebhook {
         return false;
     }
 
-    public function isValidWebhookPayload($charge, $pix)
+    public function isValidWebhookPayload($charge, $pix = null)
     {
-        if (!isset($charge)) {
+        if (!isset($charge) || !isset($charge->correlationId)) {
             return false;
         }
 
-        if (!isset($pix)) {
+        if (!isset($pix) || !isset($pix->endToEndId)) {
             return false;
         }
 
@@ -49,7 +53,7 @@ class OpenPixWebhook {
     /**
      * {@inheritdoc}
      */
-    public function processWebhook($charge = null, $pix = null, $evento = null)
+    public function processWebhook(OpenPixChargeInterface $charge = null, PixTransactionInterface $pix = null, string $evento = null): string
     {
         $this->_helperData->log('OpenPix WebApi::ProcessWebhook Start', self::LOG_NAME);
         $this->_helperData->log('OpenPix WebApi::ProcessWebhook Charge', self::LOG_NAME, $charge);
@@ -81,9 +85,9 @@ class OpenPixWebhook {
             exit();
         }
 
-        // @todo prepare fields -> correlationID, status, endToEndId
+        // @todo prepare fields -> correlationId, status, endToEndId
 
-        // @todo get order_id by correlationID
+        // @todo get order_id by correlationId
 
         // @todo get order by id
 

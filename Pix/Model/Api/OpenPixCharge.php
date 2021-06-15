@@ -1,22 +1,19 @@
 <?php
 
-namespace \OpenPix\Pix\Model\Api;
+namespace OpenPix\Pix\Model\Api;
 
-use Magento\Framework\Model\AbstractModel;
-use \OpenPix\Pix\Api\Data\OpenPixChargeInterface;
+use OpenPix\Pix\Api\Data\OpenPixChargeInterface;
 
-class OpenPixCharge extends AbstractModel implements OpenPixChargeInterface {
-    protected function _construct()
-    {
-        $this->_init(ResourceOrder::class);
-    }
+class OpenPixCharge implements OpenPixChargeInterface {
+    public $status;
+    public $correlationId;
 
     /**
      * @return string
      */
-    public function getStatus()
+    public function getStatus(): string
     {
-        return $this->getData(self::STATUS);
+        return $this->status;
     }
 
     /**
@@ -24,26 +21,28 @@ class OpenPixCharge extends AbstractModel implements OpenPixChargeInterface {
      *
      * @return $this
      */
-    public function setStatus($status)
+    public function setStatus(string $status): OpenPixChargeInterface
     {
-        return $this->setData(self::STATUS, $status);
+        $this->status = $status;
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getCorrelationID()
+    public function getCorrelationId(): string
     {
-        return $this->getData(self::CORRELATION_ID);
+        return $this->correlationId;
     }
 
     /**
-     * @param string $correlationID
+     * @param string $correlationId
      *
      * @return $this
      */
-    public function setCorrelationID($correlationID)
+    public function setCorrelationId(string $correlationId): OpenPixChargeInterface
     {
-        return $this->setData(self::CORRELATION_ID, $correlationID);
+        $this->correlationId = $correlationId;
+        return $this;
     }
 }
