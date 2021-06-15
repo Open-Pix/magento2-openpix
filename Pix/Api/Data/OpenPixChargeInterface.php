@@ -4,21 +4,11 @@ namespace OpenPix\Pix\Api\Data;
 
 interface OpenPixChargeInterface {
     /**
-     * @var string
-     */
-    const STATUS = 'status';
-
-    /**
-     * @var string
-     */
-    const CORRELATION_ID = 'correlation_id';
-
-    /**
      * Return the status of this charge.
      *
      * @return string Charge Status.
      */
-    public function getStatus();
+    public function getStatus(): string;
 
     /**
      * Set the status of this charge.
@@ -26,20 +16,20 @@ interface OpenPixChargeInterface {
      * @param string $status
      * @return $this
      */
-    public function setStatus($status);
+    public function setStatus(string $status): OpenPixChargeInterface;
 
     /**
-     * Return the correlationID.
+     * Return the correlationId.
      *
-     * @return string CorrelationID.
+     * @return string CorrelationId.
      */
-    public function getCorrelationID();
+    public function getCorrelationId(): string;
 
     /**
-     * Set the correlationID
+     * Set the correlationId
      *
-     * @param string $correlationID
+     * @param string $correlationId
      * @return $this
      */
-    public function setCorrelationID($correlationID);
+    public function setCorrelationId(string $correlationId): OpenPixChargeInterface;
 }
