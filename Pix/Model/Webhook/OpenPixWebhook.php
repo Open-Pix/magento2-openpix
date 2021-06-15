@@ -24,10 +24,19 @@ class OpenPixWebhook {
         $this->_helperData = $helper;
     }
 
+    public function isValidTestWebhookPayload($evento)
+    {
+        if (isset($evento)) {
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * {@inheritdoc}
      */
-    public function processWebhook($charge, $pix)
+    public function processWebhook($charge = null, $pix = null, $evento = null)
     {
         $this->_helperData->log('OpenPix WebApi::ProcessWebhook Start', self::LOG_NAME);
         $this->_helperData->log('OpenPix WebApi::ProcessWebhook Charge', self::LOG_NAME, $charge);
@@ -35,7 +44,17 @@ class OpenPixWebhook {
 
         // @todo validate authorization
 
-        // @todo validate if is webhook payload test
+        if($this->isValidTestWebhookPayload($evento)) {
+            $this->_helperData->log('OpenPix WebApi::ProcessWebhook Test Call', self::LOG_NAME, $evento);
+
+            $response = [
+                'message' => 'success',
+            ];
+
+            echo json_encode($response);
+
+            exit();
+        }
 
         // @todo validate if is a valid webhook payload
 
