@@ -11,10 +11,4 @@ interface OpenPixWebhookInterface {
      * @return string
      */
     public function processWebhook($charge = null, $pix = null, $evento = null);
-
-    /**
-     * GET version of OpenPix magento2 webapi
-     * @return string
-     */
-    public function getVersion();
 }

@@ -33,6 +33,19 @@ class OpenPixWebhook {
         return false;
     }
 
+    public function isValidWebhookPayload($charge, $pix)
+    {
+        if (!isset($charge)) {
+            return false;
+        }
+
+        if (!isset($pix)) {
+            return false;
+        }
+
+        return true;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -56,7 +69,17 @@ class OpenPixWebhook {
             exit();
         }
 
-        // @todo validate if is a valid webhook payload
+        if(!$this->isValidWebhookPayload($charge, $pix)) {
+            $this->_helperData->log('OpenPix WebApi::ProcessWebhook Invalid Payload', self::LOG_NAME);
+
+            $response = [
+                'error' => 'Invalid Webhook Payload',
+            ];
+
+            echo json_encode($response);
+
+            exit();
+        }
 
         // @todo prepare fields -> correlationID, status, endToEndId
 
@@ -66,6 +89,11 @@ class OpenPixWebhook {
 
         // @todo check if order has correlation id, if have return error order already paid
 
-        return 'api process webhook';
+        $response = [
+            'message' => 'api process webhook being built',
+        ];
+
+        echo json_encode($response);
+        exit();
     }
 }
