@@ -32,18 +32,6 @@ class OpenPixWebhook {
     /**
      * {@inheritdoc}
      */
-    public function processWebhook($charge, $pix)
-    {
-        $this->_helperData->log('OpenPix WebApi::ProcessWebhook Start', self::LOG_NAME);
-        $this->_helperData->log('OpenPix WebApi::ProcessWebhook Charge', self::LOG_NAME, $charge);
-        $this->_helperData->log('OpenPix WebApi::ProcessWebhook Pix Transaction', self::LOG_NAME, $pix);
-
-        return 'api process webhook';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getVersion()
     {
         $this->_helperData->log('OpenPix WebApi::GetVersion Start', self::LOG_NAME);
@@ -53,5 +41,17 @@ class OpenPixWebhook {
         $this->_helperData->log('OpenPix WebApi::GetVersion $moduleVersion', self::LOG_NAME, $moduleVersion);
 
         return 'OpenPix Pix Extension Version ' . $moduleVersion;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function processWebhook($charge, $pix)
+    {
+        $this->_helperData->log('OpenPix WebApi::ProcessWebhook Start', self::LOG_NAME);
+        $this->_helperData->log('OpenPix WebApi::ProcessWebhook Charge', self::LOG_NAME, $charge);
+        $this->_helperData->log('OpenPix WebApi::ProcessWebhook Pix Transaction', self::LOG_NAME, $pix);
+
+        return 'api process webhook';
     }
 }

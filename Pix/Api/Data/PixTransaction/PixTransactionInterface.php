@@ -21,14 +21,14 @@ interface PixTransactionInterface {
     /**
      * Return the customer.
      *
-     * @return \OpenPix\Pix\Api\Data\OpenPixCustomerInterface Customer.
+     * @return \OpenPix\Pix\Api\Data\OpenPixCustomerInterface|null Customer.
      */
     public function getCustomer();
 
     /**
      * Set the customer
      *
-     * @param \OpenPix\Pix\Api\Data\OpenPixCustomerInterface $customer
+     * @param \OpenPix\Pix\Api\Data\OpenPixCustomerInterface|null $customer
      * @return $this
      */
     public function setCustomer($customer);
