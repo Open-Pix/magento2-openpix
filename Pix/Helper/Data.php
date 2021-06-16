@@ -162,7 +162,7 @@ class Data extends AbstractHelper
         return $this->getModuleGeneralConfig('app_ID');
     }
 
-    public function getWebhookKeyGeneral()
+    public function getWebhookAuthorizationGeneral()
     {
         return $this->getModuleGeneralConfig('webhook_key');
     }

@@ -30,10 +30,18 @@ class Webhook extends \Magento\Framework\App\Action\Action
     public function execute()
     {
         $this->logger->debug(__(sprintf('Start webhook')));
+
         if (!$this->validateRequest()) {
             $ip = $this->webhookHandler->getRemoteIp();
 
             $this->logger->error(__(sprintf('Invalid webhook attempt from IP %s', $ip)));
+
+            header('HTTP/1.2 400 Bad Request');
+            $response = [
+                'error' => 'Invalid Webhook Authorization',
+            ];
+            echo json_encode($response);
+            exit();
 
             return;
         }
@@ -51,9 +59,25 @@ class Webhook extends \Magento\Framework\App\Action\Action
      */
     private function validateRequest()
     {
-        $systemKey = $this->helperData->getWebhookKeyGeneral();
-        $requestKey = $this->getRequest()->getParam('key');
+        $authorization = $this->getAuthorization();
 
-        return $systemKey === $requestKey;
+        $systemWebhookAuthorization = $this->helperData->getWebhookAuthorizationGeneral();
+
+        return $systemWebhookAuthorization === $authorization;
+    }
+
+
+
+    public function getAuthorization()
+    {
+        if (array_key_exists('HTTP_AUTHORIZATION', $_SERVER)) {
+            return $_SERVER['HTTP_AUTHORIZATION'];
+        }
+
+        if (array_key_exists('Authorization', $_SERVER)) {
+            return $_SERVER['Authorization'];
+        }
+
+        return '';
     }
 }
