@@ -41,7 +41,7 @@ class UpgradeData implements UpgradeDataInterface
         $string = '';
         $max--;
         for ($i = 0; $i < $length; ++$i) {
-            $string .= $characters[mt_rand(0, $max)];
+            $string .= $characters[random_int(0, $max)];
         }
         return $string;
     }

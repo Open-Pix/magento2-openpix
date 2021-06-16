@@ -60,10 +60,8 @@ class ChargePaid
             $response = [
                 'error' => 'Order Not Found',
             ];
-            echo json_encode($response);
-            exit();
 
-            return false;
+            return json_encode($response);
         }
 
         $hasEndToEndId = $this->hasEndToEndId($order);
@@ -75,9 +73,8 @@ class ChargePaid
             $response = [
                 'error' => 'Order Already Invoiced',
             ];
-            echo json_encode($response);
-            exit();
-            return false;
+
+            return json_encode($response);
         }
 
         return $this->createInvoice($order, $pix);
