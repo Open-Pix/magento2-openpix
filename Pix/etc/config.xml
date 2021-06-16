@@ -10,5 +10,11 @@
                 <order_status>pending</order_status>
             </openpix_pix>
         </payment>
+        <openpixconfiguration>
+            <general>
+                <mode>2</mode>
+                <test>values</test>
+            </general>
+        </openpixconfiguration>
     </default>
 </config>
