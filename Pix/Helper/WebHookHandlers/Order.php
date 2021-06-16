@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenPix\PixHelper\WebHookHandlers;
+namespace OpenPix\Pix\Helper\WebHookHandlers;
 
 class Order
 {
@@ -44,18 +44,18 @@ class Order
     }
 
     /**
-     * @param int $correlationID
+     * @param int $billId
      *
      * @return \Magento\Sales\Model\Order
      */
-    private function getOrderByBillId($correlationID)
+    private function getOrderByBillId($billId)
     {
-        if (!$correlationID) {
+        if (!$billId) {
             return false;
         }
 
         $order = $this->orderCollectionFactory->create()
-            ->addAttributeToFilter('openpix_correlationid', ['eq' => $correlationID])
+            ->addAttributeToFilter('vindi_bill_id', ['eq' => $billId])
             ->getFirstItem();
 
         if (!$order) {

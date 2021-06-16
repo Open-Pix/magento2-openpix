@@ -2,12 +2,11 @@
 
 namespace OpenPix\Pix\Helper;
 
-use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 
 class WebhookHandler
 {
     /**
-     * @var RemoteAddress
+     * @var \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress
      */
     protected $remoteAddress;
 
@@ -16,12 +15,19 @@ class WebhookHandler
      */
     protected $logger;
 
+    /**
+     * @var \OpenPix\Pix\Helper\WebHookHandlers\ChargePaid
+     */
+    protected $chargePaid;
+
     public function __construct(
-        RemoteAddress $remoteAddress,
-        \Psr\Log\LoggerInterface $logger
+        \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,
+        \Psr\Log\LoggerInterface $logger,
+        \OpenPix\Pix\Helper\WebHookHandlers\ChargePaid $chargePaid
     ) {
         $this->remoteAddress = $remoteAddress;
         $this->logger = $logger;
+        $this->chargePaid = $chargePaid;
     }
 
     public function getRemoteIp()
@@ -55,9 +61,9 @@ class WebhookHandler
         switch ($type) {
             case 'test':
                 $this->logger->info(__('Webhook test event.'));
-                break;
-//            case 'bill_paid':
-//                return $this->chargePaid->chargePaid($data);
+                break;);
+            case 'bill_paid':
+                return $this->chargePaid->chargePaid($data);
             default:
                 $this->logger->warning(__(sprintf('Webhook event ignored by plugin: "%s".', $type)));
                 break;
