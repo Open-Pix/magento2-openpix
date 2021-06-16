@@ -24,9 +24,9 @@ class Data extends AbstractHelper
      */
 
 
-    const OPENPIX_ENV = 'development';
+//    const OPENPIX_ENV = 'development';
 //    const OPENPIX_ENV = 'staging';
-//    const OPENPIX_ENV = 'production';
+    const OPENPIX_ENV = 'production';
 
     // change this to work in development, staging or production
     /**
@@ -126,8 +126,7 @@ class Data extends AbstractHelper
     public function getOpenPixApiUrl()
     {
         if (self::OPENPIX_ENV === 'development') {
-//            return 'http://localhost:5001';
-            return 'https://80f463214617.ngrok.io';
+            return 'http://localhost:5001';
         }
 
         if (self::OPENPIX_ENV === 'staging') {
