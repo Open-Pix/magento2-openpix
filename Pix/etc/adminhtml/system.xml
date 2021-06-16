@@ -16,12 +16,12 @@
             <resource>OpenPix_Pix::config_openpix_payment</resource>
             <group id="general" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
                 <label>General</label>
-                <field id="mode" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20"
-                       translate="label"
-                       type="select">
-                    <label>Mode</label>
-                    <source_model>OpenPix\Pix\Model\Config\Source\Mode</source_model>
-                </field>
+<!--                <field id="mode" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20"-->
+<!--                       translate="label"-->
+<!--                       type="select">-->
+<!--                    <label>Mode</label>-->
+<!--                    <source_model>OpenPix\Pix\Model\Config\Source\Mode</source_model>-->
+<!--                </field>-->
                 <field id="app_ID" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="40" translate="label"
                        type="text">
                     <label>App ID</label>
@@ -29,7 +29,7 @@
                 </field>
                 <field id="webhook_key" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="50"
                        translate="label" type="text">
-                    <label>Webhook Key</label>
+                    <label>Webhook Authorization</label>
                     <comment model="OpenPix\Pix\Model\WebhookKey"/>
                     <frontend_model>OpenPix\Pix\Block\System\Config\Form\Field\Disable</frontend_model>
                 </field>

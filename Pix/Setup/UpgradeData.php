@@ -17,7 +17,7 @@ class UpgradeData implements UpgradeDataInterface
         ModuleDataSetupInterface $setup,
         ModuleContextInterface $context
     ) {
-        if ($context->getVersion() > "1.0.0") {
+        if ($context->getVersion() > "1.0.2") {
             $data = [
                 'scope' => 'default',
                 'scope_id' => 0,
