@@ -4,7 +4,6 @@ namespace OpenPix\Pix\Controller\Index;
 
 use OpenPix\Pix\Helper\Data;
 use OpenPix\Pix\Helper\WebhookHandler;
-use OpenPix\Pix\Model\Api;
 
 class Webhook extends \Magento\Framework\App\Action\Action
 {
@@ -12,14 +11,12 @@ class Webhook extends \Magento\Framework\App\Action\Action
     private $webhookHandler;
 
     public function __construct(
-        \OpenPix\Pix\Model\Payment\Api $api,
         \Psr\Log\LoggerInterface $logger,
         WebhookHandler $webhookHandler,
         Data $helperData,
         \Magento\Framework\App\Action\Context $context,
         \Magento\Framework\View\Result\PageFactory $pageFactory
     ) {
-        $this->api = $api;
         $this->logger = $logger;
         $this->_pageFactory = $pageFactory;
         $this->webhookHandler = $webhookHandler;
@@ -32,6 +29,7 @@ class Webhook extends \Magento\Framework\App\Action\Action
      */
     public function execute()
     {
+        $this->logger->debug(__(sprintf('Start webhook')));
         if (!$this->validateRequest()) {
             $ip = $this->webhookHandler->getRemoteIp();
 
