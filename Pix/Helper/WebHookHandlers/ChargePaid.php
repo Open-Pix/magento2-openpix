@@ -48,18 +48,49 @@ class ChargePaid
         $this->_helperData->log('OpenPix::chargePaid Start', self::LOG_NAME);
 
         if (!($order = $this->order->getOrder($charge))) {
+            $this->_helperData->log('OpenPix::chargePaid Order Not Found', self::LOG_NAME);
+
             $this->logger->error(
                 __(sprintf(
-                    'There is no cycle %s of signature %d.',
-                    $data['charge']['period']['cycle'],
-                    $data['charge']['subscription']['id']
+                    'Order Not Found'
                 ))
             );
+
+            header('HTTP/1.2 400 Bad Request');
+            $response = [
+                'error' => 'Order Not Found',
+            ];
+            echo json_encode($response);
+            exit();
 
             return false;
         }
 
+        $hasEndToEndId = $this->hasEndToEndId($order);
+
+        if($hasEndToEndId) {
+            $this->_helperData->log('OpenPix::chargePaid Order Already Invoiced', self::LOG_NAME);
+
+            header('HTTP/1.2 400 Bad Request');
+            $response = [
+                'error' => 'Order Already Invoiced',
+            ];
+            echo json_encode($response);
+            exit();
+            return false;
+        }
+
         return $this->createInvoice($order, $pix);
+    }
+
+    public function hasEndToEndId(\Magento\Sales\Model\Order $order): bool {
+        $hasEndToEndId = $order->getData("openpix_endtoendid");
+
+        if(isset($hasEndToEndId)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -71,13 +102,13 @@ class ChargePaid
             return false;
         }
 
-        $this->logger->info(__(sprintf('Generating invoice for the order %s.', $order->getId())));
-
         if (!$order->canInvoice()) {
             $this->logger->error(__(sprintf('Impossible to generate invoice for order %s.', $order->getId())));
 
             return false;
         }
+
+        $this->logger->info(__(sprintf('Generating invoice for the order %s.', $order->getId())));
 
         $invoice = $order->prepareInvoice();
         $invoice->setRequestedCaptureCase(Invoice::CAPTURE_OFFLINE);
