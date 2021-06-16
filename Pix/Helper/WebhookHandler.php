@@ -97,7 +97,6 @@ class WebhookHandler
                     'error' => 'Invalid Webhook Payload',
                 ];
 
-
                 return json_encode($response);
             }
         } catch (\Exception $e) {

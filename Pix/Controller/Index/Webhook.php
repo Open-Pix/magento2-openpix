@@ -59,7 +59,7 @@ class Webhook extends \Magento\Framework\App\Action\Action
     {
         $authorization = $this->getAuthorization();
 
-        $systemWebhookAuthorization = $this->helperData->getWebhookAuthorizationGeneral();
+        $systemWebhookAuthorization = $this->helperData->getWebhookAuthorization();
 
         return $systemWebhookAuthorization === $authorization;
     }
