@@ -15,10 +15,11 @@ class WebhookKey implements CommentInterface
     public function getCommentText($elementValue)
     {
         return sprintf(
-            __("Use this key as Webhook Authorization value on OpenPix side when creating a new Plugin for Magento")
-        ) .
-        " <strong>" .
-        $elementValue .
-        "</strong>";
+                __("Use this authorization to set up the Webhook on OpenPix Platform and the url below.")
+            ) .
+            " <strong>" .
+            $this->urlInterface->getBaseUrl() .
+            "openpix/index/webhook" .
+            "</strong>";
     }
 }
