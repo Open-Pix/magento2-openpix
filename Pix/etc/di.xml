@@ -2,6 +2,10 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="OpenPix\Pix\Api\OpenPixApiInterface" type="OpenPix\Pix\Model\Api\OpenPixApi"/>
 
+    <type name="Magento\Framework\App\Request\CsrfValidator">
+        <plugin name="csrf_validator_skip" type="OpenPix\Pix\Plugin\CsrfValidatorSkip" />
+    </type>
+
     <type name="OpenPix\Pix\Logger\Handler\System">
         <arguments>
             <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
