@@ -46,20 +46,20 @@ class ChargePaid
     public function chargePaid($charge, $pix)
     {
         $this->_helperData->log('OpenPix::chargePaid Start', self::LOG_NAME);
-        return true;
-//        if (!($order = $this->order->getOrder($data))) {
-//            $this->logger->error(
-//                __(sprintf(
-//                    'There is no cycle %s of signature %d.',
-//                    $data['charge']['period']['cycle'],
-//                    $data['charge']['subscription']['id']
-//                ))
-//            );
-//
-//            return false;
-//        }
-//
-//        return $this->createInvoice($order);
+
+        if (!($order = $this->order->getOrder($charge))) {
+            $this->logger->error(
+                __(sprintf(
+                    'There is no cycle %s of signature %d.',
+                    $data['charge']['period']['cycle'],
+                    $data['charge']['subscription']['id']
+                ))
+            );
+
+            return false;
+        }
+
+        return $this->createInvoice($order);
     }
 
     /**

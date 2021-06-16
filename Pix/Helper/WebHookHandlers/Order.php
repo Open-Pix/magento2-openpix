@@ -23,19 +23,19 @@ class Order
     }
 
     /**
-     * @param array $data
+     * @param array $charge
      * @return \Magento\Sales\Model\Order
      */
-    public function getOrder($data)
+    public function getOrder($charge)
     {
-        if (!isset($data['bill'])) {
+        if (!isset($charge['correlationID'])) {
             return false;
         }
 
-        $order = $this->getOrderByBillId($data['bill']['id']);
+        $order = $this->getOrderByCorrelationID($charge['correlationID']);
 
         if (!$order || !$order->getId()) {
-            $this->logger->warning(__(sprintf('No order was found to invoice: %d', $data['bill']['id'])));
+            $this->logger->warning(__(sprintf('No order was found to invoice: %d', $charge['correlationID'])));
 
             return false;
         }
@@ -44,18 +44,18 @@ class Order
     }
 
     /**
-     * @param int $billId
+     * @param int $correlationID
      *
      * @return \Magento\Sales\Model\Order
      */
-    private function getOrderByBillId($billId)
+    private function getOrderByCorrelationID($correlationID)
     {
-        if (!$billId) {
+        if (!$correlationID) {
             return false;
         }
 
         $order = $this->orderCollectionFactory->create()
-            ->addAttributeToFilter('vindi_bill_id', ['eq' => $billId])
+            ->addAttributeToFilter('openpix_correlationid', ['eq' => $correlationID])
             ->getFirstItem();
 
         if (!$order) {
