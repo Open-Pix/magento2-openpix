@@ -127,7 +127,7 @@ class Data extends AbstractHelper
     {
         if (self::OPENPIX_ENV === 'development') {
 //            return 'http://localhost:5001';
-            return 'https://70691c91e322.ngrok.io';
+            return 'https://80f463214617.ngrok.io';
         }
 
         if (self::OPENPIX_ENV === 'staging') {
