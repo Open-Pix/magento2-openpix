@@ -18,14 +18,21 @@ class OpenPixWebhook implements OpenPixWebhookInterface {
      */
     protected $_helperData;
 
+    /**
+     * @var \Magento\Sales\Model\ResourceModel\Order\CollectionFactory
+     */
+    protected $orderCollectionFactory;
+
 
     const LOG_NAME = 'pix_webpapi';
 
     public function __construct(
-        \OpenPix\Pix\Helper\Data $helper
+        \OpenPix\Pix\Helper\Data $helper,
+        \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $orderCollectionFactory
     )
     {
         $this->_helperData = $helper;
+        $this->orderCollectionFactory = $orderCollectionFactory;
     }
 
     public function isValidTestWebhookPayload($evento)
@@ -88,6 +95,9 @@ class OpenPixWebhook implements OpenPixWebhookInterface {
         // @todo prepare fields -> correlationId, status, endToEndId
 
         // @todo get order_id by correlationId
+        $order = $this->getOrderByCorrelationID($charge->correlationId);
+
+        $this->_helperData->log('OpenPix WebApi::getOrderByCorrelationID Order', self::LOG_NAME, $order);
 
         // @todo get order by id
 
@@ -99,5 +109,31 @@ class OpenPixWebhook implements OpenPixWebhookInterface {
 
         echo json_encode($response);
         exit();
+    }
+
+    /**
+     * @param $correlationId
+     *
+     * @return \Magento\Framework\Controller\ResultInterface|\Magento\Sales\Model\Order
+     *
+     * @throws LocalizedException
+     */
+    private function getOrderByCorrelationID($correlationId)
+    {
+        /** @var \Magento\Sales\Model\Order $order */
+        $order = $this->orderCollectionFactory->create()->addFieldToFilter('openpix_correlationid', ["eq" => $correlationId])->getFirstItem();
+
+        echo '$order: ' . json_encode($order);
+        echo PHP_EOL;
+
+        /**
+         * If the order is empty it means that this order ID does not exist.
+         */
+        if (!$order) {
+            $this->_helperData->log('OpenPix WebApi::getOrderByCorrelationID This order does not exist.', self::LOG_NAME);
+            throw new LocalizedException(__('This order does not exist.'), self::RESULT_NOT_FOUND);
+        }
+
+        return $order;
     }
 }
