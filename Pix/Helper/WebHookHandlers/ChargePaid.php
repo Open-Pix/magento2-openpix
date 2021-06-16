@@ -59,13 +59,13 @@ class ChargePaid
             return false;
         }
 
-        return $this->createInvoice($order);
+        return $this->createInvoice($order, $pix);
     }
 
     /**
      * @return bool
      */
-    public function createInvoice(\Magento\Sales\Model\Order $order)
+    public function createInvoice(\Magento\Sales\Model\Order $order, $pix)
     {
         if (!$order->getId()) {
             return false;
@@ -84,6 +84,9 @@ class ChargePaid
         $invoice->register();
         $invoice->setSendEmail(true);
         $this->invoiceRepository->save($invoice);
+
+        $order->setOpenpixEndtoendid($pix["endToEndId"]);
+
         $this->logger->info(__('Invoice created with success'));
 
         $order->addStatusHistoryComment(

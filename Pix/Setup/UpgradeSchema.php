@@ -64,6 +64,20 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 ]
             );
 
+        $setup
+            ->getConnection()
+            ->addColumn(
+                $setup->getTable($orderTable),
+                'openpix_endtoendid',
+                [
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                    'length' => '500',
+                    'default' => null,
+                    'nullable' => true,
+                    'comment' => 'OpenPix endToEndId',
+                ]
+            );
+
         $setup->endSetup();
     }
 }

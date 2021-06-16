@@ -6,11 +6,4 @@
             <resource ref="anonymous"/>
         </resources>
     </route>
-
-    <route method="POST" url="/V1/openpix-pix/webhook">
-        <service class="OpenPix\Pix\Api\OpenPixWebhookInterface" method="processWebhook"/>
-        <resources>
-            <resource ref="anonymous"/>
-        </resources>
-    </route>
 </routes>
