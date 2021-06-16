@@ -40,10 +40,8 @@ class Webhook extends \Magento\Framework\App\Action\Action
             $response = [
                 'error' => 'Invalid Webhook Authorization',
             ];
-            echo json_encode($response);
-            exit();
 
-            return;
+            return json_encode($response);
         }
 
         $body = file_get_contents('php://input');

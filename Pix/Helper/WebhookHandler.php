@@ -87,9 +87,7 @@ class WebhookHandler
                     'message' => 'success',
                 ];
 
-                echo json_encode($response);
-
-                exit();
+                return json_encode($response);
             }
 
             if(!$this->isValidWebhookPayload($jsonBody)) {
@@ -99,9 +97,8 @@ class WebhookHandler
                     'error' => 'Invalid Webhook Payload',
                 ];
 
-                echo json_encode($response);
 
-                exit();
+                return json_encode($response);
             }
         } catch (\Exception $e) {
             $this->logger->info(__(sprintf('Fail when interpreting webhook JSON: %s', $e->getMessage())));
