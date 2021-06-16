@@ -17,43 +17,49 @@ class ChargePaid
      */
     protected $invoiceRepository;
 
+
+    const LOG_NAME = 'charge_paid';
+
     public function __construct(
         \Psr\Log\LoggerInterface $logger,
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
         \Magento\Sales\Api\InvoiceRepositoryInterface $invoiceRepository,
         Order $order,
-        Data $helperData
+        Data $_helperData
     ) {
         $this->logger = $logger;
         $this->orderRepository = $orderRepository;
         $this->invoiceRepository = $invoiceRepository;
         $this->order = $order;
-        $this->helperData = $helperData;
+        $this->_helperData = $_helperData;
     }
 
     /**
      * Handle 'charge_paid' event.
      * The charge can be related to a subscription or a single payment.
      *
-     * @param array $data
+     * @param array $charge
+     * @param array $pix
      *
      * @return bool
      */
-    public function chargePaid($data)
+    public function chargePaid($charge, $pix)
     {
-        if (!($order = $this->order->getOrder($data))) {
-            $this->logger->error(
-                __(sprintf(
-                    'There is no cycle %s of signature %d.',
-                    $data['charge']['period']['cycle'],
-                    $data['charge']['subscription']['id']
-                ))
-            );
-
-            return false;
-        }
-
-        return $this->createInvoice($order);
+        $this->_helperData->log('OpenPix::chargePaid Start', self::LOG_NAME);
+        return true;
+//        if (!($order = $this->order->getOrder($data))) {
+//            $this->logger->error(
+//                __(sprintf(
+//                    'There is no cycle %s of signature %d.',
+//                    $data['charge']['period']['cycle'],
+//                    $data['charge']['subscription']['id']
+//                ))
+//            );
+//
+//            return false;
+//        }
+//
+//        return $this->createInvoice($order);
     }
 
     /**
