@@ -17,16 +17,18 @@ class UpgradeData implements UpgradeDataInterface
         ModuleDataSetupInterface $setup,
         ModuleContextInterface $context
     ) {
-        if ($context->getVersion() > "1.0.2") {
-            $data = [
-                'scope' => 'default',
-                'scope_id' => 0,
-                'path' => 'openpixconfiguration/general/webhook_key',
-                'value' => self::generateRandomHash(),
-            ];
-            $setup->getConnection()
-                ->insertOnDuplicate($setup->getTable('core_config_data'), $data, ['value']);
-        }
+        $setup->startSetup();
+
+        $data = [
+            'scope' => 'default',
+            'scope_id' => 0,
+            'path' => 'openpixconfiguration/general/webhook_key',
+            'value' => self::generateRandomHash(),
+        ];
+        $setup->getConnection()
+            ->insertOnDuplicate($setup->getTable('core_config_data'), $data, ['value']);
+
+        $setup->endSetup();
     }
 
     public static function generateRandomHash()

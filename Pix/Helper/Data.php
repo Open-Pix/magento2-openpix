@@ -125,6 +125,8 @@ class Data extends AbstractHelper
 
     public function getOpenPixApiUrl()
     {
+        return 'https://a19f68e0bc5a.ngrok.io';
+
         if (self::OPENPIX_ENV === 'development') {
             return 'http://localhost:5001';
         }
@@ -148,22 +150,14 @@ class Data extends AbstractHelper
         return $this->scopeConfig->getValue($path, $storeScope);
     }
 
-    public function getModuleGeneralConfig($field)
-    {
-        return $this->scopeConfig->getValue(
-            'openpixconfiguration/general/' . $field,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        );
-    }
-
     public function getAppID()
     {
-        return $this->getModuleGeneralConfig('app_ID');
+        return $this->getConfig('payment/openpix_pix/app_ID');
     }
 
-    public function getWebhookAuthorizationGeneral()
+    public function getWebhookAuthorization()
     {
-        return $this->getModuleGeneralConfig('webhook_key');
+        return $this->getConfig('payment/openpix_pix/webhook_authorization');
     }
 
     /**
