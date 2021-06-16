@@ -19,7 +19,7 @@ class WebhookKey implements CommentInterface
         ) .
         " <strong>" .
         $this->urlInterface->getBaseUrl() .
-        "openxPix/index/webhook?key=" .
+        "openpix/index/webhook?key=" .
         $elementValue .
         "</strong>";
     }
