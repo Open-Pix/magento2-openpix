@@ -80,7 +80,7 @@ class WebhookHandler
             return false;
         }
 
-        if (isset($jsonBody["charge"])) {
+        if (isset($jsonBody["charge"]) && isset($jsonBody["charge"]["correlationID"])) {
             return false;
         }
 
