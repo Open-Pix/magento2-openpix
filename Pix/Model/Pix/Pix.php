@@ -176,6 +176,11 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
                 $response
             );
 
+            $message = __('New Order placed, QrCode Pix generated and saved on OpenPix Platform');
+            $order->setState(\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT)
+                ->setStatus($order->getConfig()->getStateDefaultStatus(\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT))
+                ->addStatusHistoryComment($message->getText());
+
             $payment->setSkipOrderProcessing(true);
         } catch (\Exception $e) {
             $this->messageManager->addErrorMessage(__('Error creating Pix'));
