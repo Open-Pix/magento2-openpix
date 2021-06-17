@@ -74,6 +74,19 @@ class WebhookHandler
         return true;
     }
 
+    public function isPixDetachedPayload($jsonBody): bool
+    {
+        if (!isset($jsonBody["pix"])) {
+            return false;
+        }
+
+        if (isset($jsonBody["charge"])) {
+            return false;
+        }
+
+        return true;
+    }
+
     /**
      * Handle incoming webhook.
      *
@@ -90,6 +103,12 @@ class WebhookHandler
                 $this->_helperData->log('OpenPix WebApi::ProcessWebhook Test Call', self::LOG_NAME);
 
                 return ["error" => null, "success" => "Webhook Test Call: " . $jsonBody["evento"] ];
+            }
+
+            if ($this->isPixDetachedPayload($jsonBody)) {
+                $this->_helperData->log('OpenPix WebApi::ProcessWebhook Pix Detached', self::LOG_NAME);
+
+                return ["error" => null, "success" => "Pix Detached with endToEndId: " . $jsonBody["pix"]["endToEndId"] ];
             }
 
             if (!$this->isValidWebhookPayload($jsonBody)) {
