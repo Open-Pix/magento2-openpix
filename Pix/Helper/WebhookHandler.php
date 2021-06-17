@@ -3,6 +3,8 @@
 namespace OpenPix\Pix\Helper;
 
 
+use Magento\Framework\Controller\Result\JsonFactory;
+
 class WebhookHandler
 {
     /**
@@ -27,18 +29,22 @@ class WebhookHandler
      */
     protected $_helperData;
 
+    private $resultJsonFactory;
+
     const LOG_NAME = 'webhook_handler';
 
     public function __construct(
         \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,
         \Psr\Log\LoggerInterface $logger,
         \OpenPix\Pix\Helper\WebHookHandlers\ChargePaid $chargePaid,
-        \OpenPix\Pix\Helper\Data $helper
+        \OpenPix\Pix\Helper\Data $helper,
+        JsonFactory $resultJsonFactory
     ) {
         $this->remoteAddress = $remoteAddress;
         $this->logger = $logger;
         $this->chargePaid = $chargePaid;
         $this->_helperData = $helper;
+        $this->resultJsonFactory = $resultJsonFactory;
     }
 
     public function getRemoteIp()
@@ -48,6 +54,9 @@ class WebhookHandler
 
     public function isValidTestWebhookPayload($jsonBody)
     {
+
+
+        echo isset($jsonBody["evento"]);
         if (isset($jsonBody["evento"])) {
             return true;
         }
@@ -80,24 +89,16 @@ class WebhookHandler
         try {
             $jsonBody = json_decode($body, true);
 
-            if($this->isValidTestWebhookPayload($jsonBody)) {
+            if ($this->isValidTestWebhookPayload($jsonBody)) {
                 $this->_helperData->log('OpenPix WebApi::ProcessWebhook Test Call', self::LOG_NAME);
 
-                $response = [
-                    'message' => 'success',
-                ];
-
-                return json_encode($response);
+                return ["error" => null, "success" => "Webhook Test Call: " . $jsonBody["evento"] ];
             }
 
-            if(!$this->isValidWebhookPayload($jsonBody)) {
+            if (!$this->isValidWebhookPayload($jsonBody)) {
                 $this->_helperData->log('OpenPix WebApi::ProcessWebhook Invalid Payload', self::LOG_NAME, $jsonBody);
 
-                $response = [
-                    'error' => 'Invalid Webhook Payload',
-                ];
-
-                return json_encode($response);
+                return ["error" => "Invalid Payload", "success" => null ];
             }
         } catch (\Exception $e) {
             $this->logger->info(__(sprintf('Fail when interpreting webhook JSON: %s', $e->getMessage())));
@@ -107,6 +108,6 @@ class WebhookHandler
         $charge = $jsonBody["charge"];
         $pix = $jsonBody["pix"];
 
-        $this->chargePaid->chargePaid($charge, $pix);
+        return $this->chargePaid->chargePaid($charge, $pix);
     }
 }

@@ -56,12 +56,7 @@ class ChargePaid
                 ))
             );
 
-            header('HTTP/1.2 400 Bad Request');
-            $response = [
-                'error' => 'Order Not Found',
-            ];
-
-            return json_encode($response);
+            return ["error" => "Order Not Found", "success" => null ];
         }
 
         $hasEndToEndId = $this->hasEndToEndId($order);
@@ -69,12 +64,7 @@ class ChargePaid
         if($hasEndToEndId) {
             $this->_helperData->log('OpenPix::chargePaid Order Already Invoiced', self::LOG_NAME);
 
-            header('HTTP/1.2 400 Bad Request');
-            $response = [
-                'error' => 'Order Already Invoiced',
-            ];
-
-            return json_encode($response);
+            return ["error" => "Order Already Invoiced", "success" => null ];
         }
 
         return $this->createInvoice($order, $pix);
@@ -96,13 +86,12 @@ class ChargePaid
     public function createInvoice(\Magento\Sales\Model\Order $order, $pix)
     {
         if (!$order->getId()) {
-            return false;
+            return ["error" => "Order Not Found", "success" => null ];
         }
 
         if (!$order->canInvoice()) {
             $this->logger->error(__(sprintf('Impossible to generate invoice for order %s.', $order->getId())));
-
-            return false;
+            return ["error" => sprintf('Impossible to generate invoice for order %s.', $order->getId()), "success" => null ];
         }
 
         $this->logger->info(__(sprintf('Generating invoice for the order %s.', $order->getId())));
@@ -123,7 +112,6 @@ class ChargePaid
         );
 
         $this->orderRepository->save($order);
-
-        return true;
+        return ["error" => null, "success" => "The payment was confirmed by OpenPix and the order is being processed" ];
     }
 }
