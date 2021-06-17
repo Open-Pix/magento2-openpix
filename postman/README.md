@@ -5,28 +5,28 @@ This postman json contains 8 requests testing the endpoints of OpenPix on magent
   ![GetVersion](./assets/get_version.png);
   
 - POST Webhook Test
-  ![GetVersion](./assets/test_webhook.png);
+  ![test](./assets/test_webhook.png);
   
 - POST Webhook Invalid Payload
-  ![GetVersion](./assets/invalid_webhook.png);
+  ![Invalid](./assets/invalid_payload.png);
   
 - POST Webhook Order Already Invoiced
-  ![GetVersion](./assets/order_invoiced.png);
+  ![Invoiced](./assets/order_invoiced.png);
   
 - POST Webhook Order Not Found
-  ![GetVersion](./assets/order_not_found.png);
+  ![NotFound](./assets/order_not_found.png);
   
 - POST Webhook Valid Payload
-  ![GetVersion](./assets/valid_webhook.png);
+  ![Valid](./assets/valid_webhook.png);
   
 - POST Webhook Pix Detached
-  ![GetVersion](./assets/pix_detached.png);
+  ![Detached](./assets/pix_detached.png);
   
 - POST Webhook Pix Detached with Charge Null
-  ![GetVersion](./assets/pix_detached_charge_null.png);
+  ![DetachedNull](./assets/pix_detached_charge_null.png);
   
 - POST Webhook Pix Detached with Charge Empty Object
-  ![GetVersion](./assets/pix_detached_charge_empty.png);
+  ![DetachedEmpty](./assets/pix_detached_charge_empty.png);
 
 ## Using
 When use import `magento2-local-webhook-tests.postman_collection.json` into your postman and change some values:
