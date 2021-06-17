@@ -1,10 +1,17 @@
 {
   "name": "magento2-openpix",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "devDependencies": {
+    "@octokit/rest": "^18.5.3",
+    "@types/dotenv-safe": "^8.1.1",
+    "dotenv-safe": "^8.2.0",
+    "esbuild-register": "^2.5.0",
+    "generate-changelog": "^1.8.0",
     "husky": "^6.0.0",
     "lint-staged": "10.5.4",
     "prettier": "^2.2.1",
+    "simple-git": "^2.39.0",
+    "moment": "^2.29.1",
     "@prettier/plugin-php": "^0.16.2"
   },
   "license": "MIT",
