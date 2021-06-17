@@ -54,9 +54,6 @@ class WebhookHandler
 
     public function isValidTestWebhookPayload($jsonBody)
     {
-
-
-        echo isset($jsonBody["evento"]);
         if (isset($jsonBody["evento"])) {
             return true;
         }
