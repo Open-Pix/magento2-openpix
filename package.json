@@ -1,6 +1,6 @@
 {
   "name": "magento2-openpix",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "devDependencies": {
     "@octokit/rest": "^18.5.3",
     "@prettier/plugin-php": "^0.16.2",
