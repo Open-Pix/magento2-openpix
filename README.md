@@ -1,14 +1,21 @@
 ## OpenPix for Magento2
 OpenPix Magento2 Pix plugin.
 
-- **Installing the Magento2 Store**: if is your first time running the plugin go to [Installing the Magento2 Store](##installing-the-magento2-store).
-- **Existent Magento2 Store** - if your local environment is already done go to [Local development already prepared](#local-development-already-prepared).
+# Table of Content1.
+- [1. Installing the Magento2 Store](#installing-the-magento2-store) - if is your first time running the plugin
+    * [1.1 First step - creating magento account and access keys](#1-first-step---creating-magento-account-and-access-keys)
+    * [1.2 Installing the Magento2 Store](#2-installing-the-magento2-store)
+    * [1.3 Creating the Admin User](#3-creating-admin-user)
+    * [1.4 Adding OpenPix Magento Plugin to your installation](#4-adding-openpix-magento-plugin-to-your-installation)
+- [2. Local development already prepared](#local-development-already-prepared) - if your local environment is already done
+    * [2.1 Start Stop](#startstop)
+- [3. How to Develop and install the OpenPix plugin](#how-to-develop-and-install)
+- [4. Common Errors](#common-errors)
 
 ## Installing the Magento2 Store
 The best way to go forward with Magento2 local development is by [docker-magento](https://github.com/markshust/docker-magento).
 
 ### 1. First step - creating magento account and access keys
-
 - go to Magento [Marketplace](https://marketplace.magento.com/) and sign in or create a new account
 - Log in and go to https://marketplace.magento.com/customer/accessKeys/ by clickin in `MyProfile`
   ![img.png](./docs/login.png)
