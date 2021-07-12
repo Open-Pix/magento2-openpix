@@ -125,10 +125,12 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
 
             $correlationID = $this->_helperData->uuid_v4();
 
+            $storeName = $this->getStoreName();
+
             $payload = [
                 'correlationID' => $correlationID,
                 'value' => $this->get_amount_openpix($grandTotal),
-                'comment' => $this->getStoreName(),
+                'comment' => substr($storeName, 0, 140),
             ];
 
             $this->_helperData->log('Payload ', self::LOG_NAME, $payload);
@@ -176,9 +178,19 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
                 $response
             );
 
-            $message = __('New Order placed, QrCode Pix generated and saved on OpenPix Platform');
-            $order->setState(\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT)
-                ->setStatus($order->getConfig()->getStateDefaultStatus(\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT))
+            $message = __(
+                'New Order placed, QrCode Pix generated and saved on OpenPix Platform'
+            );
+
+            $order
+                ->setState(\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT)
+                ->setStatus(
+                    $order
+                        ->getConfig()
+                        ->getStateDefaultStatus(
+                            \Magento\Sales\Model\Order::STATE_PENDING_PAYMENT
+                        )
+                )
                 ->addStatusHistoryComment($message->getText());
 
             $payment->setSkipOrderProcessing(true);
