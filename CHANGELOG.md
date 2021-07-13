@@ -1,3 +1,23 @@
+#### 1.0.8 (2021-07-13)
+
+##### Chores
+
+* **version:**
+  *  1.0.8 (9e7e7f33)
+  *  1.0.7 (065cb148)
+* **magento2:**  107 (e2f65d57)
+* **readme:**  table of content (a3874158)
+* **yarn:**  yarn (069ae4bf)
+
+##### New Features
+
+* **pack:**  improve pack command and readme (6e20a5d2)
+
+##### Bug Fixes
+
+* **pix:**  request variable (410e05ee)
+* **readme:**  how to release # (12677a91)
+
 #### 1.0.7 (2021-07-12)
 
 ##### Chores
