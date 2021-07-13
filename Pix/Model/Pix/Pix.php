@@ -268,8 +268,12 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
                 $this->messageManager->addErrorMessage(
                     __('Error creating Pix')
                 );
-                $this->messageManager->addErrorMessage($body);
-                throw new \Exception('Error creating Pix', 1);
+
+                $this->messageManager->addErrorMessage($responseBody);
+                throw new \Exception(
+                    'Error creating Pix status: ' . $statusCode,
+                    1
+                );
             }
 
             $this->_helperData->log(
