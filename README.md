@@ -11,6 +11,7 @@ OpenPix Magento2 Pix plugin.
     * [2.1 Start Stop](#startstop)
 - [3. How to Develop and install the OpenPix plugin](#how-to-develop-and-install)
 - [4. Common Errors](#common-errors)
+- [5. How To Release](#how-to-telease)
 
 ## Installing the Magento2 Store
 The best way to go forward with Magento2 local development is by [docker-magento](https://github.com/markshust/docker-magento).
@@ -122,3 +123,16 @@ sudo apachectl stop
 
 ### Your Magento authentication keys are invalid
 If you registered the wrong magento credentails, you can change then later on at ~/.composer/auth.json
+
+
+## How To Release
+To release a new version make sure that everything is okay
+
+### tests
+- test postman.json API calls
+- make at least one new charge and test the webhook call updating the status of it
+
+### release
+- run `yarn release:patch` to generate a new release on Github repo and bump the version on `package.json`;
+- run `yarn release:zip` to generate a new zip file with the new version;
+- upload it on Oracle Marketplace;

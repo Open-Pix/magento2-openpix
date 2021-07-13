@@ -47,6 +47,6 @@
     "release:major": "yarn es ./scripts/changelog --major",
     "release:minor": "yarn es ./scripts/changelog --minor",
     "release:patch": "yarn es ./scripts/changelog --patch",
-    "release:zip": "bash ./pack.sh 1.0.7"
+    "release:zip": "bash ./pack.sh"
   }
 }

@@ -1,2 +1,4 @@
 #!/usr/bin/env bash
-zip -r openpix_pix.$1.zip ./Pix/*
+VERSION=$(jq '.version' package.json -r)
+
+zip -r openpix_pix.${VERSION}.zip ./Pix/*
