@@ -11,7 +11,7 @@ OpenPix Magento2 Pix plugin.
     * [2.1 Start Stop](#startstop)
 - [3. How to Develop and install the OpenPix plugin](#how-to-develop-and-install)
 - [4. Common Errors](#common-errors)
-- [5. How To Release](#how-to-telease)
+- [5. How To Release](#how-to-release)
 
 ## Installing the Magento2 Store
 The best way to go forward with Magento2 local development is by [docker-magento](https://github.com/markshust/docker-magento).
