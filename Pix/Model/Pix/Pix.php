@@ -110,6 +110,105 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
         return $this;
     }
 
+    public function getCustomerGuestData($order)
+    {
+        $billing = $order->getBillingAddress();
+        $taxID = $order->getData('customer_taxvat');
+
+        $this->_helperData->log(
+            'taxID getCustomerGuestData',
+            self::LOG_NAME,
+            $taxID
+        );
+
+        if (!$taxID) {
+            return null;
+        }
+
+        $firstname = $billing->getCustomerFirstname();
+        $lastname = $billing->getCustomerLastname();
+        $email = $billing->getCustomerEmail();
+        $phone = $billing->getTelephone();
+
+        $this->_helperData->log('email ', self::LOG_NAME, $email);
+        $this->_helperData->log('firstname ', self::LOG_NAME, $firstname);
+        $this->_helperData->log('lastname ', self::LOG_NAME, $lastname);
+        $this->_helperData->log('phone ', self::LOG_NAME, $phone);
+
+        return [
+            'name' => $firstname . ' ' . $lastname,
+            'taxID' => $taxID,
+            'email' => $email,
+            'phone' => $phone,
+        ];
+    }
+
+    public function getCustomerData($order)
+    {
+        $isCustomerGuest = $order->getCustomerIsGuest();
+
+        if ($isCustomerGuest) {
+            $customerGuest = $this->getCustomerGuestData($order);
+            return $customerGuest;
+        }
+
+        $this->_helperData->log(
+            'isCustomerGuest ',
+            self::LOG_NAME,
+            $isCustomerGuest
+        );
+
+        $taxID = $order->getCustomerTaxvat();
+        $billing = $order->getBillingAddress();
+
+        $this->_helperData->log('taxID ', self::LOG_NAME, $taxID);
+
+        if (!$taxID) {
+            return null;
+        }
+
+        $email = $order->getCustomerEmail();
+        $firstname = $order->getCustomerFirstname();
+        $lastname = $order->getCustomerLastname();
+        $phone = $billing->getTelephone();
+
+        $this->_helperData->log('taxID ', self::LOG_NAME, $taxID);
+        $this->_helperData->log('email ', self::LOG_NAME, $email);
+        $this->_helperData->log('firstname ', self::LOG_NAME, $firstname);
+        $this->_helperData->log('lastname ', self::LOG_NAME, $lastname);
+        $this->_helperData->log('phone ', self::LOG_NAME, $phone);
+
+        return [
+            'name' => $firstname . ' ' . $lastname,
+            'taxID' => $taxID,
+            'email' => $email,
+            'phone' => $phone,
+        ];
+    }
+
+    public function getPayload($order, $correlationID)
+    {
+        $grandTotal = $order->getGrandTotal();
+
+        $storeName = $this->getStoreName();
+        $customer = $this->getCustomerData($order);
+
+        if (!$customer) {
+            return [
+                'correlationID' => $correlationID,
+                'value' => $this->get_amount_openpix($grandTotal),
+                'comment' => substr($storeName, 0, 140),
+            ];
+        }
+
+        return [
+            'correlationID' => $correlationID,
+            'value' => $this->get_amount_openpix($grandTotal),
+            'comment' => substr($storeName, 0, 140),
+            'customer' => $customer,
+        ];
+    }
+
     public function order(
         \Magento\Payment\Model\InfoInterface $payment,
         $amount
@@ -121,17 +220,9 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
             );
 
             $order = $payment->getOrder();
-            $grandTotal = $order->getGrandTotal();
-
             $correlationID = $this->_helperData->uuid_v4();
 
-            $storeName = $this->getStoreName();
-
-            $payload = [
-                'correlationID' => $correlationID,
-                'value' => $this->get_amount_openpix($grandTotal),
-                'comment' => substr($storeName, 0, 140),
-            ];
+            $payload = $this->getPayload($order, $correlationID);
 
             $this->_helperData->log('Payload ', self::LOG_NAME, $payload);
 
@@ -268,12 +359,8 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
                 $this->messageManager->addErrorMessage(
                     __('Error creating Pix')
                 );
-
                 $this->messageManager->addErrorMessage($responseBody);
-                throw new \Exception(
-                    'Error creating Pix status: ' . $statusCode,
-                    1
-                );
+                throw new \Exception('Error creating Pix', 1);
             }
 
             $this->_helperData->log(
