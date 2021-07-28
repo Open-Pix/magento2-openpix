@@ -1,3 +1,9 @@
+#### 1.0.10 (2021-07-28)
+
+##### Chores
+
+* **phone:**  improve format phone (c609e338)
+
 #### 1.0.9 (2021-07-28)
 
 ##### Chores
