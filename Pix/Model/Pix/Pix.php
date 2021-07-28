@@ -128,7 +128,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
             'name' => $firstname . ' ' . $lastname,
             'taxID' => $taxID,
             'email' => $email,
-            'phone' => $phone,
+            'phone' => $this->formatPhone($phone),
         ];
     }
 
@@ -157,7 +157,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
             'name' => $firstname . ' ' . $lastname,
             'taxID' => $taxID,
             'email' => $email,
-            'phone' => $phone,
+            'phone' => $this->formatPhone($phone),
         ];
     }
 
@@ -362,5 +362,14 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
             $data['additional_data']['cpfCnpj'] ?? null
         );
         return $this;
+    }
+
+    public function formatPhone($phone)
+    {
+        if (strlen($phone) > 11) {
+            return preg_replace('/^0|\D+/', '', $phone);
+        }
+
+        return '55' . preg_replace('/^0|\D+/', '', $phone);
     }
 }
