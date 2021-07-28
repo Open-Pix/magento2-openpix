@@ -124,7 +124,6 @@ class Data extends AbstractHelper
 
     public function getOpenPixApiUrl()
     {
-        return 'https://aecc4262215f.ngrok.io';
         if (self::OPENPIX_ENV === 'development') {
             return 'http://localhost:5001';
         }

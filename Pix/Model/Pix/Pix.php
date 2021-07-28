@@ -113,27 +113,16 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
     public function getCustomerGuestData($order)
     {
         $billing = $order->getBillingAddress();
-        $taxID = $order->getData('customer_taxvat');
-
-        $this->_helperData->log(
-            'taxID getCustomerGuestData',
-            self::LOG_NAME,
-            $taxID
-        );
+        $taxID = $billing->getVatId();
 
         if (!$taxID) {
             return null;
         }
 
-        $firstname = $billing->getCustomerFirstname();
-        $lastname = $billing->getCustomerLastname();
-        $email = $billing->getCustomerEmail();
+        $firstname = $billing->getFirstname();
+        $lastname = $billing->getLastname();
+        $email = $billing->getEmail();
         $phone = $billing->getTelephone();
-
-        $this->_helperData->log('email ', self::LOG_NAME, $email);
-        $this->_helperData->log('firstname ', self::LOG_NAME, $firstname);
-        $this->_helperData->log('lastname ', self::LOG_NAME, $lastname);
-        $this->_helperData->log('phone ', self::LOG_NAME, $phone);
 
         return [
             'name' => $firstname . ' ' . $lastname,
@@ -152,16 +141,8 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
             return $customerGuest;
         }
 
-        $this->_helperData->log(
-            'isCustomerGuest ',
-            self::LOG_NAME,
-            $isCustomerGuest
-        );
-
         $taxID = $order->getCustomerTaxvat();
         $billing = $order->getBillingAddress();
-
-        $this->_helperData->log('taxID ', self::LOG_NAME, $taxID);
 
         if (!$taxID) {
             return null;
@@ -171,12 +152,6 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
         $firstname = $order->getCustomerFirstname();
         $lastname = $order->getCustomerLastname();
         $phone = $billing->getTelephone();
-
-        $this->_helperData->log('taxID ', self::LOG_NAME, $taxID);
-        $this->_helperData->log('email ', self::LOG_NAME, $email);
-        $this->_helperData->log('firstname ', self::LOG_NAME, $firstname);
-        $this->_helperData->log('lastname ', self::LOG_NAME, $lastname);
-        $this->_helperData->log('phone ', self::LOG_NAME, $phone);
 
         return [
             'name' => $firstname . ' ' . $lastname,
