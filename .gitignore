@@ -67,3 +67,6 @@ woocommerce-openpix*.zip
 
 *pot~
 *po~
+
+*.zip
+*/*.zip
