@@ -1,3 +1,14 @@
+#### 1.0.9 (2021-07-28)
+
+##### Chores
+
+* **bump:**  109 (52f23835)
+
+##### New Features
+
+* **customer:**  handle as guest (49cb0516)
+* **pix:**  starting to save customer (89a629c0)
+
 #### 1.0.8 (2021-07-13)
 
 ##### Chores
