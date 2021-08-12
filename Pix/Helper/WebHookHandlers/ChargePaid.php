@@ -17,19 +17,20 @@ class ChargePaid
      */
     protected $invoiceRepository;
 
-
     const LOG_NAME = 'charge_paid';
 
     public function __construct(
         \Psr\Log\LoggerInterface $logger,
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
         \Magento\Sales\Api\InvoiceRepositoryInterface $invoiceRepository,
+        \Magento\Sales\Model\Order\Email\Sender\InvoiceSender $invoiceSender,
         Order $order,
         Data $_helperData
     ) {
         $this->logger = $logger;
         $this->orderRepository = $orderRepository;
         $this->invoiceRepository = $invoiceRepository;
+        $this->invoiceSender = $invoiceSender;
         $this->order = $order;
         $this->_helperData = $_helperData;
     }
@@ -48,32 +49,35 @@ class ChargePaid
         $this->_helperData->log('OpenPix::chargePaid Start', self::LOG_NAME);
 
         if (!($order = $this->order->getOrder($charge))) {
-            $this->_helperData->log('OpenPix::chargePaid Order Not Found', self::LOG_NAME);
-
-            $this->logger->error(
-                __(sprintf(
-                    'Order Not Found'
-                ))
+            $this->_helperData->log(
+                'OpenPix::chargePaid Order Not Found',
+                self::LOG_NAME
             );
 
-            return ["error" => "Order Not Found", "success" => null ];
+            $this->logger->error(__(sprintf('Order Not Found')));
+
+            return ['error' => 'Order Not Found', 'success' => null];
         }
 
         $hasEndToEndId = $this->hasEndToEndId($order);
 
-        if($hasEndToEndId) {
-            $this->_helperData->log('OpenPix::chargePaid Order Already Invoiced', self::LOG_NAME);
+        if ($hasEndToEndId) {
+            $this->_helperData->log(
+                'OpenPix::chargePaid Order Already Invoiced',
+                self::LOG_NAME
+            );
 
-            return ["error" => "Order Already Invoiced", "success" => null ];
+            return ['error' => 'Order Already Invoiced', 'success' => null];
         }
 
         return $this->createInvoice($order, $pix);
     }
 
-    public function hasEndToEndId(\Magento\Sales\Model\Order $order): bool {
-        $hasEndToEndId = $order->getData("openpix_endtoendid");
+    public function hasEndToEndId(\Magento\Sales\Model\Order $order): bool
+    {
+        $hasEndToEndId = $order->getData('openpix_endtoendid');
 
-        if(isset($hasEndToEndId)) {
+        if (isset($hasEndToEndId)) {
             return true;
         }
 
@@ -86,32 +90,76 @@ class ChargePaid
     public function createInvoice(\Magento\Sales\Model\Order $order, $pix)
     {
         if (!$order->getId()) {
-            return ["error" => "Order Not Found", "success" => null ];
+            return ['error' => 'Order Not Found', 'success' => null];
         }
 
         if (!$order->canInvoice()) {
-            $this->logger->error(__(sprintf('Impossible to generate invoice for order %s.', $order->getId())));
-            return ["error" => sprintf('Impossible to generate invoice for order %s.', $order->getId()), "success" => null ];
+            $this->logger->error(
+                __(
+                    sprintf(
+                        'Impossible to generate invoice for order %s.',
+                        $order->getId()
+                    )
+                )
+            );
+            return [
+                'error' => sprintf(
+                    'Impossible to generate invoice for order %s.',
+                    $order->getId()
+                ),
+                'success' => null,
+            ];
         }
 
-        $this->logger->info(__(sprintf('Generating invoice for the order %s.', $order->getId())));
+        $this->_helperData->log(
+            'Generating invoice for the order %s.',
+            $order->getId(),
+            self::LOG_NAME
+        );
+        $this->logger->info(
+            __(sprintf('Generating invoice for the order %s.', $order->getId()))
+        );
 
         $invoice = $order->prepareInvoice();
         $invoice->setRequestedCaptureCase(Invoice::CAPTURE_OFFLINE);
         $invoice->register();
         $invoice->setSendEmail(true);
+
         $this->invoiceRepository->save($invoice);
 
-        $order->setOpenpixEndtoendid($pix["endToEndId"]);
+        try {
+            $this->invoiceSender->send($invoice);
+        } catch (\Exception $e) {
+            $this->_helperData->log(
+                'We can\'t send the invoice email right now.',
+                self::LOG_NAME
+            );
+            $this->messageManager->addError(
+                __('We can\'t send the invoice email right now.')
+            );
+        }
 
+        $order->setOpenpixEndtoendid($pix['endToEndId']);
+
+        $this->_helperData->log('Invoice created with success', self::LOG_NAME);
         $this->logger->info(__('Invoice created with success'));
 
         $order->addStatusHistoryComment(
-            __('The payment was confirmed by OpenPix and the order is being processed')->getText(),
-            $order->getConfig()->getStateDefaultStatus(\Magento\Sales\Model\Order::STATE_PROCESSING)
+            __(
+                'The payment was confirmed by OpenPix and the order is being processed'
+            )->getText(),
+            $order
+                ->getConfig()
+                ->getStateDefaultStatus(
+                    \Magento\Sales\Model\Order::STATE_PROCESSING
+                )
         );
 
         $this->orderRepository->save($order);
-        return ["error" => null, "success" => "The payment was confirmed by OpenPix and the order is being processed" ];
+        return [
+            'error' => null,
+            'success' =>
+                'The payment was confirmed by OpenPix and the order is being processed',
+        ];
     }
 }
