@@ -4,7 +4,7 @@
         <script src="OpenPix_Pix::js/copytoclipboard.js"/>
     </head>
     <body>
-        <referenceContainer name="page.main.title">
+        <referenceContainer name="order.success.additional.info">
             <block class="OpenPix\Pix\Block\Checkout\Success" name="openpix.info.payment" template="OpenPix_Pix::checkout/success.phtml" after="-" />
         </referenceContainer>
     </body>
