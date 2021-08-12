@@ -1,3 +1,14 @@
+#### 1.0.11 (2021-08-12)
+
+##### Bug Fixes
+
+* **checkout:**  success block reference container (a702ef15)
+* **version:**  1010 (95319202)
+
+##### Other Changes
+
+* **version:**  1.0.11 (b648ab6e)
+
 #### 1.0.10 (2021-07-28)
 
 ##### Chores
