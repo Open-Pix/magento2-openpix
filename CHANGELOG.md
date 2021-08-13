@@ -1,3 +1,13 @@
+#### 1.0.12 (2021-08-13)
+
+##### Bug Fixes
+
+* **invoice:**  invoice email (5a549487)
+
+##### Other Changes
+
+* **version:**  1.0.12 (fe13b8df)
+
 #### 1.0.11 (2021-08-12)
 
 ##### Bug Fixes
