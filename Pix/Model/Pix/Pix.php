@@ -110,28 +110,52 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
         return $this;
     }
 
+    public function getTaxID($taxID)
+    {
+        $isValidCPF = $this->_helperData->validateCPF($taxID);
+        $isValidCNPJ = $this->_helperData->validateCNPJ($taxID);
+
+        if ($isValidCPF || $isValidCNPJ) {
+            return $taxID;
+        }
+
+        return null;
+    }
+
+    // get customer from billing
     public function getCustomerGuestData($order)
     {
         $billing = $order->getBillingAddress();
-        $taxID = $billing->getVatId();
 
-        if (!$taxID) {
-            return null;
-        }
+        $taxID = $billing->getVatId();
+        $taxIDSafe = $this->getTaxID($taxID);
 
         $firstname = $billing->getFirstname();
         $lastname = $billing->getLastname();
         $email = $billing->getEmail();
         $phone = $billing->getTelephone();
 
+        if (!$taxIDSafe && !$email && !$phone) {
+            return null;
+        }
+
+        if (!$taxIDSafe) {
+            return [
+                'name' => $firstname . ' ' . $lastname,
+                'email' => $email,
+                'phone' => $this->formatPhone($phone),
+            ];
+        }
+
         return [
             'name' => $firstname . ' ' . $lastname,
-            'taxID' => $taxID,
+            'taxID' => $taxIDSafe,
             'email' => $email,
             'phone' => $this->formatPhone($phone),
         ];
     }
 
+    // get customer guest or from order if logged in
     public function getCustomerData($order)
     {
         $isCustomerGuest = $order->getCustomerIsGuest();
@@ -142,20 +166,30 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
         }
 
         $taxID = $order->getCustomerTaxvat();
-        $billing = $order->getBillingAddress();
+        $taxIDSafe = $this->getTaxID($taxID);
 
-        if (!$taxID) {
-            return null;
-        }
+        $billing = $order->getBillingAddress();
 
         $email = $order->getCustomerEmail();
         $firstname = $order->getCustomerFirstname();
         $lastname = $order->getCustomerLastname();
         $phone = $billing->getTelephone();
 
+        if (!$taxIDSafe && !$email && !phone) {
+            return null;
+        }
+
+        if (!$taxIDSafe) {
+            return [
+                'name' => $firstname . ' ' . $lastname,
+                'email' => $email,
+                'phone' => $this->formatPhone($phone),
+            ];
+        }
+
         return [
             'name' => $firstname . ' ' . $lastname,
-            'taxID' => $taxID,
+            'taxID' => $taxIDSafe,
             'email' => $email,
             'phone' => $this->formatPhone($phone),
         ];

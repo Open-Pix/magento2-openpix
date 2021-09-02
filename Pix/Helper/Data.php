@@ -218,4 +218,70 @@ class Data extends AbstractHelper
 
         return $number;
     }
+
+    public function validateCPF($cpf)
+    {
+        if (empty($cpf)) {
+            return false;
+        }
+
+        $cpf = preg_replace('/[^0-9]/', '', $cpf);
+
+        if (strlen($cpf) != 11) {
+            return false;
+        }
+
+        if (preg_match('/(\d)\1{10}/', $cpf)) {
+            return false;
+        }
+
+        // Calculates the check digits to verify that the
+        // CPF is valid
+        for ($t = 9; $t < 11; $t++) {
+            for ($d = 0, $c = 0; $c < $t; $c++) {
+                $d += $cpf[$c] * ($t + 1 - $c);
+            }
+
+            $d = ((10 * $d) % 11) % 10;
+
+            if ($cpf[$c] != $d) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function validateCNPJ($cnpj)
+    {
+        if (empty($cnpj)) {
+            return false;
+        }
+
+        $cnpj = preg_replace('/[^0-9]/', '', $cnpj);
+
+        if (strlen($cnpj) != 14) {
+            return false;
+        }
+
+        if (preg_match('/(\d)\1{13}/', $cnpj)) {
+            return false;
+        }
+
+        $b = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+
+        for ($i = 0, $n = 0; $i < 12; $n += $cnpj[$i] * $b[++$i]);
+
+        if ($cnpj[12] != (($n %= 11) < 2 ? 0 : 11 - $n)) {
+            return false;
+        }
+
+        for ($i = 0, $n = 0; $i <= 12; $n += $cnpj[$i] * $b[$i++]);
+
+        if ($cnpj[13] != (($n %= 11) < 2 ? 0 : 11 - $n)) {
+            return false;
+        }
+
+        return true;
+    }
 }
