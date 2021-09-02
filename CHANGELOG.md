@@ -1,3 +1,13 @@
+#### 1.0.13 (2021-09-02)
+
+##### Chores
+
+* **bump:**  version 1.0.13 (6ace0228)
+
+##### New Features
+
+* **customer:**  valida and accept cpf cnpj if is null or invalid (2e58df05)
+
 #### 1.0.12 (2021-08-13)
 
 ##### Bug Fixes
