@@ -175,7 +175,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
         $lastname = $order->getCustomerLastname();
         $phone = $billing->getTelephone();
 
-        if (!$taxIDSafe && !$email && !phone) {
+        if (!$taxIDSafe && !$email && !$phone) {
             return null;
         }
 
@@ -229,6 +229,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
             );
 
             $order = $payment->getOrder();
+
             $correlationID = $this->_helperData->uuid_v4();
 
             $payload = $this->getPayload($order, $correlationID);
@@ -341,35 +342,39 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
                     'Accept: application/json',
                     'Authorization: ' . $app_ID,
                 ],
+                CURLOPT_VERBOSE => true
             ]);
 
             $response = curl_exec($curl);
+
             $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
             if (curl_errno($curl) || $response === false) {
                 $this->messageManager->addErrorMessage(
                     __('Error creating Pix')
                 );
-
+                $this->_helperData->log('Error creating pix', self::LOG_NAME,json_encode(curl_getinfo($curl),JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
                 curl_close($curl);
-                throw new \Exception('Error creating Pix', 1);
+                throw new \Exception("Erro ao criar Pix, tente novamente por favor", 1);
             }
 
             curl_close($curl);
 
             if ($statusCode === 401) {
                 $this->messageManager->addErrorMessage(__('Invalid AppID'));
-                throw new \Exception('Invalid AppID', 1);
+                $this->_helperData->log('Error creating pix', self::LOG_NAME,json_encode(curl_getinfo($curl),JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+                throw new \Exception('AppID Inválido', 1);
             }
 
             $responseBody = json_decode($response, true);
-
             if ($statusCode !== 200) {
                 $this->messageManager->addErrorMessage(
                     __('Error creating Pix')
                 );
                 $this->messageManager->addErrorMessage($responseBody);
-                throw new \Exception('Error creating Pix', 1);
+                $this->_helperData->log('Error creating pix', self::LOG_NAME,json_encode([$responseBody],JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+
+                throw new \Exception('Erro ao criar Pix, tente novamente por favor', 1);
             }
 
             $this->_helperData->log(
