@@ -35,7 +35,6 @@ class Webhook extends \Magento\Framework\App\Action\Action
     {
         $resultJson = $this->resultJsonFactory->create();
         $this->logger->debug(__(sprintf('Start webhook')));
-
         if (!$this->validateRequest()) {
             $ip = $this->webhookHandler->getRemoteIp();
 
@@ -81,4 +80,5 @@ class Webhook extends \Magento\Framework\App\Action\Action
 
         return $isAuthHeaderValid || $isAuthOpenPixHeaderValid || $isAuthQueryStringValid;
     }
+
 }
