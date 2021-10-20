@@ -68,34 +68,17 @@ class Webhook extends \Magento\Framework\App\Action\Action
      */
     private function validateRequest()
     {
-        $authorization = $this->getAuthorization();
-
         $systemWebhookAuthorization = $this->helperData->getWebhookAuthorization();
 
-        return $systemWebhookAuthorization === $authorization;
+        $webhookAuthHeader = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
+        $webhookAuthOpenPixHeader = $_SERVER['HTTP_X_OPENPIX_AUTHORIZATION'] ?? '';
+        $webhookAuthQueryString = $_GET['authorization'] ?? '';
+
+        $isAuthHeaderValid = $webhookAuthHeader === $systemWebhookAuthorization;
+        $isAuthOpenPixHeaderValid = $webhookAuthOpenPixHeader === $systemWebhookAuthorization;
+        $isAuthQueryStringValid = $webhookAuthQueryString === $systemWebhookAuthorization;
+
+        return $isAuthHeaderValid || $isAuthOpenPixHeaderValid || $isAuthQueryStringValid;
     }
 
-
-
-    public function getAuthorization()
-    {
-
-        if (array_key_exists('HTTP_AUTHORIZATION', $_SERVER)) {
-            return $_SERVER['HTTP_AUTHORIZATION'];
-        }
-
-        if (array_key_exists('Authorization', $_SERVER)) {
-            return $_SERVER['Authorization'];
-        }
-
-        if (array_key_exists('HTTP_X_OPENPIX_AUTHORIZATION', $_SERVER)) {
-            return $_SERVER['HTTP_X_OPENPIX_AUTHORIZATION'];
-        }
-
-        if (array_key_exists('authorization', $_GET)) {
-            return $_GET['authorization'];
-        }
-
-        return '';
-    }
 }
