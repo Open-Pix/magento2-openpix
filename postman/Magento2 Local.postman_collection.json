@@ -34,11 +34,9 @@
 							}
 						},
 						"url": {
-							"raw": "https://magento.test/openpix/index/webhook?authorization={{authorization}}",
-							"protocol": "https",
+							"raw": "{{baseUrl}}/openpix/index/webhook?authorization={{authorization}}",
 							"host": [
-								"magento",
-								"test"
+								"{{baseUrl}}"
 							],
 							"path": [
 								"openpix",
@@ -83,11 +81,9 @@
 							}
 						},
 						"url": {
-							"raw": "https://magento.test/openpix/index/webhook?authorization={{authorization}}",
-							"protocol": "https",
+							"raw": "{{baseUrl}}/openpix/index/webhook?authorization={{authorization}}",
 							"host": [
-								"magento",
-								"test"
+								"{{baseUrl}}"
 							],
 							"path": [
 								"openpix",
@@ -130,11 +126,9 @@
 							}
 						},
 						"url": {
-							"raw": "https://magento.test/openpix/index/webhook",
-							"protocol": "https",
+							"raw": "{{baseUrl}}/openpix/index/webhook",
 							"host": [
-								"magento",
-								"test"
+								"{{baseUrl}}"
 							],
 							"path": [
 								"openpix",
@@ -179,11 +173,9 @@
 							}
 						},
 						"url": {
-							"raw": "https://magento.test/openpix/index/webhook",
-							"protocol": "https",
+							"raw": "{{baseUrl}}/openpix/index/webhook",
 							"host": [
-								"magento",
-								"test"
+								"{{baseUrl}}"
 							],
 							"path": [
 								"openpix",
@@ -214,16 +206,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1/openpix/webhook/",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/openpix/index/webhook/",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{baseUrl}}"
 							],
 							"path": [
 								"openpix",
+								"index",
 								"webhook",
 								""
 							]
@@ -239,12 +228,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://store.magento.test/rest/V1/openpix-pix/version",
-					"protocol": "https",
+					"raw": "{{baseUrl}}/rest/V1/openpix-pix/version",
 					"host": [
-						"store",
-						"magento",
-						"test"
+						"{{baseUrl}}"
 					],
 					"path": [
 						"rest",
@@ -280,12 +266,9 @@
 					}
 				},
 				"url": {
-					"raw": "https://store2.magento.test/openpix/index/webhook",
-					"protocol": "https",
+					"raw": "{{baseUrl}}/openpix/index/webhook",
 					"host": [
-						"store2",
-						"magento",
-						"test"
+						"{{baseUrl}}"
 					],
 					"path": [
 						"openpix",
@@ -311,12 +294,9 @@
 					}
 				},
 				"url": {
-					"raw": "https://store2.magento.test/openpix/index/webhook",
-					"protocol": "https",
+					"raw": "{{baseUrl}}/openpix/index/webhook",
 					"host": [
-						"store2",
-						"magento",
-						"test"
+						"{{baseUrl}}"
 					],
 					"path": [
 						"openpix",
@@ -348,12 +328,9 @@
 					}
 				},
 				"url": {
-					"raw": "https://store.magento.test/openpix/index/webhook",
-					"protocol": "https",
+					"raw": "{{baseUrl}}/openpix/index/webhook",
 					"host": [
-						"store",
-						"magento",
-						"test"
+						"{{baseUrl}}"
 					],
 					"path": [
 						"openpix",
@@ -385,12 +362,9 @@
 					}
 				},
 				"url": {
-					"raw": "https://store.magento.test/openpix/index/webhook",
-					"protocol": "https",
+					"raw": "{{baseUrl}}/openpix/index/webhook",
 					"host": [
-						"store",
-						"magento",
-						"test"
+						"{{baseUrl}}"
 					],
 					"path": [
 						"openpix",
@@ -422,12 +396,9 @@
 					}
 				},
 				"url": {
-					"raw": "https://store.magento.test/openpix/index/webhook",
-					"protocol": "https",
+					"raw": "{{baseUrl}}/openpix/index/webhook",
 					"host": [
-						"store",
-						"magento",
-						"test"
+						"{{baseUrl}}"
 					],
 					"path": [
 						"openpix",
@@ -459,12 +430,9 @@
 					}
 				},
 				"url": {
-					"raw": "https://store.magento.test/openpix/index/webhook",
-					"protocol": "https",
+					"raw": "{{baseUrl}}/openpix/index/webhook",
 					"host": [
-						"store",
-						"magento",
-						"test"
+						"{{baseUrl}}"
 					],
 					"path": [
 						"openpix",
@@ -496,12 +464,9 @@
 					}
 				},
 				"url": {
-					"raw": "https://store.magento.test/openpix/index/webhook",
-					"protocol": "https",
+					"raw": "{{baseUrl}}/openpix/index/webhook",
 					"host": [
-						"store",
-						"magento",
-						"test"
+						"{{baseUrl}}"
 					],
 					"path": [
 						"openpix",
@@ -533,12 +498,9 @@
 					}
 				},
 				"url": {
-					"raw": "https://store.magento.test/openpix/index/webhook",
-					"protocol": "https",
+					"raw": "{{baseUrl}}/openpix/index/webhook",
 					"host": [
-						"store",
-						"magento",
-						"test"
+						"{{baseUrl}}"
 					],
 					"path": [
 						"openpix",
@@ -548,6 +510,12 @@
 				}
 			},
 			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://magento.test"
 		}
 	]
 }
