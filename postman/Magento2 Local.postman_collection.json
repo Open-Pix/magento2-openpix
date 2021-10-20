@@ -1,10 +1,238 @@
 {
 	"info": {
-		"_postman_id": "f3ff3476-620b-43ed-b229-e816cf7ff29a",
-		"name": "Magento Local",
+		"_postman_id": "7388b988-655e-4376-ad7b-5919b563d757",
+		"name": "Magento2 Local",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
+		{
+			"name": "Webhook Test Calls",
+			"item": [
+				{
+					"name": "POST Webhook Test with all authorization fields",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authorization}}",
+								"type": "text"
+							},
+							{
+								"key": "X-OpenPix-Authorization",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"evento\": \"teste_webhook\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://magento.test/openpix/index/webhook?authorization={{authorization}}",
+							"protocol": "https",
+							"host": [
+								"magento",
+								"test"
+							],
+							"path": [
+								"openpix",
+								"index",
+								"webhook"
+							],
+							"query": [
+								{
+									"key": "authorization",
+									"value": "{{authorization}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Webhook Test with authorization query string only",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authorization}}",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "X-OpenPix-Authorization",
+								"value": "{{authorization}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"evento\": \"teste_webhook\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://magento.test/openpix/index/webhook?authorization={{authorization}}",
+							"protocol": "https",
+							"host": [
+								"magento",
+								"test"
+							],
+							"path": [
+								"openpix",
+								"index",
+								"webhook"
+							],
+							"query": [
+								{
+									"key": "authorization",
+									"value": "{{authorization}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Webhook Test with x-openpix-authorization header only",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authorization}}",
+								"type": "text"
+							},
+							{
+								"key": "X-OpenPix-Authorization",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"evento\": \"teste_webhook\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://magento.test/openpix/index/webhook",
+							"protocol": "https",
+							"host": [
+								"magento",
+								"test"
+							],
+							"path": [
+								"openpix",
+								"index",
+								"webhook"
+							],
+							"query": [
+								{
+									"key": "authorization",
+									"value": "{{authorization}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Webhook Test with authorization header only",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authorization}}",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"evento\": \"teste_webhook\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://magento.test/openpix/index/webhook",
+							"protocol": "https",
+							"host": [
+								"magento",
+								"test"
+							],
+							"path": [
+								"openpix",
+								"index",
+								"webhook"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Webhook Validations Calls",
+			"item": [
+				{
+					"name": "POST Webhook Authorization Invalid",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"evento\": \"teste_webhook\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1/openpix/webhook/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"openpix",
+								"webhook",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
 		{
 			"name": "GET Version",
 			"request": {
