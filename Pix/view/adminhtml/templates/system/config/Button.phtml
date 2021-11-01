@@ -1,0 +1,26 @@
+<?php /* @var $block \OpenPix\Pix\Block\System\Config\Button */ ?>
+<script>
+    require([
+        'jquery',
+        'prototype'
+    ], function (jQuery) {
+        jQuery('#openpix_webhook_button').click(function () {
+            var params = {};
+            new Ajax.Request('<?php echo $block->getAjaxUrl() ?>', {
+                loaderArea:     false,
+                asynchronous:   true,
+                parameters:     params,
+                onComplete: function(transport) {
+                    if (transport.responseText.isJSON()) {
+                        var response = transport.responseText.evalJSON();
+                        console.log(response); // should return success:true
+                    }
+                }
+            });
+        });
+    });
+</script>
+<?php echo $block->getButtonHtml(); ?>
+<p>
+    <span id="custom_button_response_message"></span>
+</p>

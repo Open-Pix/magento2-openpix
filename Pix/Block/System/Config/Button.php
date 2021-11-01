@@ -5,7 +5,7 @@ use Magento\Backend\Block\Template\Context;
 use Magento\Framework\Data\Form\Element\AbstractElement;
 class Button extends Field
 {
-    protected $_template = 'OpenPix_Pix::system/config/button.phtml';
+    protected $_template = 'OpenPix_Pix::system/config/Button.phtml';
     public function __construct(Context $context, array $data = [])
     {
         parent::__construct($context, $data);
@@ -20,15 +20,15 @@ class Button extends Field
     {
         return $this->_toHtml();
     }
-    public function getCustomUrl()
+    public function getAjaxUrl()
     {
-        return $this->getUrl('router/controller/action');
+        return  $this->getUrl('openpix_pix/system_config/button');
     }
     public function getButtonHtml()
     {
         $button = $this->getLayout()
                         ->createBlock('Magento\Backend\Block\Widget\Button')
-                        ->setData(['id' => 'webhook_button', 'label' => __('Configure now with one click'),]);
+                        ->setData(['id' => 'openpix_webhook_button', 'label' => __('Configure now with one click'),]);
         return $button->toHtml();
     }
 }
