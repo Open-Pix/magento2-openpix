@@ -146,6 +146,14 @@ class Data extends AbstractHelper
         $storeScope = ScopeInterface::SCOPE_STORE;
         return $this->scopeConfig->getValue($path, $storeScope);
     }
+    public function getScopeConfig()
+    {
+        return ScopeInterface::SCOPE_STORE;
+    }
+    public function setConfig($variable,$value) {
+        $storeScope = ScopeInterface::SCOPE_STORE;
+        return $this->scopeConfig->setValue('payment/openpix_pix/'.$variable,$value,$storeScope);
+    }
 
     public function getAppID()
     {
