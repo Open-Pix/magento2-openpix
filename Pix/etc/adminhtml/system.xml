@@ -1,6 +1,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
         <section id="payment">
+            <resource>OpenPix_Pix::config</resource>
             <group id="openpix_configurations" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>OpenPix</label>
                 <include path="OpenPix_Pix::system/credentials.xml"/>
