@@ -16,6 +16,7 @@ use Magento\Framework\Serialize\SerializerInterface;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use OpenPix\Pix\Logger\Logger;
+use Magento\Framework\App\Config\Storage\WriterInterface;
 
 class Data extends AbstractHelper
 {
@@ -48,6 +49,7 @@ class Data extends AbstractHelper
      * @param Curl $curl ,
      * @param SerializerInterface $serializer ,
      * @param encryptor $encryptor
+     * @param WriterInterface $configWriter
      */
     public function __construct(
         StoreManagerInterface $storeManager,
@@ -60,7 +62,8 @@ class Data extends AbstractHelper
         Curl $curl,
         SerializerInterface $serializer,
         RemoteAddress $remoteAddress,
-        encryptor $encryptor
+        encryptor $encryptor,
+        WriterInterface $writerConfig
     ) {
         $this->storeManager = $storeManager;
         $this->_openpixLogger = $logger;
@@ -72,6 +75,7 @@ class Data extends AbstractHelper
         $this->serializer = $serializer;
         $this->remoteAddress = $remoteAddress;
         $this->_encryptor = $encryptor;
+        $this->_writerConfig = $writerConfig;
         parent::__construct($context);
     }
 
@@ -151,8 +155,10 @@ class Data extends AbstractHelper
         return ScopeInterface::SCOPE_STORE;
     }
     public function setConfig($variable,$value) {
+        $path = 'payment/openpix_pix/'.$variable;
+        $this->_configWriter->save($path, $value);
         $storeScope = ScopeInterface::SCOPE_STORE;
-        return $this->scopeConfig->setValue('payment/openpix_pix/'.$variable,$value,$storeScope);
+        return $this->_configWriter->setValue($path,$value,$storeScope);
     }
 
     public function getAppID()
