@@ -54,6 +54,14 @@ class Button extends Action {
         $newAuthorization = $this->_helperData::uuid_v4();
         $oldAuthorization = $this->_helperData->getWebhookAuthorization();
 
+        if(empty($appID)) {
+            $result->setData([
+                'success' => false,
+                'message' => 'OpenPix: You need to add appID before configuring webhook.'
+            ]);
+            return $result;
+        }
+
         $this->_helperData->setConfig('webhook_authorization', $newAuthorization);
 
         $responseGetWebhooks = $this->getWebhooksFromApi($apiUrl.'/api/openpix/v1/webhook',$appID, $webhookUrl);
@@ -96,8 +104,18 @@ class Button extends Action {
             $result->setData($this->handleError($responseCreateWebhook));
             return $result;
         }
-        $result = $this->resultJsonFactory->create();
-        $result->setData(['body'=>$responseCreateWebhook]);
+        $formatedBodyWebhook = [
+            'webhook_authorization' =>
+                $responseCreateWebhook['webhook']['authorization'],
+            'hmac_authorization' =>
+                $responseCreateWebhook['webhook']['hmacSecretKey'],
+            'webhook_status' => 'Configured',
+        ];
+        $result->setData([
+            'body' => $formatedBodyWebhook,
+            'success' => true,
+            'message' => 'OpenPix: Webhook configured.']
+        );
         if($responseCreateWebhook['webhook']['authorization']) {
             $this->_helperData->setConfig('webhook_authorization', $responseCreateWebhook['webhook']['authorization']);
         }
@@ -153,6 +171,8 @@ class Button extends Action {
         );
 
         $this->_curl->post($apiUrl, \json_encode($payload));
+        $this->_helperData->log('OpenPix: Try create new weebhook ',self::LOG_NAME,$this->_curl->getBody());
+
         $response = json_decode($this->_curl->getBody(),true);
         return $response;
     }
