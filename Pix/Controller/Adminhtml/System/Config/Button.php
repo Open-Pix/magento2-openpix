@@ -56,9 +56,40 @@ class Button extends Action {
 
         $this->_helperData->setConfig('webhook_authorization', $newAuthorization);
 
+        $responseGetWebhooks = $this->getWebhooksFromApi($apiUrl.'/api/openpix/v1/webhook',$appID, $webhookUrl);
+        $hasActiveWebhook = false;
+        foreach($responseGetWebhooks['webhooks'] as $webhook){
+            if($webhook['isActive']) {
+                $hasActiveWebhook =true;
+                break;
+            }
+        }
+        if($hasActiveWebhook){
+            if(isset($webhook['authorization'])) {
+                $this->_helperData->setConfig('webhook_authorization', $webhook['authorization']);
+            }
+            if(isset($webhook['hmacSecretKey'])) {
+                // $this->_helperData->setConfig('hmac_authorization', $webhook['hmacSecretKey']);
+            }
+            // $webhookStatus = __('Configured');
+            $webhookStatus = 'Configured';
+            // $this->_helperData->setConfig('webhook_status', $webhookStatus);
+            $result->setData([
+                'message' => 'OpenPix: Webhook already configured.',
+                'body' => [
+                    'webhook_authorization' =>
+                        $webhook['authorization'],
+                    'hmac_authorization' =>
+                        $webhook['hmacSecretKey'],
+                    'webhook_status' => $webhookStatus,
+                ],
+                'success' => true,
+            ]);
+            return $result;
+        }
         $payload = [
             'webhook' => [
-                'name' => 'WooCommerce-Webhook',
+                'name' => 'Magento-2-Webhook',
                 'url' => $webhookUrl,
                 'authorization' => $newAuthorization, // should be uuid
                 'isActive' => true,
@@ -91,6 +122,28 @@ class Button extends Action {
         $result = $this->resultJsonFactory->create();
         $result->setData(['body'=>$response]);
         return $result;
+    }
+    public function getWebhooksFromApi($apiGetUrl, $appID, $siteUrl) {
+        $this->_curl->setOptions(
+            [
+                CURLOPT_URL => "$apiGetUrl?url=$siteUrl" ,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_CUSTOMREQUEST => 'GET',
+                CURLOPT_HTTPHEADER => [
+                    'Content-Type: application/json',
+                    'Accept: application/json',
+                    'Authorization: ' . $appID,
+                ],
+                CURLOPT_VERBOSE => true
+            ]
+        );
+        $this->_curl->get($apiGetUrl);
+        $response = json_decode($this->_curl->getBody(),true);
+        return $response;
     }
 }
 
