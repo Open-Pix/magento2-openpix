@@ -6,11 +6,8 @@ use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\Framework\HTTP\Client\Curl;
-use Magento\Config\Model\ResourceModel\Config;
-use OpenPix\Pix\Helper\Data;
-use Magento\Framework\App\Config\MutableScopeConfigInterface;
 use Magento\Framework\UrlInterface;
-// use MutableScopeConfig
+use OpenPix\Pix\Helper\Data;
 
 
 class Button extends Action {
@@ -18,34 +15,32 @@ class Button extends Action {
      * @var JsonFactory
      */
     protected $resultJsonFactory;
-    protected $curl;
     protected $_helperData;
-    protected $config;
+    protected $_curl;
     protected $urlInterface;
-
     /**
      * @var Data
      */
 
     /**
-     * @param Context $context
-     * @param JsonFactory $resultJsonFactory
-     * @param Data $helper
+     * @param Context $context,
+     * @param JsonFactory $resultJsonFactory ,
+     * @param Data $_helperData ,
+     *
      */
     public function __construct(
         Context $context,
         JsonFactory $resultJsonFactory,
         Curl $curl,
-        Data $helper,
-        MutableScopeConfigInterface $config,
-        UrlInterface $urlInterface
+        UrlInterface $urlInterface,
+        Data $helper
+
     ) {
-        parent::__construct($context);
         $this->resultJsonFactory = $resultJsonFactory;
-        $this->curl = $curl;
         $this->_helperData = $helper;
-        $this->config = $config;
+        $this->_curl = $curl;
         $this->urlInterface = $urlInterface;
+        parent::__construct($context);
     }
 
     /**
@@ -56,17 +51,20 @@ class Button extends Action {
         $appID = $this->_helperData->getAppID();
         $apiUrl = $this->_helperData->getOpenPixApiUrl();
         $webhookUrl = $this->urlInterface->getBaseUrl() ."openpix/index/webhook";
-        // $authorization = $this->_helperData::uuid_v4(); // to use this, i should update the webhook_authorization first
-        $authorization = $this->_helperData->getWebhookAuthorization();
+        $newAuthorization = $this->_helperData::uuid_v4();
+        $oldAuthorization = $this->_helperData->getWebhookAuthorization();
+
+        $this->_helperData->setConfig('webhook_authorization', $newAuthorization);
+
         $payload = [
             'webhook' => [
                 'name' => 'WooCommerce-Webhook',
                 'url' => $webhookUrl,
-                'authorization' => $authorization, // should be uuid
+                'authorization' => $newAuthorization, // should be uuid
                 'isActive' => true,
             ],
         ];
-        $this->curl->setOptions(
+        $this->_curl->setOptions(
             [
                 CURLOPT_URL => $apiUrl . '/api/openpix/v1/webhook',
                 CURLOPT_RETURNTRANSFER => true,
@@ -84,9 +82,14 @@ class Button extends Action {
             ]
         );
 
-        $this->curl->post($apiUrl."/api/openpix/v1/webhook", \json_encode($payload));
+        $this->_curl->post($apiUrl."/api/openpix/v1/webhook", \json_encode($payload));
 
-        $result->setData(['body'=>\json_decode($this->curl->getBody())]);
+        $response = json_decode($this->_curl->getBody(),true);
+        if($response['webhook']['authorization']) {
+            $this->_helperData->setConfig('webhook_authorization', $response['webhook']['authorization']);
+        }
+        $result = $this->resultJsonFactory->create();
+        $result->setData(['body'=>$response]);
         return $result;
     }
 }
