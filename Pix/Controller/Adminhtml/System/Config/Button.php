@@ -90,8 +90,12 @@ class Button extends Action {
         $responseCreateWebhook = $this->createNewWebhok($apiUrl.'/api/openpix/v1/webhook',$appID, $webhookUrl, $newAuthorization);
 
         if(isset($responseCreateWebhook['error']) || isset($responseCreateWebhook['errors'])) {
+            // roolback of oldSettings
+            $this->_helperData->setConfig('webhook_authorization', $oldAuthorization);
             $errorFromApi =
             $responseCreateWebhook['error'] ?? $responseCreateWebhook['errors'][0]['message'];
+
+            $this->_helperData->log('OpenPix: Error while creating one-click webhook: '.$errorFromApi,'openpix',$responseCreateWebhook);
 
             $result->setData([
                 'message' => "OpenPix: Webhook not configured. \n $errorFromApi",
