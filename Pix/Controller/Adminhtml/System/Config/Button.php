@@ -87,40 +87,30 @@ class Button extends Action {
             ]);
             return $result;
         }
-        $payload = [
-            'webhook' => [
-                'name' => 'Magento-2-Webhook',
-                'url' => $webhookUrl,
-                'authorization' => $newAuthorization, // should be uuid
-                'isActive' => true,
-            ],
-        ];
-        $this->_curl->setOptions(
-            [
-                CURLOPT_URL => $apiUrl . '/api/openpix/v1/webhook',
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 30,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_HTTPHEADER => [
-                    'Content-Type: application/json',
-                    'Accept: application/json',
-                    'Authorization: ' . $appID,
+        $responseCreateWebhook = $this->createNewWebhok($apiUrl.'/api/openpix/v1/webhook',$appID, $webhookUrl, $newAuthorization);
+
+        if(isset($responseCreateWebhook['error']) || isset($responseCreateWebhook['errors'])) {
+            $errorFromApi =
+            $responseCreateWebhook['error'] ?? $responseCreateWebhook['errors'][0]['message'];
+
+            $result->setData([
+                'message' => "OpenPix: Webhook not configured. \n $errorFromApi",
+                'body' => [
+                    'webhook_authorization' =>
+                        $oldAuthorization,
+                    'hmac_authorization' =>
+                        $oldAuthorization,
+                    'webhook_status' => 'Not configured',
                 ],
-                CURLOPT_VERBOSE => true
-            ]
-        );
-
-        $this->_curl->post($apiUrl."/api/openpix/v1/webhook", \json_encode($payload));
-
-        $response = json_decode($this->_curl->getBody(),true);
-        if($response['webhook']['authorization']) {
-            $this->_helperData->setConfig('webhook_authorization', $response['webhook']['authorization']);
+                'success' => false,
+            ]);
+            return $result;
         }
         $result = $this->resultJsonFactory->create();
-        $result->setData(['body'=>$response]);
+        $result->setData(['body'=>$responseCreateWebhook]);
+        if($responseCreateWebhook['webhook']['authorization']) {
+            $this->_helperData->setConfig('webhook_authorization', $responseCreateWebhook['webhook']['authorization']);
+        }
         return $result;
     }
     public function getWebhooksFromApi($apiGetUrl, $appID, $siteUrl) {
@@ -142,6 +132,37 @@ class Button extends Action {
             ]
         );
         $this->_curl->get($apiGetUrl);
+        $response = json_decode($this->_curl->getBody(),true);
+        return $response;
+    }
+    public function createNewWebhok($apiUrl, $appID, $webhookUrl,$newAuthorization) {
+        $payload = [
+            'webhook' => [
+                'name' => 'Magento-2-Webhook',
+                'url' => $webhookUrl,
+                'authorization' => $newAuthorization, // should be uuid
+                'isActive' => true,
+            ],
+        ];
+        $this->_curl->setOptions(
+            [
+                CURLOPT_URL => $apiUrl,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_HTTPHEADER => [
+                    'Content-Type: application/json',
+                    'Accept: application/json',
+                    'Authorization: ' . $appID,
+                ],
+                CURLOPT_VERBOSE => true
+            ]
+        );
+
+        $this->_curl->post($apiUrl, \json_encode($payload));
         $response = json_decode($this->_curl->getBody(),true);
         return $response;
     }
