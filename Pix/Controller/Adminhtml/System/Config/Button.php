@@ -34,7 +34,6 @@ class Button extends Action {
         Curl $curl,
         UrlInterface $urlInterface,
         Data $helper
-
     ) {
         $this->resultJsonFactory = $resultJsonFactory;
         $this->_helperData = $helper;
@@ -42,6 +41,7 @@ class Button extends Action {
         $this->urlInterface = $urlInterface;
         parent::__construct($context);
     }
+    const LOG_NAME = 'webhook_configuration';
 
     /**
      * @return \Magento\Framework\Controller\Result\Json
@@ -92,22 +92,8 @@ class Button extends Action {
         if(isset($responseCreateWebhook['error']) || isset($responseCreateWebhook['errors'])) {
             // roolback of oldSettings
             $this->_helperData->setConfig('webhook_authorization', $oldAuthorization);
-            $errorFromApi =
-            $responseCreateWebhook['error'] ?? $responseCreateWebhook['errors'][0]['message'];
 
-            $this->_helperData->log('OpenPix: Error while creating one-click webhook: '.$errorFromApi,'openpix',$responseCreateWebhook);
-
-            $result->setData([
-                'message' => "OpenPix: Webhook not configured. \n $errorFromApi",
-                'body' => [
-                    'webhook_authorization' =>
-                        $oldAuthorization,
-                    'hmac_authorization' =>
-                        $oldAuthorization,
-                    'webhook_status' => 'Not configured',
-                ],
-                'success' => false,
-            ]);
+            $result->setData($this->handleError($responseCreateWebhook));
             return $result;
         }
         $result = $this->resultJsonFactory->create();
@@ -169,6 +155,17 @@ class Button extends Action {
         $this->_curl->post($apiUrl, \json_encode($payload));
         $response = json_decode($this->_curl->getBody(),true);
         return $response;
+    }
+    public function handleError($responseBody) {
+        $errorFromApi =
+            $responseBody['error'] ?? $responseBody['errors'][0]['message'];
+
+        $this->_helperData->log('OpenPix: Error while creating one-click webhook: '.$errorFromApi,self::LOG_NAME,$responseBody['error'] ?? $responseBody['errors']);
+
+        return [
+            'message' => "OpenPix: Error while creating one-click webhook. \n $errorFromApi",
+            'success' => false,
+        ];
     }
 }
 
