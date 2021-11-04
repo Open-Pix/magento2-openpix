@@ -156,9 +156,8 @@ class Data extends AbstractHelper
     }
     public function setConfig($variable,$value) {
         $path = 'payment/openpix_pix/'.$variable;
-        $this->_configWriter->save($path, $value);
         $storeScope = ScopeInterface::SCOPE_STORE;
-        return $this->_configWriter->setValue($path,$value,$storeScope);
+        return $this->_writerConfig->save($path,$value);
     }
 
     public function getAppID()
