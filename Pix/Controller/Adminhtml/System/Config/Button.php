@@ -65,10 +65,12 @@ class Button extends Action {
         $responseGetWebhooks = $this->getWebhooksFromApi($apiUrl.'/api/openpix/v1/webhook',$appID, $webhookUrl);
 
         $hasActiveWebhook = false;
-        foreach($responseGetWebhooks['webhooks'] as $webhook){
-            if($webhook['isActive']) {
-                $hasActiveWebhook =true;
-                break;
+        if(isset($responseGetWebhooks['webhooks'])) {
+            foreach($responseGetWebhooks['webhooks'] as $webhook){
+                if($webhook['isActive']) {
+                    $hasActiveWebhook =true;
+                    break;
+                }
             }
         }
 
@@ -86,13 +88,15 @@ class Button extends Action {
             $result->setData($this->handleError($responseCreateWebhook));
             return $result;
         }
-
         if(isset($responseCreateWebhook['webhook'])) {
             $responseCreateWebhook = $this->returnCreateWebhookPayload($responseCreateWebhook);
             $result->setData($responseCreateWebhook);
             return $result;
         }
-
+         $result->setData([
+            'success' => false,
+            'message' => 'OpenPix: Something went wrong.'
+        ]);
         $this->_helperData->log("OpenPix: User doesn't have connection with api ",self::LOG_NAME,['app_ID'=>$appID, 'webhookUrl'=>$webhookUrl, 'apiUrl'=>$apiUrl]);
         return $result;
     }

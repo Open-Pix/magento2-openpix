@@ -19,7 +19,6 @@
                 onComplete: function(transport) {
                     if (transport.responseText.isJSON()) {
                         var response = transport.responseText.evalJSON();
-                        console.log(response);
                         if(response?.success) {
                             if(response?.body?.webhook_authorization) {
                                 jQuery("#payment_us_openpix_configurations_openpix_credentials_webhook_authorization").val(response.body.webhook_authorization);
