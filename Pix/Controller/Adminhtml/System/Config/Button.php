@@ -66,10 +66,12 @@ class Button extends Action {
 
         $responseGetWebhooks = $this->getWebhooksFromApi($apiUrl.'/api/openpix/v1/webhook',$appID, $webhookUrl);
         $hasActiveWebhook = false;
-        foreach($responseGetWebhooks['webhooks'] as $webhook){
-            if($webhook['isActive']) {
-                $hasActiveWebhook =true;
-                break;
+        if(isset($responseGetWebhooks['webhooks'])) {
+            foreach($responseGetWebhooks['webhooks'] as $webhook){
+                if($webhook['isActive']) {
+                    $hasActiveWebhook =true;
+                    break;
+                }
             }
         }
         if($hasActiveWebhook){
@@ -104,21 +106,29 @@ class Button extends Action {
             $result->setData($this->handleError($responseCreateWebhook));
             return $result;
         }
-        $formatedBodyWebhook = [
-            'webhook_authorization' =>
-                $responseCreateWebhook['webhook']['authorization'],
-            'hmac_authorization' =>
-                $responseCreateWebhook['webhook']['hmacSecretKey'],
-            'webhook_status' => 'Configured',
-        ];
-        $result->setData([
-            'body' => $formatedBodyWebhook,
-            'success' => true,
-            'message' => 'OpenPix: Webhook configured.']
-        );
-        if($responseCreateWebhook['webhook']['authorization']) {
-            $this->_helperData->setConfig('webhook_authorization', $responseCreateWebhook['webhook']['authorization']);
+        if(isset($responseCreateWebhook['webhook'])) {
+            $formatedBodyWebhook = [
+                'webhook_authorization' =>
+                    $responseCreateWebhook['webhook']['authorization'],
+                'hmac_authorization' =>
+                    $responseCreateWebhook['webhook']['hmacSecretKey'],
+                'webhook_status' => 'Configured',
+            ];
+            $result->setData([
+                'body' => $formatedBodyWebhook,
+                'success' => true,
+                'message' => 'OpenPix: Webhook configured.']
+            );
+            if($responseCreateWebhook['webhook']['authorization']) {
+                $this->_helperData->setConfig('webhook_authorization', $responseCreateWebhook['webhook']['authorization']);
+            }
+            return $result;
         }
+        $this->_helperData->log("OpenPix: User doesn't have connection with api ",self::LOG_NAME,['app_ID'=>$appID, 'webhookUrl'=>$webhookUrl, 'apiUrl'=>$apiUrl]);
+        $result->setData([
+            'success' => false,
+            'message' => 'OpenPix: Something went wrong.'
+        ]);
         return $result;
     }
     public function getWebhooksFromApi($apiGetUrl, $appID, $siteUrl) {
