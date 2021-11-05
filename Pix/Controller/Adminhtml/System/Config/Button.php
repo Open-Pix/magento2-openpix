@@ -9,7 +9,6 @@ use Magento\Framework\HTTP\Client\Curl;
 use Magento\Framework\UrlInterface;
 use OpenPix\Pix\Helper\Data;
 
-
 class Button extends Action {
     /**
      * @var JsonFactory
@@ -48,12 +47,11 @@ class Button extends Action {
      */
     public function execute() {
         $result = $this->resultJsonFactory->create();
-        $appID = $this->_helperData->getAppID();
+        $appID = $this->getAppId();
         $apiUrl = $this->_helperData->getOpenPixApiUrl();
         $webhookUrl = $this->urlInterface->getBaseUrl() ."openpix/index/webhook";
         $newAuthorization = $this->_helperData::uuid_v4();
         $oldAuthorization = $this->_helperData->getWebhookAuthorization();
-
         if(empty($appID)) {
             $result->setData([
                 'success' => false,
@@ -65,6 +63,7 @@ class Button extends Action {
         $this->_helperData->setConfig('webhook_authorization', $newAuthorization);
 
         $responseGetWebhooks = $this->getWebhooksFromApi($apiUrl.'/api/openpix/v1/webhook',$appID, $webhookUrl);
+
         $hasActiveWebhook = false;
         foreach($responseGetWebhooks['webhooks'] as $webhook){
             if($webhook['isActive']) {
@@ -72,53 +71,29 @@ class Button extends Action {
                 break;
             }
         }
+
         if($hasActiveWebhook){
-            if(isset($webhook['authorization'])) {
-                $this->_helperData->setConfig('webhook_authorization', $webhook['authorization']);
-            }
-            if(isset($webhook['hmacSecretKey'])) {
-                // $this->_helperData->setConfig('hmac_authorization', $webhook['hmacSecretKey']);
-            }
-            // $webhookStatus = __('Configured');
-            $webhookStatus = 'Configured';
-            // $this->_helperData->setConfig('webhook_status', $webhookStatus);
-            $result->setData([
-                'message' => 'OpenPix: Webhook already configured.',
-                'body' => [
-                    'webhook_authorization' =>
-                        $webhook['authorization'],
-                    'hmac_authorization' =>
-                        $webhook['hmacSecretKey'],
-                    'webhook_status' => $webhookStatus,
-                ],
-                'success' => true,
-            ]);
+            $hasActiveWebhookPayload = $this->returnHasActiveWebhookPayload($webhook);
+            $result->setData($hasActiveWebhookPayload);
             return $result;
         }
+
         $responseCreateWebhook = $this->createNewWebhok($apiUrl.'/api/openpix/v1/webhook',$appID, $webhookUrl, $newAuthorization);
 
         if(isset($responseCreateWebhook['error']) || isset($responseCreateWebhook['errors'])) {
             // roolback of oldSettings
             $this->_helperData->setConfig('webhook_authorization', $oldAuthorization);
-
             $result->setData($this->handleError($responseCreateWebhook));
             return $result;
         }
-        $formatedBodyWebhook = [
-            'webhook_authorization' =>
-                $responseCreateWebhook['webhook']['authorization'],
-            'hmac_authorization' =>
-                $responseCreateWebhook['webhook']['hmacSecretKey'],
-            'webhook_status' => 'Configured',
-        ];
-        $result->setData([
-            'body' => $formatedBodyWebhook,
-            'success' => true,
-            'message' => 'OpenPix: Webhook configured.']
-        );
-        if($responseCreateWebhook['webhook']['authorization']) {
-            $this->_helperData->setConfig('webhook_authorization', $responseCreateWebhook['webhook']['authorization']);
+
+        if(isset($responseCreateWebhook['webhook'])) {
+            $responseCreateWebhook = $this->returnCreateWebhookPayload($responseCreateWebhook);
+            $result->setData($responseCreateWebhook);
+            return $result;
         }
+
+        $this->_helperData->log("OpenPix: User doesn't have connection with api ",self::LOG_NAME,['app_ID'=>$appID, 'webhookUrl'=>$webhookUrl, 'apiUrl'=>$apiUrl]);
         return $result;
     }
     public function getWebhooksFromApi($apiGetUrl, $appID, $siteUrl) {
@@ -186,6 +161,60 @@ class Button extends Action {
             'message' => "OpenPix: Error while creating one-click webhook. \n $errorFromApi",
             'success' => false,
         ];
+    }
+    public function returnHasActiveWebhookPayload($webhook) {
+        if(isset($webhook['authorization'])) {
+            $this->_helperData->setConfig('webhook_authorization', $webhook['authorization']);
+        }
+        if(isset($webhook['hmacSecretKey'])) {
+            $this->_helperData->setConfig('hmac_authorization', $webhook['hmacSecretKey']);
+        }
+        $this->_helperData->setConfig('webhook_status', 'Configured');
+        $result = [
+            'message' => 'OpenPix: Webhook already configured.',
+            'body' => [
+                'webhook_authorization' =>
+                    $webhook['authorization'],
+                'hmac_authorization' =>
+                    $webhook['hmacSecretKey'],
+                'webhook_status' => 'Configured',
+            ],
+            'success' => true,
+        ];
+        return $result;
+    }
+    public function returnCreateWebhookPayload($responseCreateWebhook) {
+        $formatedBodyWebhook = [
+            'webhook_authorization' =>
+                $responseCreateWebhook['webhook']['authorization'],
+            'hmac_authorization' =>
+                $responseCreateWebhook['webhook']['hmacSecretKey'],
+            'webhook_status' => 'Configured',
+        ];
+        if($responseCreateWebhook['webhook']['authorization']) {
+            $this->_helperData->setConfig('webhook_authorization', $responseCreateWebhook['webhook']['authorization']);
+        }
+        $result = [
+            'body' => $formatedBodyWebhook,
+            'success' => true,
+            'message' => 'OpenPix: Webhook configured.'
+        ];
+        return $result;
+    }
+    public function getAppId() {
+        $appID = trim($_POST['app_ID']) ?? '';
+        if (
+            empty($appID) &&
+            !empty($this->_helperData->getAppID())
+        ) {
+            $appID = trim($_POST['app_ID']);
+            $this->_helperData->setConfig('app_ID', $appID);
+        }
+        if(!$appID) {
+            $this->_helperData->log('OpenPix: Cannot get app_ID of user',self::LOG_NAME);
+            return false;
+        }
+        return $appID;
     }
 }
 
