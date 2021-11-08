@@ -198,15 +198,23 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
     public function getPayload($order, $correlationID)
     {
         $grandTotal = $order->getGrandTotal();
-
         $storeName = $this->getStoreName();
         $customer = $this->getCustomerData($order);
 
+        $orderId = $order->getIncrementId();
+
+        $additionalInfo = [
+            [
+                'key' => __('Pedido'),
+                'value' => $orderId,
+            ]
+        ];
         if (!$customer) {
             return [
                 'correlationID' => $correlationID,
                 'value' => $this->get_amount_openpix($grandTotal),
                 'comment' => substr($storeName, 0, 140),
+                'additionalInfo' => $additionalInfo
             ];
         }
 
@@ -215,6 +223,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
             'value' => $this->get_amount_openpix($grandTotal),
             'comment' => substr($storeName, 0, 140),
             'customer' => $customer,
+            'additionalInfo' => $additionalInfo
         ];
     }
 
