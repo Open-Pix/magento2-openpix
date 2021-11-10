@@ -84,8 +84,9 @@ class Button extends Action {
 
         if(isset($responseCreateWebhook['error']) || isset($responseCreateWebhook['errors'])) {
             // roolback of oldSettings
+            $result->setData($this->handleError($responseCreateWebhook,['oldAuth' => $oldAuthorization, 'newAuth' => $newAuthorization, "actualAuth"=> $this->_helperData->getWebhookAuthorization()]));
             $this->_helperData->setConfig('webhook_authorization', $oldAuthorization);
-            $result->setData($this->handleError($responseCreateWebhook));
+
             return $result;
         }
         if(isset($responseCreateWebhook['webhook'])) {
@@ -155,12 +156,13 @@ class Button extends Action {
         $response = json_decode($this->_curl->getBody(),true);
         return $response;
     }
-    public function handleError($responseBody) {
+    public function handleError($responseBody, $additionalLogs = []) {
         $errorFromApi =
             $responseBody['error'] ?? $responseBody['errors'][0]['message'];
 
-        $this->_helperData->log('OpenPix: Error while creating one-click webhook: '.$errorFromApi,self::LOG_NAME,$responseBody['error'] ?? $responseBody['errors']);
-
+        $message = 'OpenPix: Error while creating one-click webhook.';
+        $errorResponse = $responseBody['error'] ?? $responseBody['error'];
+        $this->_helperData->log($message,self::LOG_NAME,[$errorResponse,$additionalLogs]);
         return [
             'message' => "OpenPix: Error while creating one-click webhook. \n $errorFromApi",
             'success' => false,
