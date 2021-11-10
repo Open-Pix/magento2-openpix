@@ -17,6 +17,7 @@ use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use OpenPix\Pix\Logger\Logger;
 use Magento\Framework\App\Config\Storage\WriterInterface;
+use Magento\Framework\App\Cache\TypeListInterface;
 
 class Data extends AbstractHelper
 {
@@ -63,7 +64,8 @@ class Data extends AbstractHelper
         SerializerInterface $serializer,
         RemoteAddress $remoteAddress,
         encryptor $encryptor,
-        WriterInterface $writerConfig
+        WriterInterface $writerConfig,
+        TypeListInterface $cacheTypeList
     ) {
         $this->storeManager = $storeManager;
         $this->_openpixLogger = $logger;
@@ -76,6 +78,7 @@ class Data extends AbstractHelper
         $this->remoteAddress = $remoteAddress;
         $this->_encryptor = $encryptor;
         $this->_writerConfig = $writerConfig;
+        $this->cacheTypeList = $cacheTypeList;
         parent::__construct($context);
     }
 
@@ -147,6 +150,7 @@ class Data extends AbstractHelper
 
     public function getConfig($path)
     {
+        $this->clearCache();
         $storeScope = ScopeInterface::SCOPE_STORE;
         return $this->scopeConfig->getValue($path, $storeScope);
     }
@@ -155,11 +159,16 @@ class Data extends AbstractHelper
         return ScopeInterface::SCOPE_STORE;
     }
     public function setConfig($variable,$value) {
+        $this->clearCache();
         $path = 'payment/openpix_pix/'.$variable;
-        $storeScope = ScopeInterface::SCOPE_STORE;
         return $this->_writerConfig->save($path,$value);
     }
-
+    public function clearCache() {
+        $this->cacheTypeList
+            ->cleanType(\Magento\Framework\App\Cache\Type\Config::TYPE_IDENTIFIER);
+        $this->cacheTypeList
+            ->cleanType(\Magento\PageCache\Model\Cache\Type::TYPE_IDENTIFIER);
+    }
     public function getAppID()
     {
         return $this->getConfig('payment/openpix_pix/app_ID');
