@@ -161,7 +161,7 @@ class Button extends Action {
             $responseBody['error'] ?? $responseBody['errors'][0]['message'];
 
         $message = 'OpenPix: Error while creating one-click webhook.';
-        $errorResponse = $responseBody['error'] ?? $responseBody['error'];
+        $errorResponse = $responseBody['error'] ?? $responseBody['errors'][0]['message'];
         $this->_helperData->log($message,self::LOG_NAME,[$errorResponse,$additionalLogs]);
         return [
             'message' => "OpenPix: Error while creating one-click webhook. \n $errorFromApi",
