@@ -72,7 +72,7 @@ class Webhook extends \Magento\Framework\App\Action\Action
 
         $webhookAuthHeader = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
         $webhookAuthOpenPixHeader = $_SERVER['HTTP_X_OPENPIX_AUTHORIZATION'] ?? '';
-        $webhookAuthQueryString = $_GET['authorization'] ?? '';
+        $webhookAuthQueryString = $this->getRequest()->getParam('authorization') ?? '';
 
         $isAuthHeaderValid = $webhookAuthHeader === $systemWebhookAuthorization;
         $isAuthOpenPixHeaderValid = $webhookAuthOpenPixHeader === $systemWebhookAuthorization;

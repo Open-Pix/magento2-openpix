@@ -51,7 +51,7 @@ class Button extends Action {
         $apiUrl = $this->_helperData->getOpenPixApiUrl();
         $webhookUrl = $this->urlInterface->getBaseUrl() ."openpix/index/webhook";
         $newAuthorization = $this->_helperData::uuid_v4();
-        $oldAuthorization = $this->_helperData->getWebhookAuthorization();
+        $oldAuthorization = $this->_helperData->getWebhookAuthorization(true);
         if(empty($appID)) {
             $result->setData([
                 'success' => false,
@@ -60,7 +60,7 @@ class Button extends Action {
             return $result;
         }
 
-        $this->_helperData->setConfig('webhook_authorization', $newAuthorization);
+        $this->_helperData->setConfig('webhook_authorization', $newAuthorization,true);
 
         $responseGetWebhooks = $this->getWebhooksFromApi($apiUrl.'/api/openpix/v1/webhook',$appID, $webhookUrl);
 
@@ -84,8 +84,8 @@ class Button extends Action {
 
         if(isset($responseCreateWebhook['error']) || isset($responseCreateWebhook['errors'])) {
             // roolback of oldSettings
-            $result->setData($this->handleError($responseCreateWebhook,['oldAuth' => $oldAuthorization, 'newAuth' => $newAuthorization, "actualAuth"=> $this->_helperData->getWebhookAuthorization()]));
-            $this->_helperData->setConfig('webhook_authorization', $oldAuthorization);
+            $result->setData($this->handleError($responseCreateWebhook,['oldAuth' => $oldAuthorization, 'newAuth' => $newAuthorization, "actualAuth"=> $this->_helperData->getWebhookAuthorization(true)]));
+            $this->_helperData->setConfig('webhook_authorization', $oldAuthorization, true);
 
             return $result;
         }
@@ -170,7 +170,7 @@ class Button extends Action {
     }
     public function returnHasActiveWebhookPayload($webhook) {
         if(isset($webhook['authorization'])) {
-            $this->_helperData->setConfig('webhook_authorization', $webhook['authorization']);
+            $this->_helperData->setConfig('webhook_authorization', $webhook['authorization'],true);
         }
         if(isset($webhook['hmacSecretKey'])) {
             $this->_helperData->setConfig('hmac_authorization', $webhook['hmacSecretKey']);
@@ -208,12 +208,13 @@ class Button extends Action {
         return $result;
     }
     public function getAppId() {
-        $appID = trim($_POST['app_ID']) ?? '';
+        $appID = trim($this->getRequest()->getParam('app_ID')) ?? '';
+        $this->getRequest()->getParam('app_ID');
         if (
             empty($appID) &&
             !empty($this->_helperData->getAppID())
         ) {
-            $appID = trim($_POST['app_ID']);
+            $appID = trim($this->getRequest()->getParam('app_ID'));
             $this->_helperData->setConfig('app_ID', $appID);
         }
         if(!$appID) {
