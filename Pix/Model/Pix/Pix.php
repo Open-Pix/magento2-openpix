@@ -209,11 +209,13 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
                 'value' => $orderId,
             ]
         ];
+        $comment = substr("$storeName", 0, 100) . '#' . $orderId;
+        $comment_trimmed = substr($comment, 0, 140);
         if (!$customer) {
             return [
                 'correlationID' => $correlationID,
                 'value' => $this->get_amount_openpix($grandTotal),
-                'comment' => substr($storeName, 0, 140),
+                'comment' => $comment_trimmed,
                 'additionalInfo' => $additionalInfo
             ];
         }
@@ -221,7 +223,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
         return [
             'correlationID' => $correlationID,
             'value' => $this->get_amount_openpix($grandTotal),
-            'comment' => substr($storeName, 0, 140),
+            'comment' => $comment_trimmed,
             'customer' => $customer,
             'additionalInfo' => $additionalInfo
         ];
