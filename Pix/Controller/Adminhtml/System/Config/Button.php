@@ -225,4 +225,3 @@ class Button extends Action {
     }
 }
 
-?>
