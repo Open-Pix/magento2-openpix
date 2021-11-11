@@ -148,9 +148,11 @@ class Data extends AbstractHelper
         return $this->getConfig('payment/openpix_pix/active');
     }
 
-    public function getConfig($path)
+    public function getConfig($path,$clearCache=false)
     {
-        $this->clearCache();
+        if($clearCache) {
+            $this->clearCache();
+        }
         $storeScope = ScopeInterface::SCOPE_STORE;
         return $this->scopeConfig->getValue($path, $storeScope);
     }
@@ -158,25 +160,25 @@ class Data extends AbstractHelper
     {
         return ScopeInterface::SCOPE_STORE;
     }
-    public function setConfig($variable,$value) {
-        $this->clearCache();
+    public function setConfig($variable,$value,$clearCache=false) {
+        if($clearCache) {
+            $this->clearCache();
+        }
         $path = 'payment/openpix_pix/'.$variable;
         return $this->_writerConfig->save($path,$value);
     }
     public function clearCache() {
         $this->cacheTypeList
             ->cleanType(\Magento\Framework\App\Cache\Type\Config::TYPE_IDENTIFIER);
-        $this->cacheTypeList
-            ->cleanType(\Magento\PageCache\Model\Cache\Type::TYPE_IDENTIFIER);
     }
-    public function getAppID()
+    public function getAppID($clearCache=false)
     {
-        return $this->getConfig('payment/openpix_pix/app_ID');
+        return $this->getConfig('payment/openpix_pix/app_ID',$clearCache);
     }
 
-    public function getWebhookAuthorization()
+    public function getWebhookAuthorization($clearCache=false)
     {
-        return $this->getConfig('payment/openpix_pix/webhook_authorization');
+        return $this->getConfig('payment/openpix_pix/webhook_authorization',$clearCache);
     }
 
     /**
