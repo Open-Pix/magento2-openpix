@@ -1,3 +1,19 @@
+#### 1.0.15 (2021-11-12)
+
+##### Chores
+
+* **version:**  1.0.15 (d4c7af3e)
+
+##### New Features
+
+* **orderId:**  limit orderId on comment to maxlength 140 (#124) (5e6774c6)
+* **globalVariables:**  improve secutiry removing global variables (#121) (80b816aa)
+
+##### Bug Fixes
+
+* **technical-review:**  fix closing tag of php (#123) (05ff6412)
+* **incorrectIf:**  improve get errors from api (#122) (c43b12a9)
+
 #### 1.0.14 (2021-11-10)
 
 ##### Chores
