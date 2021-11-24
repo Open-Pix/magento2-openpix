@@ -1,3 +1,47 @@
+#### 1.0.16 (2021-11-24)
+
+##### Build System / Dependencies
+
+* **change-log:**
+  *  v1.0.15 (6ad141ec)
+  *  v1.0.14 (40c198d7)
+
+##### Chores
+
+* **version:**
+  *  1.0.15 (d4c7af3e)
+  *  1.0.14 (2c8d6586)
+* **routes:**  adjust routes of controller (#107) (bfdce533)
+* **readme:**  update readme moving docs to dev-docs (ccf59eb5)
+
+##### New Features
+
+* **orderId:**  limit orderId on comment to maxlength 140 (#124) (5e6774c6)
+* **globalVariables:**  improve secutiry removing global variables (#121) (80b816aa)
+* **additionalInfo:**  add order on additionalInformation (#117) (18a69c1c)
+* **one-click:**  create setConfig function (#109) (526eb3be)
+* **webhook-auth:**  normalize validation of auth (#104) (57a16ab2)
+* **logs:**  improve logs message (#102) (8420c07f)
+
+##### Bug Fixes
+
+* **state:**  change state to processing when chage is paid (#127) (1ec2330d)
+* **technical-review:**  fix closing tag of php (#123) (05ff6412)
+* **incorrectIf:**  improve get errors from api (#122) (c43b12a9)
+* **cache:**  clear cache before set and get values (#118) (63fbf0b4)
+* **messages:**  add edge case support if user don't have a correct api (#115) (4a01fec9)
+
+##### Other Changes
+
+* **hasErrors:**
+  *  improve logs and roolback old authorization (#113) (03df7b6a)
+  *  check if responseBody have any error (#112) (ddc95a45)
+* **hasActiveWebhok:**  check if customer already have active webhook (#111) (f11e6f55)
+* **happy-case:**  add happy-case feature (#110) (eecbaa53)
+* **webhook-post:**  creating the first webhooks (#108) (637eb099)
+* **button:**  add simple ajax call (#106) (cd07c004)
+* **one-click:**  add simple button to be webhook oneclick (#105) (4457055b)
+
 #### 1.0.15 (2021-11-12)
 
 ##### Chores
