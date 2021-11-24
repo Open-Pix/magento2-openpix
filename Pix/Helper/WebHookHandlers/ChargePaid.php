@@ -112,8 +112,7 @@ class ChargePaid
         }
 
         $this->_helperData->log(
-            'Generating invoice for the order %s.',
-            $order->getId(),
+            "Generating invoice for the order {$order->getId()}.",
             self::LOG_NAME
         );
         $this->logger->info(
@@ -147,13 +146,15 @@ class ChargePaid
         $order->addStatusHistoryComment(
             __(
                 'The payment was confirmed by OpenPix and the order is being processed'
-            )->getText(),
+            ),
             $order
-                ->getConfig()
-                ->getStateDefaultStatus(
-                    \Magento\Sales\Model\Order::STATE_PROCESSING
-                )
+            ->getConfig()
+            ->getStateDefaultStatus(
+                \Magento\Sales\Model\Order::STATE_PROCESSING
+            )
         );
+
+        $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING);
 
         $this->orderRepository->save($order);
         return [
