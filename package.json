@@ -1,6 +1,6 @@
 {
   "name": "magento2-openpix",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "devDependencies": {
     "@babel/plugin-transform-typescript": "7.13.0",
     "@babel/preset-typescript": "7.13.0",
