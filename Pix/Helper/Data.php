@@ -148,9 +148,9 @@ class Data extends AbstractHelper
         return $this->getConfig('payment/openpix_pix/active');
     }
 
-    public function getConfig($path,$clearCache=false)
+    public function getConfig($path, $clearCache = false)
     {
-        if($clearCache) {
+        if ($clearCache) {
             $this->clearCache();
         }
         $storeScope = ScopeInterface::SCOPE_STORE;
@@ -160,25 +160,40 @@ class Data extends AbstractHelper
     {
         return ScopeInterface::SCOPE_STORE;
     }
-    public function setConfig($variable,$value,$clearCache=false) {
-        if($clearCache) {
+    public function setConfig($variable, $value, $clearCache = false)
+    {
+        if ($clearCache) {
             $this->clearCache();
         }
-        $path = 'payment/openpix_pix/'.$variable;
-        return $this->_writerConfig->save($path,$value);
+        $path = 'payment/openpix_pix/' . $variable;
+        return $this->_writerConfig->save($path, $value);
     }
-    public function clearCache() {
-        $this->cacheTypeList
-            ->cleanType(\Magento\Framework\App\Cache\Type\Config::TYPE_IDENTIFIER);
-    }
-    public function getAppID($clearCache=false)
+    public function clearCache()
     {
-        return $this->getConfig('payment/openpix_pix/app_ID',$clearCache);
+        $this->cacheTypeList->cleanType(
+            \Magento\Framework\App\Cache\Type\Config::TYPE_IDENTIFIER
+        );
+    }
+    public function getAppID($clearCache = false)
+    {
+        return $this->getConfig('payment/openpix_pix/app_ID', $clearCache);
     }
 
-    public function getWebhookAuthorization($clearCache=false)
+    public function getWebhookAuthorization($clearCache = false)
     {
-        return $this->getConfig('payment/openpix_pix/webhook_authorization',$clearCache);
+        return $this->getConfig(
+            'payment/openpix_pix/webhook_authorization',
+            $clearCache
+        );
+    }
+
+    public function getOrderStatus($clearCache = false)
+    {
+        $status = $this->getConfig(
+            'payment/openpix_pix/order_status',
+            $clearCache
+        );
+        return $status ?? \Magento\Sales\Model\Order::STATE_PROCESSING;
     }
 
     /**
