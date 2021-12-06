@@ -2,6 +2,8 @@
 
 namespace OpenPix\Pix\Model\Pix;
 
+use Magento\Sales\Model\Order;
+
 /**
  * Class Payment Pix
  *
@@ -207,7 +209,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
             [
                 'key' => __('Pedido'),
                 'value' => $orderId,
-            ]
+            ],
         ];
         $comment = substr("$storeName", 0, 100) . '#' . $orderId;
         $comment_trimmed = substr($comment, 0, 140);
@@ -216,7 +218,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
                 'correlationID' => $correlationID,
                 'value' => $this->get_amount_openpix($grandTotal),
                 'comment' => $comment_trimmed,
-                'additionalInfo' => $additionalInfo
+                'additionalInfo' => $additionalInfo,
             ];
         }
 
@@ -225,7 +227,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
             'value' => $this->get_amount_openpix($grandTotal),
             'comment' => $comment_trimmed,
             'customer' => $customer,
-            'additionalInfo' => $additionalInfo
+            'additionalInfo' => $additionalInfo,
         ];
     }
 
@@ -293,16 +295,10 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
             $message = __(
                 'New Order placed, QrCode Pix generated and saved on OpenPix Platform'
             );
-
+            $status = $this->_helperData->getOrderStatus();
             $order
-                ->setState(\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT)
-                ->setStatus(
-                    $order
-                        ->getConfig()
-                        ->getStateDefaultStatus(
-                            \Magento\Sales\Model\Order::STATE_PENDING_PAYMENT
-                        )
-                )
+                ->setStatus($status)
+                ->setState(Order::STATE_NEW)
                 ->addStatusHistoryComment($message->getText());
 
             $payment->setSkipOrderProcessing(true);
@@ -353,7 +349,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
                     'Accept: application/json',
                     'Authorization: ' . $app_ID,
                 ],
-                CURLOPT_VERBOSE => true
+                CURLOPT_VERBOSE => true,
             ]);
 
             $response = curl_exec($curl);
@@ -364,16 +360,33 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
                 $this->messageManager->addErrorMessage(
                     __('Error creating Pix')
                 );
-                $this->_helperData->log('Error creating pix', self::LOG_NAME,json_encode(curl_getinfo($curl),JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+                $this->_helperData->log(
+                    'Error creating pix',
+                    self::LOG_NAME,
+                    json_encode(
+                        curl_getinfo($curl),
+                        JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+                    )
+                );
                 curl_close($curl);
-                throw new \Exception("Erro ao criar Pix, tente novamente por favor", 1);
+                throw new \Exception(
+                    'Erro ao criar Pix, tente novamente por favor',
+                    1
+                );
             }
 
             curl_close($curl);
 
             if ($statusCode === 401) {
                 $this->messageManager->addErrorMessage(__('Invalid AppID'));
-                $this->_helperData->log('Error creating pix', self::LOG_NAME,json_encode(curl_getinfo($curl),JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+                $this->_helperData->log(
+                    'Error creating pix',
+                    self::LOG_NAME,
+                    json_encode(
+                        curl_getinfo($curl),
+                        JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+                    )
+                );
                 throw new \Exception('AppID Inválido', 1);
             }
 
@@ -383,9 +396,19 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
                     __('Error creating Pix')
                 );
                 $this->messageManager->addErrorMessage($responseBody);
-                $this->_helperData->log('Error creating pix', self::LOG_NAME,json_encode([$responseBody],JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+                $this->_helperData->log(
+                    'Error creating pix',
+                    self::LOG_NAME,
+                    json_encode(
+                        [$responseBody],
+                        JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+                    )
+                );
 
-                throw new \Exception('Erro ao criar Pix, tente novamente por favor', 1);
+                throw new \Exception(
+                    'Erro ao criar Pix, tente novamente por favor',
+                    1
+                );
             }
 
             $this->_helperData->log(
