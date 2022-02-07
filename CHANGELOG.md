@@ -1,3 +1,15 @@
+#### 1.0.21 (2022-02-07)
+
+##### Chores
+
+* **version:**  1.0.21 (33d0707e)
+
+##### New Features
+
+* **status:**
+  *  only show new status of order (#137) (3057930d)
+  *  allow control status of new order (#136) (ec31d0a7)
+
 #### 1.0.20 (2021-11-25)
 
 ##### Chores
