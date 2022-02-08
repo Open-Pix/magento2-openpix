@@ -1,3 +1,15 @@
+#### 1.0.22 (2022-02-08)
+
+##### Chores
+
+* **version:**  1.0.22 (f7cfc903)
+
+##### New Features
+
+* **db_schema:**
+  *  whitelist json (d9f552e9)
+  *  generating the db_schema (d2d1134a)
+
 #### 1.0.21 (2022-02-07)
 
 ##### Chores
