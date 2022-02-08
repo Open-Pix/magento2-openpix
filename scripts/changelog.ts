@@ -3,7 +3,7 @@ import { exec as execCb } from 'child_process';
 import path from 'path';
 
 import util from 'util';
-
+import semver from 'semver';
 import moment from 'moment';
 // eslint-disable-next-line
 import git from 'simple-git/promise';
@@ -74,10 +74,26 @@ const createPullRequest = async (branchName, tag) => {
     });
 
     const rxVersion = /\d+\.\d+\.\d+/;
-    const newVersion = argv.version || changelogContent.match(rxVersion)?.[0];
+    const latestVersion =
+      argv.version || changelogContent.match(rxVersion)?.[0];
+
+    const getReleaseType = () => {
+      if (argv.major) {
+        return 'major';
+      }
+
+      if (argv.minor) {
+        return 'minor';
+      }
+
+      return 'patch';
+    };
+
+    const newVersion = semver.inc(latestVersion, getReleaseType());
 
     const newChangelogContent =
       changelogContent.replace(rxVersion, newVersion) + currentChangelog;
+
     fs.writeFileSync('./CHANGELOG.md', newChangelogContent);
 
     await exec(`npm version --no-git-tag-version ${newVersion}`);
