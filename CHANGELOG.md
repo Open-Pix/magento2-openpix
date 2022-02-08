@@ -1,3 +1,13 @@
+#### 1.0.23 (2022-02-08)
+
+##### New Features
+
+* **changelog:**  more automation (f7061830)
+
+##### Tests
+
+* **jest:**  implementing jest (a99f39a4)
+
 #### 1.0.22 (2022-02-08)
 
 ##### Chores
