@@ -98,7 +98,7 @@ const createPullRequest = async (branchName, tag) => {
     fs.writeFileSync('./CHANGELOG.md', newChangelogContent);
 
     await exec(
-      `sed -i '' 's/${latestVersion}/${newVersion}/g' .Pix/etc/module.xml`,
+      `sed -i '' 's/${latestVersion}/${newVersion}/g' Pix/etc/module.xml`,
     );
 
     await exec(
@@ -115,19 +115,24 @@ const createPullRequest = async (branchName, tag) => {
       today.getMonth() + 1
     }${today.getDate()}${today.getUTCHours()}${today.getUTCMinutes()}`;
 
+    const releaseZipFileName = `openpix_pix.${newVersion}.zip`;
+
+    await exec(`zip -r ${releaseZipFileName} ./Pix/*`);
+
     await git().checkout(['-B', branchName]);
     await git().add([
       'package.json',
       'CHANGELOG.md',
       'Pix/etc/module.xml',
       'Pix/composer.json',
+      releaseZipFileName,
+      '-f',
     ]);
     await git().commit(`build(change-log): ${tag}`, [], '-n');
     await git().addAnnotatedTag(`${tag}`, `build(tag): ${tag}`);
     await git().push(['--follow-tags', '-u', 'origin', branchName]);
 
     await createPullRequest(branchName, tag);
-    await exec('yarn release:zip');
   } catch (err) {
     // eslint-disable-next-line
     console.log('err: ', err);
