@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+  <table name="sales_order" resource="default">
+    <column xsi:type="text" name="openpix_paymentlinkurl" nullable="true" comment="OpenPix Payment Link Url"/>
+    <column xsi:type="text" name="openpix_qrcodeimage" nullable="true" comment="OpenPix QrCode Image URL"/>
+    <column xsi:type="text" name="openpix_brcode" nullable="true" comment="OpenPix brCode EMV"/>
+    <column xsi:type="text" name="openpix_correlationid" nullable="true" comment="OpenPix correlation ID uuid"/>
+    <column xsi:type="text" name="openpix_endtoendid" nullable="true" comment="OpenPix endToEndId"/>
+  </table>
+</schema>
