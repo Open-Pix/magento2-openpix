@@ -63,14 +63,15 @@ const createPullRequest = async (branchName, tag) => {
 
 (async () => {
   try {
-    await git().tags();
+    const resultTag = await git().tags();
+    const latestTag = resultTag.latest;
 
     const currentChangelog = fs.readFileSync('./CHANGELOG.md');
 
+    const diffPattern = `${latestTag}..main`;
+
     const changelogContent = await changelog.generate({
-      major: argv.major,
-      minor: argv.minor,
-      patch: argv.patch,
+      tag: diffPattern,
     });
 
     const rxVersion = /\d+\.\d+\.\d+/;
@@ -96,6 +97,14 @@ const createPullRequest = async (branchName, tag) => {
 
     fs.writeFileSync('./CHANGELOG.md', newChangelogContent);
 
+    await exec(
+      `sed -i '' 's/${latestVersion}/${newVersion}/g' .Pix/etc/module.xml`,
+    );
+
+    await exec(
+      `sed -i '' 's/${latestVersion}/${newVersion}/g' Pix/composer.json`,
+    );
+
     await exec(`npm version --no-git-tag-version ${newVersion}`);
 
     const tag = `v${newVersion}`;
@@ -107,12 +116,18 @@ const createPullRequest = async (branchName, tag) => {
     }${today.getDate()}${today.getUTCHours()}${today.getUTCMinutes()}`;
 
     await git().checkout(['-B', branchName]);
-    await git().add(['package.json', 'CHANGELOG.md']);
+    await git().add([
+      'package.json',
+      'CHANGELOG.md',
+      'Pix/etc/module.xml',
+      'Pix/composer.json',
+    ]);
     await git().commit(`build(change-log): ${tag}`, [], '-n');
     await git().addAnnotatedTag(`${tag}`, `build(tag): ${tag}`);
     await git().push(['--follow-tags', '-u', 'origin', branchName]);
 
     await createPullRequest(branchName, tag);
+    await exec('yarn release:zip');
   } catch (err) {
     // eslint-disable-next-line
     console.log('err: ', err);
