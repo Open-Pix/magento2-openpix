@@ -1,3 +1,14 @@
+#### 1.0.27 (2022-02-09)
+
+##### Build System / Dependencies
+
+* **change-log:**  v1.0.25 (e5b6557f)
+
+##### Chores
+
+* **schema:**  remove schema file (658caedc)
+* **changelog:**  script (5a9de05f)
+
 #### 1.0.26 (2022-02-08)
 
 #### 1.0.25 (2022-02-08)
