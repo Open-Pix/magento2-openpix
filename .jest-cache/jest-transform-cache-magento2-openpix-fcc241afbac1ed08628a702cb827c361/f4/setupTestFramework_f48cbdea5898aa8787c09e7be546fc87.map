@@ -1,0 +1,1 @@
+{"version":3,"sources":["setupTestFramework.js"],"names":["require","jest","setTimeout"],"mappings":"AAAAA,OAAO,CAAC,iBAAD,CAAP;;AAEAC,IAAI,CAACC,UAAL,CAAgB,KAAhB","sourcesContent":["require('@babel/polyfill');\n\njest.setTimeout(20000);"]}
