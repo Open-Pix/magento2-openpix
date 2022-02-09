@@ -1,0 +1,7 @@
+d9014a62556b67386d6fac4797a51c25
+"use strict";
+
+require('@babel/polyfill');
+
+jest.setTimeout(20000);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNldHVwVGVzdEZyYW1ld29yay5qcyJdLCJuYW1lcyI6WyJyZXF1aXJlIiwiamVzdCIsInNldFRpbWVvdXQiXSwibWFwcGluZ3MiOiI7O0FBQUFBLE9BQU8sQ0FBQyxpQkFBRCxDQUFQOztBQUVBQyxJQUFJLENBQUNDLFVBQUwsQ0FBZ0IsS0FBaEIiLCJzb3VyY2VzQ29udGVudCI6WyJyZXF1aXJlKCdAYmFiZWwvcG9seWZpbGwnKTtcblxuamVzdC5zZXRUaW1lb3V0KDIwMDAwKTsiXX0=

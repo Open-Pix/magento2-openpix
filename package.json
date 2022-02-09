@@ -1,8 +1,23 @@
 {
   "name": "magento2-openpix",
   "version": "1.0.29",
+  "scripts": {
+    "checkout-success": "vite checkout-success",
+    "es": "node -r esbuild-register",
+    "prepare": "husky install",
+    "prettier": "prettier --write",
+    "release:major": "yarn es ./scripts/changelog --major",
+    "release:minor": "yarn es ./scripts/changelog --minor",
+    "release:patch": "yarn es ./scripts/changelog --patch",
+    "release:zip": "bash ./pack.sh"
+  },
+  "dependencies": {
+    "jest": "^27.5.1"
+  },
   "devDependencies": {
     "@babel/plugin-transform-typescript": "7.13.0",
+    "@babel/polyfill": "^7.12.1",
+    "@babel/preset-env": "^7.16.11",
     "@babel/preset-typescript": "7.13.0",
     "@octokit/rest": "^18.5.3",
     "@prettier/plugin-php": "^0.16.2",
@@ -39,18 +54,5 @@
     "*.php": [
       "prettier --write"
     ]
-  },
-  "scripts": {
-    "checkout-success": "vite checkout-success",
-    "es": "node -r esbuild-register",
-    "prepare": "husky install",
-    "prettier": "prettier --write",
-    "release:major": "yarn es ./scripts/changelog --major",
-    "release:minor": "yarn es ./scripts/changelog --minor",
-    "release:patch": "yarn es ./scripts/changelog --patch",
-    "release:zip": "bash ./pack.sh"
-  },
-  "dependencies": {
-    "jest": "^27.5.1"
   }
 }
