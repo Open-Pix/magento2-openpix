@@ -70,3 +70,5 @@ woocommerce-openpix*.zip
 
 *.zip
 */*.zip
+
+.jest-cache
