@@ -1301,14 +1301,14 @@
   dependencies:
     "@octokit/openapi-types" "^11.2.0"
 
-"@prettier/plugin-php@^0.18.0":
-  version "0.18.0"
-  resolved "https://registry.yarnpkg.com/@prettier/plugin-php/-/plugin-php-0.18.0.tgz#5dc7224aea5f58cb93d58882b51b6646dcfd81e5"
-  integrity sha512-os1CLqJFUSJpp3hkJ4IARW1h5ZuWhRdPnGaGaJs517uCL57V4C9dJeaSmIUi20qPji+mDhGs7SNZgdyW8VNcuw==
+"@prettier/plugin-php@^0.18.1":
+  version "0.18.1"
+  resolved "https://registry.yarnpkg.com/@prettier/plugin-php/-/plugin-php-0.18.1.tgz#481b5eb87131efb4a5e74078bedd581f45ec3f57"
+  integrity sha512-tiImSpzIALZCHA73+T9RSUt9qvWm9MhmbYJMHY1OOJ1EgLZVmmCsvGtKiban+rjMpoGfRvG5iA0i/vv3Ai9fLA==
   dependencies:
     linguist-languages "^7.5.1"
     mem "^8.0.0"
-    php-parser "3.1.0-beta.0"
+    php-parser "3.1.0-beta.1"
 
 "@sinonjs/commons@^1.7.0":
   version "1.8.3"
@@ -3373,10 +3373,10 @@ path-parse@^1.0.7:
   resolved "https://registry.yarnpkg.com/path-parse/-/path-parse-1.0.7.tgz#fbc114b60ca42b30d9daf5858e4bd68bbedb6735"
   integrity sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==
 
-php-parser@3.1.0-beta.0:
-  version "3.1.0-beta.0"
-  resolved "https://registry.yarnpkg.com/php-parser/-/php-parser-3.1.0-beta.0.tgz#e43cb58ca35022f00973daf9dc55170de1f64ebf"
-  integrity sha512-j4v15Zy6pvJKd1N3XR53AUTySr1YEiKer8OlIFvqZTdRwMMmWttPiOZ7oyP53/QHY4DDHUfAtK9ZMomKw0xFlw==
+php-parser@3.1.0-beta.1:
+  version "3.1.0-beta.1"
+  resolved "https://registry.yarnpkg.com/php-parser/-/php-parser-3.1.0-beta.1.tgz#bd8cd6d872b0f85f7a59a6b5f019ea8f37c7cbcc"
+  integrity sha512-4dvvMO+cDbF+CqgZ+7h87wexInYVoocIAaSO9sc5DRzTVfz914KTk9H9y6QupjHQ3pygXfCbP2LE5zvpexkGXg==
 
 picocolors@^1.0.0:
   version "1.0.0"
