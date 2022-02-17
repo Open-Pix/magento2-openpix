@@ -56,7 +56,7 @@ const createPullRequest = async (branchName, tag) => {
     repo,
     title: `Deploy Production - ${tag} - ${now}`,
     head: branchName,
-    base: 'master',
+    base: 'main',
     body: `https://github.com/${owner}/${repo}/compare/${latestReleaseTag}...master`,
   });
 };
