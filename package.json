@@ -41,8 +41,8 @@
     ]
   },
   "scripts": {
-    "checkout-success": "vite checkout-success",
     "es": "node -r esbuild-register",
+    "op:vite": "vite checkout-success",
     "prepare": "husky install",
     "prettier": "prettier --write",
     "release:major": "yarn es ./scripts/changelog --major",
