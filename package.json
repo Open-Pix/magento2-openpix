@@ -54,5 +54,18 @@
     "*.php": [
       "prettier --write"
     ]
+  },
+  "scripts": {
+    "es": "node -r esbuild-register",
+    "op:vite": "vite checkout-success",
+    "prepare": "husky install",
+    "prettier": "prettier --write",
+    "release:major": "yarn es ./scripts/changelog --major",
+    "release:minor": "yarn es ./scripts/changelog --minor",
+    "release:patch": "yarn es ./scripts/changelog --patch",
+    "release:zip": "bash ./pack.sh"
+  },
+  "dependencies": {
+    "jest": "^27.5.1"
   }
 }
