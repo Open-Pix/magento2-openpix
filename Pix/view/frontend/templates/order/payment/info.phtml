@@ -1,6 +1,6 @@
 <?php
 $paymentInfo = $block->getPaymentInfo();
-if ($block->getPaymentMethod() === 'openpix_pix') : ?>
+if ($block->getPaymentMethod() === 'openpix_pix'): ?>
     <button type="button" class="action primary btn-openpix-pix" data-trigger="trigger">
         <span data-bind="i18n: '<?= $paymentInfo['text'] ?>'"></span>
     </button>
@@ -13,10 +13,14 @@ if ($block->getPaymentMethod() === 'openpix_pix') : ?>
             'responsive': true,
         }}">
         <div class="content">
-            <img src="<?php echo $paymentInfo['qrcodeimage'] ?>" width="400px" alt="Erro ao carregar seu QRCode">
+            <img src="<?php echo $paymentInfo[
+                'qrcodeimage'
+            ]; ?>" width="400px" alt="Erro ao carregar seu QRCode">
         </div>
         <h3>Linha digitável:</h3>
-        <textarea readonly rows="5" name="pixer" id="select-this"><?= $paymentInfo['brcode'] ?></textarea>
+        <textarea readonly rows="5" name="pixer" id="select-this"><?= $paymentInfo[
+            'brcode'
+        ] ?></textarea>
         <div class="actions-toolbar">
             <div class="primary">
                 <button id='clickMe'>Copiar</button>

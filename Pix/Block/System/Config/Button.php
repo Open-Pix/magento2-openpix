@@ -13,7 +13,10 @@ class Button extends Field
 
     public function render(AbstractElement $element)
     {
-        $element->unsScope()->unsCanUseWebsiteValue()->unsCanUseDefaultValue();
+        $element
+            ->unsScope()
+            ->unsCanUseWebsiteValue()
+            ->unsCanUseDefaultValue();
         return parent::render($element);
     }
     protected function _getElementHtml(AbstractElement $element)
@@ -22,13 +25,16 @@ class Button extends Field
     }
     public function getAjaxUrl()
     {
-        return  $this->getUrl('openpix_pix/system_config/button');
+        return $this->getUrl('openpix_pix/system_config/button');
     }
     public function getButtonHtml()
     {
         $button = $this->getLayout()
-                        ->createBlock('Magento\Backend\Block\Widget\Button')
-                        ->setData(['id' => 'openpix_webhook_button', 'label' => __('Configure now with one click'),]);
+            ->createBlock('Magento\Backend\Block\Widget\Button')
+            ->setData([
+                'id' => 'openpix_webhook_button',
+                'label' => __('Configure now with one click'),
+            ]);
         return $button->toHtml();
     }
 }

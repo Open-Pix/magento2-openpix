@@ -2,7 +2,8 @@
 
 namespace OpenPix\Pix\Api;
 
-interface OpenPixApiInterface {
+interface OpenPixApiInterface
+{
     /**
      * GET version of OpenPix magento2 webapi
      * @return string

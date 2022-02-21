@@ -1,11 +1,11 @@
 {
-    "sales_order": {
-        "column": {
-            "openpix_paymentlinkurl": true,
-            "openpix_qrcodeimage": true,
-            "openpix_brcode": true,
-            "openpix_correlationid": true,
-            "openpix_endtoendid": true
-        }
+  "sales_order": {
+    "column": {
+      "openpix_paymentlinkurl": true,
+      "openpix_qrcodeimage": true,
+      "openpix_brcode": true,
+      "openpix_correlationid": true,
+      "openpix_endtoendid": true
     }
+  }
 }

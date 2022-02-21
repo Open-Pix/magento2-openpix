@@ -361,14 +361,16 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
                     __('Error creating Pix')
                 );
                 $this->_helperData->log(
-                    'Error creating pix',
+                    'Curl Error creating pix',
                     self::LOG_NAME,
                     json_encode(
                         curl_getinfo($curl),
                         JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
                     )
                 );
+
                 curl_close($curl);
+
                 throw new \Exception(
                     'Erro ao criar Pix, tente novamente por favor',
                     1
@@ -380,7 +382,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
             if ($statusCode === 401) {
                 $this->messageManager->addErrorMessage(__('Invalid AppID'));
                 $this->_helperData->log(
-                    'Error creating pix',
+                    'Invalid appID',
                     self::LOG_NAME,
                     json_encode(
                         curl_getinfo($curl),
@@ -391,13 +393,14 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
             }
 
             $responseBody = json_decode($response, true);
+
             if ($statusCode !== 200) {
                 $this->messageManager->addErrorMessage(
-                    __('Error creating Pix')
+                    __('Status code different from 200 ' . $statusCode)
                 );
                 $this->messageManager->addErrorMessage($responseBody);
                 $this->_helperData->log(
-                    'Error creating pix',
+                    'Status code different from 200 ' . $statusCode,
                     self::LOG_NAME,
                     json_encode(
                         [$responseBody],
