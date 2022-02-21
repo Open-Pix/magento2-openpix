@@ -1,4 +1,6 @@
-<?php /* @var $block \OpenPix\Pix\Block\System\Config\Button */ ?>
+<?php
+/* @var $block \OpenPix\Pix\Block\System\Config\Button */
+?>
 <script>
     require([
         'jquery',
@@ -11,7 +13,7 @@
                 app_ID: $('payment_us_openpix_configurations_openpix_credentials_app_ID').value
             };
 
-            new Ajax.Request('<?php echo $block->getAjaxUrl() ?>', {
+            new Ajax.Request('<?php echo $block->getAjaxUrl(); ?>', {
                 loaderArea:     false,
                 asynchronous:   true,
                 parameters:     params,

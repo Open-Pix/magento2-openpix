@@ -14,13 +14,13 @@ class Mode implements ArrayInterface
     {
         return [
             [
-                'value' =>  self::PRODUCTION_MODE,
-                'label' =>__('Production')
+                'value' => self::PRODUCTION_MODE,
+                'label' => __('Production'),
             ],
             [
                 'value' => self::SANDBOX_MODE,
-                'label' => __('Sandbox')
-            ]
+                'label' => __('Sandbox'),
+            ],
         ];
     }
 }

@@ -148,10 +148,10 @@ class ChargePaid
                 'The payment was confirmed by OpenPix and the order is being processed'
             ),
             $order
-            ->getConfig()
-            ->getStateDefaultStatus(
-                \Magento\Sales\Model\Order::STATE_PROCESSING
-            )
+                ->getConfig()
+                ->getStateDefaultStatus(
+                    \Magento\Sales\Model\Order::STATE_PROCESSING
+                )
         );
 
         $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING);

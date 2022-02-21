@@ -1,37 +1,37 @@
-.modalpix .modal-inner-wrap{
+.modalpix .modal-inner-wrap {
   width: 33.33%;
 }
-.modalpix .content{
+.modalpix .content {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.flex{
+.flex {
   display: flex;
 }
-.flex .linhes{
+.flex .linhes {
   width: 50%;
 }
 
 .flex .linhes textarea {
-    width: 50%;
+  width: 50%;
 }
 
-.linha-digitavel{
+.linha-digitavel {
   margin-left: 15px;
 }
-@media screen and (max-width: 1366px){
-  .modalpix .modal-inner-wrap{
+@media screen and (max-width: 1366px) {
+  .modalpix .modal-inner-wrap {
     width: 50%;
   }
 }
-@media screen and (max-width: 1024px){
-  .modalpix .modal-inner-wrap{
+@media screen and (max-width: 1024px) {
+  .modalpix .modal-inner-wrap {
     width: 80%;
   }
 }
-@media screen and (max-width: 768px){
-  .modalpix .modal-inner-wrap{
+@media screen and (max-width: 768px) {
+  .modalpix .modal-inner-wrap {
     width: 80%;
   }
 }

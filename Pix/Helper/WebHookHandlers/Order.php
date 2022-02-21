@@ -35,7 +35,14 @@ class Order
         $order = $this->getOrderByCorrelationID($charge['correlationID']);
 
         if (!$order || !$order->getId()) {
-            $this->logger->warning(__(sprintf('No order was found to invoice: %d', $charge['correlationID'])));
+            $this->logger->warning(
+                __(
+                    sprintf(
+                        'No order was found to invoice: %d',
+                        $charge['correlationID']
+                    )
+                )
+            );
 
             return false;
         }
@@ -54,8 +61,11 @@ class Order
             return false;
         }
 
-        $order = $this->orderCollectionFactory->create()
-            ->addAttributeToFilter('openpix_correlationid', ['eq' => $correlationID])
+        $order = $this->orderCollectionFactory
+            ->create()
+            ->addAttributeToFilter('openpix_correlationid', [
+                'eq' => $correlationID,
+            ])
             ->getFirstItem();
 
         if (!$order) {

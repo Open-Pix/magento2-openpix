@@ -2,7 +2,6 @@
 
 namespace OpenPix\Pix\Helper;
 
-
 use Magento\Framework\Controller\Result\JsonFactory;
 
 class WebhookHandler
@@ -54,7 +53,7 @@ class WebhookHandler
 
     public function isValidTestWebhookPayload($jsonBody)
     {
-        if (isset($jsonBody["evento"])) {
+        if (isset($jsonBody['evento'])) {
             return true;
         }
 
@@ -63,11 +62,17 @@ class WebhookHandler
 
     public function isValidWebhookPayload($jsonBody)
     {
-        if (!isset($jsonBody["charge"]) || !isset($jsonBody["charge"]["correlationID"])) {
+        if (
+            !isset($jsonBody['charge']) ||
+            !isset($jsonBody['charge']['correlationID'])
+        ) {
             return false;
         }
 
-        if (!isset($jsonBody["pix"]) || !isset($jsonBody["pix"]["endToEndId"])) {
+        if (
+            !isset($jsonBody['pix']) ||
+            !isset($jsonBody['pix']['endToEndId'])
+        ) {
             return false;
         }
 
@@ -76,11 +81,14 @@ class WebhookHandler
 
     public function isPixDetachedPayload($jsonBody): bool
     {
-        if (!isset($jsonBody["pix"])) {
+        if (!isset($jsonBody['pix'])) {
             return false;
         }
 
-        if (isset($jsonBody["charge"]) && isset($jsonBody["charge"]["correlationID"])) {
+        if (
+            isset($jsonBody['charge']) &&
+            isset($jsonBody['charge']['correlationID'])
+        ) {
             return false;
         }
 
@@ -100,29 +108,54 @@ class WebhookHandler
             $jsonBody = json_decode($body, true);
 
             if ($this->isValidTestWebhookPayload($jsonBody)) {
-                $this->_helperData->log('OpenPix WebApi::ProcessWebhook Test Call', self::LOG_NAME);
+                $this->_helperData->log(
+                    'OpenPix WebApi::ProcessWebhook Test Call',
+                    self::LOG_NAME
+                );
 
-                return ["error" => null, "success" => "Webhook Test Call: " . $jsonBody["evento"] ];
+                return [
+                    'error' => null,
+                    'success' => 'Webhook Test Call: ' . $jsonBody['evento'],
+                ];
             }
 
             if ($this->isPixDetachedPayload($jsonBody)) {
-                $this->_helperData->log('OpenPix WebApi::ProcessWebhook Pix Detached', self::LOG_NAME);
+                $this->_helperData->log(
+                    'OpenPix WebApi::ProcessWebhook Pix Detached',
+                    self::LOG_NAME
+                );
 
-                return ["error" => null, "success" => "Pix Detached with endToEndId: " . $jsonBody["pix"]["endToEndId"] ];
+                return [
+                    'error' => null,
+                    'success' =>
+                        'Pix Detached with endToEndId: ' .
+                        $jsonBody['pix']['endToEndId'],
+                ];
             }
 
             if (!$this->isValidWebhookPayload($jsonBody)) {
-                $this->_helperData->log('OpenPix WebApi::ProcessWebhook Invalid Payload', self::LOG_NAME, $jsonBody);
+                $this->_helperData->log(
+                    'OpenPix WebApi::ProcessWebhook Invalid Payload',
+                    self::LOG_NAME,
+                    $jsonBody
+                );
 
-                return ["error" => "Invalid Payload", "success" => null ];
+                return ['error' => 'Invalid Payload', 'success' => null];
             }
         } catch (\Exception $e) {
-            $this->logger->info(__(sprintf('Fail when interpreting webhook JSON: %s', $e->getMessage())));
+            $this->logger->info(
+                __(
+                    sprintf(
+                        'Fail when interpreting webhook JSON: %s',
+                        $e->getMessage()
+                    )
+                )
+            );
             return false;
         }
 
-        $charge = $jsonBody["charge"];
-        $pix = $jsonBody["pix"];
+        $charge = $jsonBody['charge'];
+        $pix = $jsonBody['pix'];
 
         return $this->chargePaid->chargePaid($charge, $pix);
     }

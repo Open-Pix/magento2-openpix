@@ -38,7 +38,9 @@ class Webhook extends \Magento\Framework\App\Action\Action
         if (!$this->validateRequest()) {
             $ip = $this->webhookHandler->getRemoteIp();
 
-            $this->logger->error(__(sprintf('Invalid webhook attempt from IP %s', $ip)));
+            $this->logger->error(
+                __(sprintf('Invalid webhook attempt from IP %s', $ip))
+            );
 
             $resultJson->setHttpResponseCode(400);
 
@@ -50,15 +52,15 @@ class Webhook extends \Magento\Framework\App\Action\Action
         $body = file_get_contents('php://input');
         $this->logger->info(__(sprintf("Webhook New Event!\n%s", $body)));
 
-       $result = $this->webhookHandler->handle($body);
+        $result = $this->webhookHandler->handle($body);
 
-       if(isset($result["error"])) {
-           $resultJson->setHttpResponseCode(400);
-           return $resultJson->setData([ "error" => $result["error"]]);
-       }
+        if (isset($result['error'])) {
+            $resultJson->setHttpResponseCode(400);
+            return $resultJson->setData(['error' => $result['error']]);
+        }
 
         $resultJson->setHttpResponseCode(200);
-        return $resultJson->setData([ "success" => $result["success"]]);
+        return $resultJson->setData(['success' => $result['success']]);
     }
 
     /**
@@ -71,14 +73,19 @@ class Webhook extends \Magento\Framework\App\Action\Action
         $systemWebhookAuthorization = $this->helperData->getWebhookAuthorization();
 
         $webhookAuthHeader = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
-        $webhookAuthOpenPixHeader = $_SERVER['HTTP_X_OPENPIX_AUTHORIZATION'] ?? '';
-        $webhookAuthQueryString = $this->getRequest()->getParam('authorization') ?? '';
+        $webhookAuthOpenPixHeader =
+            $_SERVER['HTTP_X_OPENPIX_AUTHORIZATION'] ?? '';
+        $webhookAuthQueryString =
+            $this->getRequest()->getParam('authorization') ?? '';
 
         $isAuthHeaderValid = $webhookAuthHeader === $systemWebhookAuthorization;
-        $isAuthOpenPixHeaderValid = $webhookAuthOpenPixHeader === $systemWebhookAuthorization;
-        $isAuthQueryStringValid = $webhookAuthQueryString === $systemWebhookAuthorization;
+        $isAuthOpenPixHeaderValid =
+            $webhookAuthOpenPixHeader === $systemWebhookAuthorization;
+        $isAuthQueryStringValid =
+            $webhookAuthQueryString === $systemWebhookAuthorization;
 
-        return $isAuthHeaderValid || $isAuthOpenPixHeaderValid || $isAuthQueryStringValid;
+        return $isAuthHeaderValid ||
+            $isAuthOpenPixHeaderValid ||
+            $isAuthQueryStringValid;
     }
-
 }
