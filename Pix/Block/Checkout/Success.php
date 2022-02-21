@@ -2,11 +2,13 @@
 
 namespace OpenPix\Pix\Block\Checkout;
 
+use Magento\Backup\Helper\Data;
+
 class Success extends \Magento\Sales\Block\Order\Totals
 {
-    protected $checkoutSession;
-    protected $customerSession;
-    protected $_orderFactory;
+    protected \Magento\Checkout\Model\Session $checkoutSession;
+    protected \Magento\Customer\Model\Session $customerSession;
+    protected \Magento\Sales\Model\OrderFactory $_orderFactory;
 
     /**
      * OpenPix Helper
@@ -33,7 +35,7 @@ class Success extends \Magento\Sales\Block\Order\Totals
         $this->_helperData = $helper;
     }
 
-    public function getOrder()
+    public function getOrder(): ?\Magento\Sales\Model\Order
     {
         $order = $this->_order = $this->_orderFactory
             ->create()
@@ -60,6 +62,25 @@ class Success extends \Magento\Sales\Block\Order\Totals
         );
 
         return $order;
+    }
+
+    public function getPluginSrc(): string
+    {
+        $order = $this->getOrder();
+        $pluginUrl = $this->_helperData->getOpenPixPluginUrlScript();
+        $appID = $this->_helperData->getAppID();
+        $correlationID = $order->getOpenpixCorrelationid();
+
+        $queryString = "appID={$appID}&correlationID={$correlationID}&node=openpix-order";
+        $src = "$pluginUrl?$queryString";
+
+        $this->_helperData->log(
+            'Pix::Block - Checkout Success $src',
+            self::LOG_NAME,
+            $src
+        );
+
+        return "$pluginUrl?$queryString";
     }
 
     public function getCustomerId()

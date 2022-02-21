@@ -131,6 +131,8 @@ class Data extends AbstractHelper
 
     public function getOpenPixApiUrl()
     {
+        // @todo add this to dev-docs and remove it before release
+        // to develop locally use return 'http://host.docker.internal:5001';
         if (self::OPENPIX_ENV === 'development') {
             return 'http://localhost:5001';
         }
@@ -322,5 +324,23 @@ class Data extends AbstractHelper
         }
 
         return true;
+    }
+
+    public static function getOpenPixPluginUrlScript(): string
+    {
+        // @todo add this to dev-docs and remove it before release
+        // to develop locally use return ngrok or we need to find how to use the 'http://host.docker.internal:4444' without
+        // returning error of CORB from chrome;
+        // return "https://288d-2804-431-c7d2-8148-a82a-82e7-b405-7c92.ngrok.io/openpix.js";
+        if (self::OPENPIX_ENV === 'development') {
+            return 'http://localhost:4444/openpix.js';
+        }
+
+        if (self::OPENPIX_ENV === 'staging') {
+            return 'https://plugin.openpix.com.br/v1/openpix-dev.js';
+        }
+
+        // production
+        return 'https://plugin.openpix.com.br/v1/openpix.js';
     }
 }
