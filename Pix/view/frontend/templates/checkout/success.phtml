@@ -8,12 +8,19 @@
 /** @var $block \OpenPix\Pix\Block\Checkout\Success */
 ?>
 <?php
-$order = $block->getOrder();
-$payment = $order->getPayment();
-$src = $block->getPluginSrc();
+    $order = $block->getOrder();
+    $payment = $order->getPayment();
+    $src = $block->getPluginSrc();
+    // $json = json_encode([
+    //     'order' => $order->getData(),
+    //     'payment' => $payment->getData(),
+    //     'src' => $src,
+    // ], JSON_PRETTY_PRINT);
+    // echo "<pre> $json </pre>";
 ?>
+
 <?php if ($payment->getMethod() === 'openpix_pix'): ?>
-    <script policy id="script-src" src="<?= $src ?>" async></script>
     <div id='openpix-order' style='margin-bottom: 40px'></div>
+    <script src="<?= $src ?>" async></script>
 
 <?php endif; ?>
