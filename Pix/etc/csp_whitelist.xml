@@ -36,5 +36,110 @@
                 <value id="openpix-prod-shopper" type="host">https://api.openpix.com.br/shopper/graphql</value>
             </values>
         </policy>
+        <policy id="default-src">
+            <values>
+                <!-- sentry pulugin js -->
+                <value id="openpix-sentry" type="host">*.sentry.io</value>
+                <value id="openpix-sentry" type="host">*.ingest.sentry.io</value>
+
+                <value id="docker" type="host">host.docker.internal</value>
+                <value id="docker-port" type="host">host.docker.internal:4444</value>
+                <value id="docker-all" type="host">*.docker.internal</value>
+
+                <!-- @todo improve this values below before to release -->
+                <value id="docker-all-link" type="host">http://host.docker.internal:4444/openpix.js</value>
+                <value id="docker-all-link-s" type="host">https://host.docker.internal:4444/openpix.js</value>
+                <value id="docker-all-link-1" type="host">https://f672-187-35-195-100.ngrok.io</value>
+
+                <!-- localhost-->
+                <value id="openpix-local" type="host">http://localhost:5001</value>
+                <value id="openpix-local-plugin" type="host">http://localhost:4444</value>
+                <value id="openpix-local-ws" type="host">ws://localhost:5001/openpix/ws</value>
+                <value id="openpix-local-ngrok" type="host">*.ngrok.io</value>
+
+                <!-- staging -->
+                <value id="openpix" type="host">*.openpix.com.br</value>
+                <value id="openpix-dev" type="host">*.openpix.dev</value>
+                <value id="openpix-dev-api" type="host">https://api.openpix.dev</value>
+                <value id="openpix-dev-graphql" type="host">https://graphql.openpix.dev/openpix/graphql</value>
+                <value id="openpix-dev-ws" type="host">wss://graphql.openpix.dev/openpix/ws</value>
+                <value id="openpix-dev-shopper" type="host">https://graphql.openpix.dev/shopper/graphql</value>
+
+                <!-- prod -->
+                <value id="openpix-prod-graphql" type="host">https://api.openpix.com.br/openpix/graphql</value>
+                <value id="openpix-prod-ws" type="host">wss://graphql.openpix.com.br/openpix/ws</value>
+                <value id="openpix-prod-shopper" type="host">https://api.openpix.com.br/shopper/graphql</value>
+            </values>
+        </policy>
+        <policy id="connect-src">
+            <values>
+                <!-- sentry pulugin js -->
+                <value id="openpix-sentry" type="host">*.sentry.io</value>
+                <value id="openpix-sentry" type="host">*.ingest.sentry.io</value>
+
+                <value id="docker" type="host">host.docker.internal</value>
+                <value id="docker-port" type="host">host.docker.internal:4444</value>
+                <value id="docker-all" type="host">*.docker.internal</value>
+
+                <!-- @todo improve this values below before to release -->
+                <value id="docker-all-link" type="host">http://host.docker.internal:4444/openpix.js</value>
+                <value id="docker-all-link-s" type="host">https://host.docker.internal:4444/openpix.js</value>
+                <value id="docker-all-link-1" type="host">https://f672-187-35-195-100.ngrok.io</value>
+
+                <!-- localhost-->
+                <value id="openpix-local" type="host">http://localhost:5001</value>
+                <value id="openpix-local-plugin" type="host">http://localhost:4444</value>
+                <value id="openpix-local-ws" type="host">ws://localhost:5001/openpix/ws</value>
+                <value id="openpix-local-ngrok" type="host">*.ngrok.io</value>
+
+                <!-- staging -->
+                <value id="openpix" type="host">*.openpix.com.br</value>
+                <value id="openpix-dev" type="host">*.openpix.dev</value>
+                <value id="openpix-dev-api" type="host">https://api.openpix.dev</value>
+                <value id="openpix-dev-graphql" type="host">https://graphql.openpix.dev/openpix/graphql</value>
+                <value id="openpix-dev-ws" type="host">wss://graphql.openpix.dev/openpix/ws</value>
+                <value id="openpix-dev-shopper" type="host">https://graphql.openpix.dev/shopper/graphql</value>
+
+                <!-- prod -->
+                <value id="openpix-prod-graphql" type="host">https://api.openpix.com.br/openpix/graphql</value>
+                <value id="openpix-prod-ws" type="host">wss://graphql.openpix.com.br/openpix/ws</value>
+                <value id="openpix-prod-shopper" type="host">https://api.openpix.com.br/shopper/graphql</value>
+            </values>
+        </policy>
+        <policy id="frame-src">
+            <values>
+                <!-- sentry pulugin js -->
+                <value id="openpix-sentry" type="host">*.sentry.io</value>
+                <value id="openpix-sentry" type="host">*.ingest.sentry.io</value>
+
+                <value id="docker" type="host">host.docker.internal</value>
+                <value id="docker-port" type="host">host.docker.internal:4444</value>
+                <value id="docker-all" type="host">*.docker.internal</value>
+
+                <!-- @todo improve this values below before to release -->
+                <value id="docker-all-link" type="host">http://host.docker.internal:4444/openpix.js</value>
+                <value id="docker-all-link-s" type="host">https://host.docker.internal:4444/openpix.js</value>
+                <value id="docker-all-link-1" type="host">https://f672-187-35-195-100.ngrok.io</value>
+
+                <!-- localhost-->
+                <value id="openpix-local" type="host">http://localhost:5001</value>
+                <value id="openpix-local-plugin" type="host">http://localhost:4444</value>
+                <value id="openpix-local-ws" type="host">ws://localhost:5001/openpix/ws</value>
+                <value id="openpix-local-ngrok" type="host">*.ngrok.io</value>
+
+                <!-- staging -->
+                <value id="openpix" type="host">*.openpix.com.br</value>
+                <value id="openpix-dev" type="host">*.openpix.dev</value>
+                <value id="openpix-dev-api" type="host">https://api.openpix.dev</value>
+                <value id="openpix-dev-graphql" type="host">https://graphql.openpix.dev/openpix/graphql</value>
+                <value id="openpix-dev-ws" type="host">wss://graphql.openpix.dev/openpix/ws</value>
+                <value id="openpix-dev-shopper" type="host">https://graphql.openpix.dev/shopper/graphql</value>
+
+                <!-- prod -->
+                <value id="openpix-prod-graphql" type="host">https://api.openpix.com.br/openpix/graphql</value>
+                <value id="openpix-prod-ws" type="host">wss://graphql.openpix.com.br/openpix/ws</value>
+                <value id="openpix-prod-shopper" type="host">https://api.openpix.com.br/shopper/graphql</value>
+            </values>
+        </policy>
     </policies>
 </csp_whitelist>

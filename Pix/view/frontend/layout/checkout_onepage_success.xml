@@ -3,7 +3,6 @@
     <head>
         <script src="OpenPix_Pix::js/copytoclipboard.js"/>
         <script src="OpenPix_Pix::js/orderSuccess.js"/>
-        <meta http-equiv="Content-Security-Policy" content="script-src 'https://f672-187-35-195-100.ngrok.io'"></meta>
     </head>
     <body>
         <referenceContainer name="order.success.additional.info">

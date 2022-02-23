@@ -3,27 +3,30 @@ require(['jquery', 'uiComponent'], function ($) {
   $(document).ready(function () {
     console.log('rendering the plugin');
     const url =
-      'https://plugin.openpix.com.br/v1/openpix.js?appID=Q2xpZW50X0lkX2I5MmQ1NjhlLTVkNjktNDhhNS1iYjhhLWNlNTU4N2VhNjE0ZTpDbGllbnRfU2VjcmV0X3VJdXY5S1BnMkkxeVp4eXVUelJWeFZTWmZhanJMK25hSktWSlZ5TXhUNVE9&correlationID=e53b6083-8eeb-4e1d-a0da-9c4fbcd2c225&node=openpix-order';
+      'https://plugin.openpix.com.br/v1/openpix.js?appID=Q2xpZW50X0lkX2Y1MTEyMzgxLTJkZmUtNGYyZS1iMWU5LWRhM2IyZjk2OTMyMjpDbGllbnRfU2VjcmV0X2RDdHFlRDU2REFxWURzWHJDbFRJTCtSRmp1dlZpYTY2Q2s1dUxBNFAyTzQ9&correlationID=cd2b28e6-5a2f-4ff6-bb34-56412feea815&node=openpix-order';
     $.ajax({
       url,
       dataType: 'script',
-      success: () => {
-        console.log(window.$openpix);
-        window.$openpix = [
-          'config',
-          {
-            appID:
-              'Q2xpZW50X0lkX2I5MmQ1NjhlLTVkNjktNDhhNS1iYjhhLWNlNTU4N2VhNjE0ZTpDbGllbnRfU2VjcmV0X3VJdXY5S1BnMkkxeVp4eXVUelJWeFZTWmZhanJMK25hSktWSlZ5TXhUNVE9',
-          },
-        ];
+      complete: (response) => {
+        console.log({ response });
+        setTimeout(() => {
+          console.log(window.$openpix);
+          window.$openpix.push([
+            'config',
+            {
+              appID:
+                'Q2xpZW50X0lkX2Y1MTEyMzgxLTJkZmUtNGYyZS1iMWU5LWRhM2IyZjk2OTMyMjpDbGllbnRfU2VjcmV0X2RDdHFlRDU2REFxWURzWHJDbFRJTCtSRmp1dlZpYTY2Q2s1dUxBNFAyTzQ9',
+            },
+          ]);
 
-        window.$openpix.push([
-          'pix',
-          {
-            value: 10,
-            correlationID: '1444',
-          },
-        ]);
+          window.$openpix.push([
+            'pix',
+            {
+              value: 10,
+              correlationID: '1449',
+            },
+          ]);
+        }, 3000);
       },
     });
   });
