@@ -11,16 +11,20 @@
     $order = $block->getOrder();
     $payment = $order->getPayment();
     $src = $block->getPluginSrc();
-    // $json = json_encode([
-    //     'order' => $order->getData(),
-    //     'payment' => $payment->getData(),
-    //     'src' => $src,
-    // ], JSON_PRETTY_PRINT);
-    // echo "<pre> $json </pre>";
+    echo 'oi';
+    $json = json_encode([
+        'order' => $order->getData(),
+        'payment' => $payment->getData(),
+        'src' => $src,
+    ], JSON_PRETTY_PRINT);
+    echo "<pre> $json </pre>";
 ?>
 
 <?php if ($payment->getMethod() === 'openpix_pix'): ?>
+    <!-- <script>
+        console.log(window.$openpix);
+        console.log(window);
+    </script> -->
     <div id='openpix-order' style='margin-bottom: 40px'></div>
-    <script src="<?= $src ?>" async></script>
 
 <?php endif; ?>
