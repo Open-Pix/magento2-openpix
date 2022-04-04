@@ -97,12 +97,14 @@ const createPullRequest = async (branchName, tag) => {
 
     fs.writeFileSync('./CHANGELOG.md', newChangelogContent);
 
+    const blankParamForMac = process.platform == 'darwin' ? "''" : '';
+
     await exec(
-      `sed -i '' 's/${latestVersion}/${newVersion}/g' Pix/etc/module.xml`,
+      `sed -i ${blankParamForMac} 's/${latestVersion}/${newVersion}/g' Pix/etc/module.xml`,
     );
 
     await exec(
-      `sed -i '' 's/${latestVersion}/${newVersion}/g' Pix/composer.json`,
+      `sed -i ${blankParamForMac} 's/${latestVersion}/${newVersion}/g' Pix/composer.json`,
     );
 
     await exec(`npm version --no-git-tag-version ${newVersion}`);
