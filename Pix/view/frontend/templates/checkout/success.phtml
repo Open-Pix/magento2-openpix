@@ -8,23 +8,47 @@
 /** @var $block \OpenPix\Pix\Block\Checkout\Success */
 ?>
 <?php
-    $order = $block->getOrder();
-    $payment = $order->getPayment();
-    $src = $block->getPluginSrc();
-    echo 'oi';
-    $json = json_encode([
+$order = $block->getOrder();
+$payment = $order->getPayment();
+$src = $block->getPluginSrc();
+$correlationID = $order->getOpenpixCorrelationid();
+echo $src;
+$json = json_encode(
+    [
         'order' => $order->getData(),
         'payment' => $payment->getData(),
         'src' => $src,
-    ], JSON_PRETTY_PRINT);
-    // echo "<pre> $json </pre>";
+    ],
+    JSON_PRETTY_PRINT
+);
+
+// echo "<pre> $json </pre>";
 ?>
 
 <?php if ($payment->getMethod() === 'openpix_pix'): ?>
-    <!-- <script>
-        console.log(window.$openpix);
-        console.log(window);
-    </script> -->
-    <div id='openpix-order' style='margin-bottom: 40px; min-height: 1000px'></div>
+    <div id='openpix-order' style='margin-bottom: 40px'></div>
+
+    <div class="actions openpix-pix" data-bind="scope: 'openpix-pix'">
+     <!-- ko template: getTemplate() --><!-- /ko -->
+    </div>
+
+
+
+    <script type="text/x-magento-init">
+     {
+           "*": {
+               "Magento_Ui/js/core/app": {
+                   "components": {
+                       "openpix-pix": {
+                           "component": "OpenPix_Pix/js/view/checkout/order_success",
+                           "template" : "OpenPix_Pix/checkout/order_success",
+                           "src" : "https://plugin.openpix.com.br/v1/openpix.js",
+                           "paymentCode" : "openpix_pix"
+                       }
+                   }
+               }
+           }
+       }
+    </script>
 
 <?php endif; ?>

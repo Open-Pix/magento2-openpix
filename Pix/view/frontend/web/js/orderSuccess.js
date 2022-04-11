@@ -1,33 +1,34 @@
-require(['jquery', 'uiComponent'], function ($) {
-  console.log('loading the document');
-  $(document).ready(function () {
-    console.log('rendering the plugin');
-    const url =
-      'https://plugin.openpix.com.br/v1/openpix.js?appID=Q2xpZW50X0lkX2Y1MTEyMzgxLTJkZmUtNGYyZS1iMWU5LWRhM2IyZjk2OTMyMjpDbGllbnRfU2VjcmV0X2RDdHFlRDU2REFxWURzWHJDbFRJTCtSRmp1dlZpYTY2Q2s1dUxBNFAyTzQ9&correlationID=cd2b28e6-5a2f-4ff6-bb34-56412feea815&node=openpix-order';
-    $.ajax({
-      url,
-      dataType: 'script',
-      complete: (response) => {
-        console.log({ response });
-        setTimeout(() => {
-          console.log(window.$openpix);
-          window.$openpix.push([
-            'config',
-            {
-              appID:
-                'Q2xpZW50X0lkX2Y1MTEyMzgxLTJkZmUtNGYyZS1iMWU5LWRhM2IyZjk2OTMyMjpDbGllbnRfU2VjcmV0X2RDdHFlRDU2REFxWURzWHJDbFRJTCtSRmp1dlZpYTY2Q2s1dUxBNFAyTzQ9',
-            },
-          ]);
-
-          window.$openpix.push([
-            'pix',
-            {
-              value: 10,
-              correlationID: '1449',
-            },
-          ]);
-        }, 3000);
-      },
-    });
-  });
-});
+// require(['jquery', 'uiComponent'], function ($, uiComponent) {
+//   console.log('loading the document');
+//
+//   $(document).ready(function () {
+//     console.log('rendering the plugin');
+//
+//     let shouldLoad = true;
+//     while (shouldLoad) {
+//       if (window.$openpix) {
+//         shouldLoad = false;
+//         console.log(window.$openpix.status());
+//
+//         window.$openpix.status();
+//         window.$openpix.push([
+//           'config',
+//           {
+//             appID:
+//               'Q2xpZW50X0lkXzZhZjY0MTNiLTM3NTgtNGMzYi04NzBmLTNkMWUxMDQ5NjU4NzpDbGllbnRfU2VjcmV0X0pqbGhSUlNaNU11Wll1YkQvQTdadjJ2UiswdjNocmFqNVRZN2NCRTcrUEU9',
+//           },
+//         ]);
+//
+//         window.$openpix.push([
+//           'pix',
+//           {
+//             value: 1000, // R$ 10,00
+//             correlationID: 'd041533a-2ffb-46ac-83bc-b431379d3126',
+//             // description: 'product A',
+//
+//           },
+//         ]);
+//       }
+//     }
+//   });
+// });

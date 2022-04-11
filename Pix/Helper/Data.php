@@ -25,9 +25,9 @@ class Data extends AbstractHelper
      * @var ScopeConfigInterface
      */
 
-    //    const OPENPIX_ENV = 'development';
-    //    const OPENPIX_ENV = 'staging';
-    const OPENPIX_ENV = 'production';
+    //        const OPENPIX_ENV = 'development';
+    const OPENPIX_ENV = 'staging';
+    //    const OPENPIX_ENV = 'production';
 
     // change this to work in development, staging or production
     /**
@@ -178,6 +178,7 @@ class Data extends AbstractHelper
     }
     public function getAppID($clearCache = false)
     {
+        return 'Q2xpZW50X0lkXzZhZjY0MTNiLTM3NTgtNGMzYi04NzBmLTNkMWUxMDQ5NjU4NzpDbGllbnRfU2VjcmV0X0pqbGhSUlNaNU11Wll1YkQvQTdadjJ2UiswdjNocmFqNVRZN2NCRTcrUEU9';
         return $this->getConfig('payment/openpix_pix/app_ID', $clearCache);
     }
 
