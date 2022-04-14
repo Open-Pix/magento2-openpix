@@ -2,7 +2,6 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
         <script src="OpenPix_Pix::js/copytoclipboard.js"/>
-<!--        <script src="OpenPix_Pix::js/orderSuccess.js"/>-->
     </head>
     <body>
         <referenceContainer name="order.success.additional.info">

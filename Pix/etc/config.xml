@@ -20,7 +20,6 @@
             <mode>
                 <storefront>
                     <report_only>1</report_only>
-                    <report_uri>https://webhook.site/e33bbff0-218c-49d4-8b6e-e9988dca41fd</report_uri>
                 </storefront>
                 <admin>
                     <report_only>1</report_only>

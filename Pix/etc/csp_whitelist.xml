@@ -5,53 +5,28 @@
             <values>
                 <!-- staging -->
                 <value id="script-openpix" type="host">*.openpix.com.br</value>
-                <value id="script-openpix-dev" type="host">*.openpix.dev</value>
-                <value id="script-openpix-dev-api" type="host">https://api.openpix.dev</value>
-                <value id="script-openpix-dev-graphql" type="host">https://graphql.openpix.dev/openpix/graphql</value>
-                <value id="script-openpix-dev-ws" type="host">wss://graphql.openpix.dev/openpix/ws</value>
-                <value id="script-openpix-dev-shopper" type="host">https://graphql.openpix.dev/shopper/graphql</value>
-                <value id="script-openpix-dev-plugin" type="host">https://plugin.openpix.com.br/v1/openpix-dev.js</value>
-                <value id="script-openpix-dev-sentry" type="host">https://o163074.ingest.sentry.io</value>
             </values>
         </policy>
         <policy id="default-src">
             <values>
                 <!-- staging -->
                 <value id="default-openpix" type="host">*.openpix.com.br</value>
-                <value id="default-openpix-dev" type="host">*.openpix.dev</value>
-                <value id="default-openpix-dev-api" type="host">https://api.openpix.dev</value>
-                <value id="default-openpix-dev-graphql" type="host">https://graphql.openpix.dev/openpix/graphql</value>
-                <value id="default-openpix-dev-ws" type="host">wss://graphql.openpix.dev/openpix/ws</value>
-                <value id="default-openpix-dev-shopper" type="host">https://graphql.openpix.dev/shopper/graphql</value>
-                <value id="default-openpix-dev-plugin" type="host">https://plugin.openpix.com.br/v1/openpix-dev.js</value>
-                <value id="default-openpix-dev-sentry" type="host">https://o163074.ingest.sentry.io</value>
             </values>
         </policy>
         <policy id="connect-src">
             <values>
                 <!-- staging -->
                 <value id="connect-openpix" type="host">*.openpix.com.br</value>
-                <value id="connect-openpix-dev" type="host">*.openpix.dev</value>
                 <value id="connect-openpix-dev-api" type="host">https://api.openpix.dev</value>
-                <value id="connect-openpix-dev-graphql" type="host">https://graphql.openpix.dev/openpix/graphql</value>
                 <value id="connect-openpix-dev-ws" type="host">wss://graphql.openpix.dev/openpix/ws</value>
-                <value id="connect-openpix-dev-shopper" type="host">https://graphql.openpix.dev/shopper/graphql</value>
-                <value id="connect-openpix-dev-plugin" type="host">https://plugin.openpix.com.br/v1/openpix-dev.js</value>
+                <value id="connect-openpix-dev-ws-prod" type="host">wss://graphql.openpix.com.br/openpix/ws</value>
                 <value id="connect-openpix-dev-sentry" type="host">https://o163074.ingest.sentry.io</value>
-                <value id="connect-openpix-dev-sentry" type="host">wss://graphql.openpix.com.br/openpix/ws</value>
             </values>
         </policy>
         <policy id="frame-src">
             <values>
                 <!-- staging -->
                 <value id="frame-openpix" type="host">*.openpix.com.br</value>
-                <value id="frame-openpix-dev" type="host">*.openpix.dev</value>
-                <value id="frame-openpix-dev-api" type="host">https://api.openpix.dev</value>
-                <value id="frame-openpix-dev-graphql" type="host">https://graphql.openpix.dev/openpix/graphql</value>
-                <value id="frame-openpix-dev-ws" type="host">wss://graphql.openpix.dev/openpix/ws</value>
-                <value id="frame-openpix-dev-shopper" type="host">https://graphql.openpix.dev/shopper/graphql</value>
-                <value id="frame-openpix-dev-plugin" type="host">https://plugin.openpix.com.br/v1/openpix-dev.js</value>
-                <value id="frame-openpix-dev-sentry" type="host">https://o163074.ingest.sentry.io</value>
             </values>
         </policy>
     </policies>

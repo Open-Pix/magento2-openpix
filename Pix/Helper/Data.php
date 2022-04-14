@@ -26,8 +26,8 @@ class Data extends AbstractHelper
      */
 
     //        const OPENPIX_ENV = 'development';
-    const OPENPIX_ENV = 'staging';
-    //    const OPENPIX_ENV = 'production';
+    //     const OPENPIX_ENV = 'staging';
+    const OPENPIX_ENV = 'production';
 
     // change this to work in development, staging or production
     /**
@@ -131,8 +131,6 @@ class Data extends AbstractHelper
 
     public function getOpenPixApiUrl()
     {
-        // @todo add this to dev-docs and remove it before release
-        // to develop locally use return 'http://host.docker.internal:5001';
         if (self::OPENPIX_ENV === 'development') {
             return 'http://localhost:5001';
         }
@@ -178,7 +176,6 @@ class Data extends AbstractHelper
     }
     public function getAppID($clearCache = false)
     {
-        return 'Q2xpZW50X0lkXzZhZjY0MTNiLTM3NTgtNGMzYi04NzBmLTNkMWUxMDQ5NjU4NzpDbGllbnRfU2VjcmV0X0pqbGhSUlNaNU11Wll1YkQvQTdadjJ2UiswdjNocmFqNVRZN2NCRTcrUEU9';
         return $this->getConfig('payment/openpix_pix/app_ID', $clearCache);
     }
 
@@ -329,10 +326,6 @@ class Data extends AbstractHelper
 
     public static function getOpenPixPluginUrlScript(): string
     {
-        // @todo add this to dev-docs and remove it before release
-        // to develop locally use return ngrok or we need to find how to use the 'http://host.docker.internal:4444' without
-        // returning error of CORB from chrome;
-        // return "https://288d-2804-431-c7d2-8148-a82a-82e7-b405-7c92.ngrok.io/openpix.js";
         if (self::OPENPIX_ENV === 'development') {
             return 'http://localhost:4444/openpix.js';
         }
