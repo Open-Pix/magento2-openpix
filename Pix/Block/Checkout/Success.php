@@ -64,6 +64,11 @@ class Success extends \Magento\Sales\Block\Order\Totals
         return $order;
     }
 
+    public function getAppID(): string
+    {
+        return $this->_helperData->getAppID();
+    }
+
     public function getPluginSrc(): string
     {
         $order = $this->getOrder();

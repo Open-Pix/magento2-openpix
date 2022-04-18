@@ -25,7 +25,7 @@ class Data extends AbstractHelper
      * @var ScopeConfigInterface
      */
 
-    //        const OPENPIX_ENV = 'development';
+    //            const OPENPIX_ENV = 'development';
     //     const OPENPIX_ENV = 'staging';
     const OPENPIX_ENV = 'production';
 
@@ -132,6 +132,7 @@ class Data extends AbstractHelper
     public function getOpenPixApiUrl()
     {
         if (self::OPENPIX_ENV === 'development') {
+            return 'http://host.docker.internal:5001';
             return 'http://localhost:5001';
         }
 
@@ -331,7 +332,7 @@ class Data extends AbstractHelper
         }
 
         if (self::OPENPIX_ENV === 'staging') {
-            return 'https://plugin.openpix.com.br/v1/openpix-dev.js';
+            return 'https://plugin.openpix.dev/v1/openpix-dev.js';
         }
 
         // production

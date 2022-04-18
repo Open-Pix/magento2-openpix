@@ -8,21 +8,56 @@
 /** @var $block \OpenPix\Pix\Block\Checkout\Success */
 ?>
 <?php
-    $order = $block->getOrder();
-    $payment = $order->getPayment();
-    $src = $block->getPluginSrc();
+$order = $block->getOrder();
+$appID = $block->getAppID();
+$payment = $order->getPayment();
+$src = $block->getPluginSrc();
+$correlationID = $order->getOpenpixCorrelationid();
 ?>
 
 <?php if ($payment->getMethod() === 'openpix_pix'): ?>
     <div id='openpix-order' style='margin-bottom: 40px'></div>
 
-   <script type="text/javascript">
+   <script type = "text/javascript" >
        (function(w, d, s) {
            var f = d.getElementsByTagName(s)[0],
                j = d.createElement(s);
            j.async = true;
            j.src = '<?= /* @noEscape */ $src ?>';
            f.parentNode.insertBefore(j, f[f.length - 1], 'script');
+
+           //            console.log(window.$openpix.status());
+
+           let shouldPolling = true;
+
+           function polling() {
+               console.log('polling');
+               if (window.$openpix) {
+                   console.log('loaded');
+                   shouldPolling = false;
+                   console.log('status from js', window.$openpix.status());
+
+                   window.$openpix.push([
+                       'config',
+                       {
+                           appID: '<?= /* @noEscape */ $appID ?>',
+                       },
+                   ]);
+
+                   window.$openpix.push([
+                       'pix',
+                       {
+                           correlationID: '<?= /* @noEscape */ $correlationID ?>',
+                       },
+                   ]);
+               }
+
+               if (shouldPolling) {
+                   setTimeout(polling, 2000);
+               }
+           }
+
+           setTimeout(polling, 2000);
        })(window, document, 'script');
    </script>
 <?php endif; ?>
