@@ -55,4 +55,22 @@ class Info extends \Magento\Framework\View\Element\Template
             'brcode' => $order->getOpenpixBrcode(),
         ];
     }
+
+    public function getAppID(): string
+    {
+        return $this->_helperData->getAppID();
+    }
+
+    public function getCorrelationID(): string
+    {
+        $order_id = $this->getRequest()->getParam('order_id');
+        $order = $this->_orderFactory->load($order_id);
+
+        return $order->getOpenpixCorrelationid();
+    }
+
+    public function getPluginSrc(): string
+    {
+        return $this->_helperData->getOpenPixPluginUrlScript();
+    }
 }

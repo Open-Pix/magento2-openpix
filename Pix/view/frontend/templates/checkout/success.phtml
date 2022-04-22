@@ -12,20 +12,13 @@ $paymentLinkUrl = $order->getOpenpixPaymentlinkurl();
 $brCodeImage = $order->getOpenpixQrcodeimage();
 $brCode = $order->getOpenpixBrcode();
 $payment = $order->getPayment();
+$src = $block->getPluginSrc();
+$correlationID = $block->getCorrelationID();
+$appID = $block->getAppID();
 ?>
 <?php if ($payment->getMethod() === 'openpix_pix') : ?>
 <div class="actions-toolbar flex">
-    <div class="primary">
-        <img src="<?= $brCodeImage ?>" width="400px" />
-    </div>
-    <div class="flex linhes">
-        <h3>Linha digitável:</h3>
-        <textarea readonly rows="5" name="pixer" id="select-this"><?= $brCode ?></textarea>
-        <div class="actions-toolbar">
-            <div class="primary">
-                <button id='clickMe'>Copiar</button>
-            </div>
-        </div>
-    </div>
+    <div id="openpix-order" data-appid="<?= $appID ?>" data-correlationID="<?= $correlationID ?>"></div>
+    <script src="<?= $src ?>" async src_type="url"></script>
 </div>
 <?php endif ?>
