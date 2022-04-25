@@ -217,6 +217,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
         ];
         $comment = substr("$storeName", 0, 100) . '#' . $orderId;
         $comment_trimmed = substr($comment, 0, 140);
+
         if (!$customer) {
             return [
                 'correlationID' => $correlationID,
@@ -293,16 +294,30 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
 
             $orderId = $order->getIncrementId();
 
-            $couponCode = $this->_coupon->createRule(
-                intval($charge['giftbackAppliedValue']),
-                $orderId
-            );
+            //             $couponCode = $this->_coupon->createRule(
+            //                 intval($charge['giftbackAppliedValue']),
+            //                 $orderId
+            //             );
 
-            $quote = $this->cart
-                ->getQuote()
-                ->setCouponCode($couponCode)
-                ->collectTotals()
-                ->save();
+            // @todo apply the coupon on order instead of cart
+            //             $quote = $this->cart
+            //                 ->getQuote()
+            //                 ->setCouponCode($couponCode)
+            //                 ->collectTotals()
+            //                 ->save();
+
+            // trying to apply the discount direct on order
+            if (isset($charge['giftbackAppliedValue'])) {
+                $roundedGiftbackValue = round(
+                    $this->_helperData->absint(
+                        $charge['giftbackAppliedValue']
+                    ) / 100,
+                    2
+                );
+
+                $order->setDiscountAmount($roundedGiftbackValue * -1);
+                $order->setDiscountDescription('giftback-' . $orderId);
+            }
 
             $message = __(
                 'New Order placed, QrCode Pix generated and saved on OpenPix Platform'
