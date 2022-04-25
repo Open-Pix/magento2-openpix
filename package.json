@@ -35,7 +35,7 @@
     "lint-staged": "12.4.0",
     "moment": "^2.29.3",
     "prettier": "^2.6.2",
-    "simple-git": "^3.7.0",
+    "simple-git": "^3.7.1",
     "vite": "2.9.5"
   },
   "license": "MIT",
