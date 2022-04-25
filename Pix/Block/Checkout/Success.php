@@ -62,6 +62,22 @@ class Success extends \Magento\Sales\Block\Order\Totals
         return $order;
     }
 
+    public function getAppID(): string
+    {
+        return $this->_helperData->getAppID();
+    }
+
+    public function getCorrelationID(): string
+    {
+        $order = $this->getOrder();
+        return $order->getOpenpixCorrelationid();
+    }
+
+    public function getPluginSrc(): string
+    {
+        return $this->_helperData->getOpenPixPluginUrlScript();
+    }
+
     public function getCustomerId()
     {
         return $this->customerSession->getCustomer()->getId();
