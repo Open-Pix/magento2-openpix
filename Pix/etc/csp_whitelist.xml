@@ -11,11 +11,13 @@
                 <value id="openpix-sentry-plugin" type="host">*.ingest.sentry.io</value>
 
                 <!-- staging -->
+                <value id="openpix-dev-pluginjs" type="host">https://plugin.openpix.dev/v1/openpix-dev.js</value>
                 <value id="openpix-dev-api" type="host">https://api.openpix.dev</value>
                 <value id="openpix-dev-graphql" type="host">https://graphql.openpix.dev/openpix/graphql</value>
                 <value id="openpix-dev-shopper" type="host">https://graphql.openpix.dev/shopper/graphql</value>
 
                 <!-- prod -->
+                <value id="openpix-prod-pluginjs" type="host">https://plugin.openpix.com.br/v1/openpix.js</value>
                 <value id="openpix-prod-graphql" type="host">https://api.openpix.com.br/openpix/graphql</value>
                 <value id="openpix-prod-shopper" type="host">https://api.openpix.com.br/shopper/graphql</value>
             </values>
