@@ -18,19 +18,12 @@ use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\App\Config\Storage\WriterInterface;
 use Magento\Framework\App\Cache\TypeListInterface;
 
-class OpenPixConfig extends AbstractHelper
+class OpenPixConfig
 {
     const OPENPIX_ENV = 'staging';
 
-    /**
-     * Data constructor.
-     *
-     * @param Context $context
-     */
     public function __construct(
-        Context $context,
     ) {
-        parent::__construct($context);
     }
 
     public function getOpenPixApiUrl()
@@ -38,7 +31,7 @@ class OpenPixConfig extends AbstractHelper
         return 'https://api.openpix.dev';
     }
 
-    public static function getOpenPixPluginUrlScript(): string
+    public function getOpenPixPluginUrlScript(): string
     {
         return 'https://plugin.openpix.dev/v1/openpix-dev.js';
     }
