@@ -51,8 +51,10 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
         \OpenPix\Pix\Helper\Data $helper,
+        \OpenPix\Pix\Helper\Coupon $coupon,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Message\ManagerInterface $messageManager,
+        \Magento\Checkout\Model\Cart $cart,
         array $data = []
     ) {
         parent::__construct(
@@ -68,8 +70,10 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
             $data
         );
         $this->_helperData = $helper;
+        $this->_coupon = $coupon;
         $this->_storeManager = $storeManager;
         $this->messageManager = $messageManager;
+        $this->cart = $cart;
     }
 
     /**
@@ -233,7 +237,8 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
 
     public function order(
         \Magento\Payment\Model\InfoInterface $payment,
-        $amount
+        $amount,
+        \Magento\Quote\Api\Data\CartInterface $cart = null
     ) {
         try {
             $this->_helperData->log(
@@ -247,9 +252,15 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
 
             $payload = $this->getPayload($order, $correlationID);
 
-            $this->_helperData->log('Payload ', self::LOG_NAME, $payload);
+            $this->_helperData->debugJson('Payload ', self::LOG_NAME, $payload);
 
             $response = (array) $this->handleCreateCharge($payload);
+
+            $this->_helperData->debugJson(
+                'Response ',
+                self::LOG_NAME,
+                $response
+            );
 
             if (isset($response['errors'])) {
                 $arrayLog = [
@@ -292,10 +303,24 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
                 $response
             );
 
+            $orderId = $order->getIncrementId();
+
+            $couponCode = $this->_coupon->createRule(
+                intval($charge['giftbackAppliedValue']),
+                $orderId
+            );
+
+            $quote = $this->cart
+                ->getQuote()
+                ->setCouponCode($couponCode)
+                ->collectTotals()
+                ->save();
+
             $message = __(
                 'New Order placed, QrCode Pix generated and saved on OpenPix Platform'
             );
             $status = $this->_helperData->getOrderStatus();
+
             $order
                 ->setStatus($status)
                 ->setState(Order::STATE_NEW)
