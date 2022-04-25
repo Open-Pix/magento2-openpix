@@ -8,9 +8,6 @@
 <?php /** @var $block \Magento\Checkout\Block\Onepage\Success */ ?>
 <?php
 $order = $block->getOrder();
-$paymentLinkUrl = $order->getOpenpixPaymentlinkurl();
-$brCodeImage = $order->getOpenpixQrcodeimage();
-$brCode = $order->getOpenpixBrcode();
 $payment = $order->getPayment();
 $src = $block->getPluginSrc();
 $correlationID = $block->getCorrelationID();
