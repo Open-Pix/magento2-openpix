@@ -256,12 +256,6 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
 
             $response = (array) $this->handleCreateCharge($payload);
 
-            $this->_helperData->debugJson(
-                'Response ',
-                self::LOG_NAME,
-                $response
-            );
-
             if (isset($response['errors'])) {
                 $arrayLog = [
                     'response' => $response,
@@ -280,8 +274,8 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
                 throw new \Exception($response['errors'], 1);
             }
 
-            $this->_helperData->log(
-                'Pix::ResponseSuccess - Response Payload',
+            $this->_helperData->debugJson(
+                'Pix::ResponseSuccess - Response Payload ',
                 self::LOG_NAME,
                 $response
             );
@@ -296,12 +290,6 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
             $order->setOpenpixPaymentlinkurl($paymentLinkUrl);
             $order->setOpenpixQrcodeimage($qrCodeImage);
             $order->setOpenpixBrcode($brCode);
-
-            $this->_helperData->log(
-                'Pix::Success - going to checkout success',
-                self::LOG_NAME,
-                $response
-            );
 
             $orderId = $order->getIncrementId();
 

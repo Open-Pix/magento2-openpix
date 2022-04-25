@@ -16,6 +16,7 @@ use Magento\Framework\Serialize\SerializerInterface;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use OpenPix\Pix\Logger\Logger;
+use OpenPix\Pix\Helper\OpenPixConfig;
 use Magento\Framework\App\Config\Storage\WriterInterface;
 use Magento\Framework\App\Cache\TypeListInterface;
 
@@ -25,10 +26,6 @@ class Data extends AbstractHelper
      * @var ScopeConfigInterface
      */
 
-    const OPENPIX_ENV = 'development';
-    //    const OPENPIX_ENV = 'staging';
-    //    const OPENPIX_ENV = 'production';
-
     // change this to work in development, staging or production
     /**
      * OpenPix Logging instance
@@ -36,6 +33,7 @@ class Data extends AbstractHelper
      * @var Logger
      */
     protected $_openpixLogger;
+    protected $_openpixConfig;
 
     /**
      * Data constructor.
@@ -65,7 +63,8 @@ class Data extends AbstractHelper
         RemoteAddress $remoteAddress,
         encryptor $encryptor,
         WriterInterface $writerConfig,
-        TypeListInterface $cacheTypeList
+        TypeListInterface $cacheTypeList,
+        OpenPixConfig $openPixConfig
     ) {
         $this->storeManager = $storeManager;
         $this->_openpixLogger = $logger;
@@ -79,6 +78,7 @@ class Data extends AbstractHelper
         $this->_encryptor = $encryptor;
         $this->_writerConfig = $writerConfig;
         $this->cacheTypeList = $cacheTypeList;
+        $this->_openpixConfig = $openPixConfig;
         parent::__construct($context);
     }
 
@@ -146,32 +146,12 @@ class Data extends AbstractHelper
 
     public function getOpenPixApiUrl()
     {
-        return 'http://host.docker.internal:5001';
-
-        if (self::OPENPIX_ENV === 'development') {
-            return 'http://localhost:5001';
-        }
-
-        if (self::OPENPIX_ENV === 'staging') {
-            return 'https://api.openpix.dev';
-        }
-
-        // production
-        return 'https://api.openpix.com.br';
+        return $this->_openpixConfig->getOpenPixApiUrl();
     }
 
-    public static function getOpenPixPluginUrlScript(): string
+    public function getOpenPixPluginUrlScript(): string
     {
-        if (self::OPENPIX_ENV === 'development') {
-            return 'http://localhost:4444/openpix.js';
-        }
-
-        if (self::OPENPIX_ENV === 'staging') {
-            return 'https://plugin.openpix.dev/v1/openpix-dev.js';
-        }
-
-        // production
-        return 'https://plugin.openpix.com.br/v1/openpix.js';
+        return $this->_openpixConfig->getOpenPixPluginUrlScript();
     }
 
     public function getOpenPixEnabled()
