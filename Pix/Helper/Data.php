@@ -26,8 +26,8 @@ class Data extends AbstractHelper
      */
 
     //         const OPENPIX_ENV = 'development';
-    //        const OPENPIX_ENV = 'staging';
-    const OPENPIX_ENV = 'production';
+    const OPENPIX_ENV = 'staging';
+    //     const OPENPIX_ENV = 'production';
 
     // change this to work in development, staging or production
     /**
