@@ -21,8 +21,8 @@ class OpenPixConfig
 {
     const OPENPIX_ENV = 'production';
 
-    public function __construct(
-    ) {
+    public function __construct()
+    {
     }
 
     public function getOpenPixApiUrl()

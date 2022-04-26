@@ -213,6 +213,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
         ];
         $comment = substr("$storeName", 0, 100) . '#' . $orderId;
         $comment_trimmed = substr($comment, 0, 140);
+
         if (!$customer) {
             return [
                 'correlationID' => $correlationID,
@@ -247,7 +248,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
 
             $payload = $this->getPayload($order, $correlationID);
 
-            $this->_helperData->log('Payload ', self::LOG_NAME, $payload);
+            $this->_helperData->debugJson('Payload ', self::LOG_NAME, $payload);
 
             $response = (array) $this->handleCreateCharge($payload);
 
@@ -269,8 +270,8 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
                 throw new \Exception($response['errors'], 1);
             }
 
-            $this->_helperData->log(
-                'Pix::ResponseSuccess - Response Payload',
+            $this->_helperData->debugJson(
+                'Pix::ResponseSuccess - Response Payload ',
                 self::LOG_NAME,
                 $response
             );
@@ -286,16 +287,33 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
             $order->setOpenpixQrcodeimage($qrCodeImage);
             $order->setOpenpixBrcode($brCode);
 
-            $this->_helperData->log(
-                'Pix::Success - going to checkout success',
-                self::LOG_NAME,
-                $response
-            );
+            $orderId = $order->getIncrementId();
+
+            // trying to apply the discount direct on order
+            if (isset($charge['giftbackAppliedValue'])) {
+                $roundedGiftbackValue = round(
+                    $this->_helperData->absint(
+                        $charge['giftbackAppliedValue']
+                    ) / 100,
+                    2
+                );
+
+                $order->setDiscountAmount($roundedGiftbackValue * -1);
+                $order->setDiscountDescription('giftback-' . $orderId);
+
+                $order->setBaseGrandTotal(
+                    $order->getBaseGrandTotal() - $roundedGiftbackValue
+                );
+                $order->setGrandTotal(
+                    $order->getGrandTotal() - $roundedGiftbackValue
+                );
+            }
 
             $message = __(
                 'New Order placed, QrCode Pix generated and saved on OpenPix Platform'
             );
             $status = $this->_helperData->getOrderStatus();
+
             $order
                 ->setStatus($status)
                 ->setState(Order::STATE_NEW)

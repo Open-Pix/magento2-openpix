@@ -26,10 +26,6 @@ class Data extends AbstractHelper
      * @var ScopeConfigInterface
      */
 
-    //         const OPENPIX_ENV = 'development';
-    //     const OPENPIX_ENV = 'staging';
-    const OPENPIX_ENV = 'production';
-
     // change this to work in development, staging or production
     /**
      * OpenPix Logging instance
@@ -131,6 +127,21 @@ class Data extends AbstractHelper
         //set log
         $this->_openpixLogger->setName($name);
         $this->_openpixLogger->debug($message);
+    }
+
+    public function debugJson(
+        $message,
+        $name = 'openpix',
+        $objectToBeEncoded = null
+    ) {
+        $jsonEncodedObject = json_encode(
+            $objectToBeEncoded,
+            JSON_UNESCAPED_UNICODE |
+                JSON_UNESCAPED_SLASHES |
+                JSON_NUMERIC_CHECK |
+                JSON_PRETTY_PRINT
+        );
+        $this->_openpixLogger->debug($message . "\n" . $jsonEncodedObject);
     }
 
     public function getOpenPixApiUrl()

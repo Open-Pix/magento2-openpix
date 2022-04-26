@@ -21,17 +21,17 @@ class OpenPixConfig
 {
     const OPENPIX_ENV = 'development';
 
-    public function __construct(
-    ) {}
+    public function __construct()
+    {
+    }
 
     public function getOpenPixApiUrl()
     {
         return 'http://host.docker.internal:5001';
-//        return 'http://localhost:5001';
     }
 
     public function getOpenPixPluginUrlScript(): string
     {
-        return 'http://localhost:4444/openpix.js';
+        return 'http://host.docker.internal:4444/openpix.js';
     }
 }

@@ -19,19 +19,20 @@ use Magento\Framework\App\Cache\TypeListInterface;
 
 class OpenPixConfig
 {
-    const OPENPIX_ENV = 'production';
+    const OPENPIX_ENV = 'development';
 
-    public function __construct(
-    ) {
+    public function __construct()
+    {
     }
 
     public function getOpenPixApiUrl()
     {
-        return 'https://api.openpix.com.br';
+        return 'http://host.docker.internal:5001';
+        //        return 'http://localhost:5001';
     }
 
     public function getOpenPixPluginUrlScript(): string
     {
-        return 'https://plugin.openpix.com.br/v1/openpix.js';
+        return 'http://localhost:4444/openpix.js';
     }
 }

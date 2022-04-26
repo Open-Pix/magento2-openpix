@@ -1,11 +1,12 @@
 <?php
-
 /**
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 ?>
-<?php /** @var $block \Magento\Checkout\Block\Onepage\Success */ ?>
+<?php
+/** @var $block \Magento\Checkout\Block\Onepage\Success */
+?>
 <?php
 $order = $block->getOrder();
 $payment = $order->getPayment();
@@ -13,9 +14,9 @@ $src = $block->getPluginSrc();
 $correlationID = $block->getCorrelationID();
 $appID = $block->getAppID();
 ?>
-<?php if ($payment->getMethod() === 'openpix_pix') : ?>
+<?php if ($payment->getMethod() === 'openpix_pix'): ?>
 <div class="actions-toolbar flex">
     <div id="openpix-order" data-appid="<?= $appID ?>" data-correlationID="<?= $correlationID ?>"></div>
     <script src="<?= $src ?>" async src_type="url"></script>
 </div>
-<?php endif ?>
+<?php endif; ?>
