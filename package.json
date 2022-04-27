@@ -12,7 +12,7 @@
     "@octokit/rest": "^18.12.0",
     "@prettier/plugin-php": "^0.18.4",
     "@types/dotenv-safe": "^8.1.2",
-    "@typescript-eslint/eslint-plugin": "3.10.1",
+    "@typescript-eslint/eslint-plugin": "5.21.0",
     "@typescript-eslint/parser": "5.21.0",
     "babel-jest": "^28.0.2",
     "dotenv-safe": "^8.2.0",
