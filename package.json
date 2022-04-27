@@ -2,7 +2,7 @@
   "name": "magento2-openpix",
   "version": "1.0.30",
   "dependencies": {
-    "jest": "^27.5.1"
+    "jest": "^28.0.1"
   },
   "devDependencies": {
     "@babel/plugin-transform-typescript": "7.16.8",
