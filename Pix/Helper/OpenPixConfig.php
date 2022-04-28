@@ -1,10 +1,9 @@
 <?php
 
 namespace OpenPix\Pix\Helper;
-
 class OpenPixConfig
 {
-    const OPENPIX_ENV = 'development';
+    const OPENPIX_ENV = 'production';
 
     public function __construct()
     {
@@ -12,12 +11,11 @@ class OpenPixConfig
 
     public function getOpenPixApiUrl()
     {
-        return 'http://host.docker.internal:5001';
-        //        return 'http://localhost:5001';
+        return 'https://api.openpix.com.br';
     }
 
     public function getOpenPixPluginUrlScript(): string
     {
-        return 'http://localhost:4444/openpix.js';
+        return 'https://plugin.openpix.com.br/v1/openpix.js';
     }
 }
