@@ -1,3 +1,41 @@
+#### 2.0.0 (2022-04-28)
+
+##### Build System / Dependencies
+
+* **deps-dev:**
+  *  bump @typescript-eslint/eslint-plugin (b06d9866)
+  *  bump babel-jest from 27.5.1 to 28.0.2 (e0e88083)
+  *  bump lint-staged from 12.4.0 to 12.4.1 (#226) (7bb941b6)
+  *  bump vite from 2.9.5 to 2.9.6 (#228) (c745502b)
+  *  bump @typescript-eslint/parser from 5.20.0 to 5.21.0 (#222) (27274c91)
+* **deps:**  bump jest from 27.5.1 to 28.0.1 (664874ef)
+
+##### Chores
+
+* **requirejs:**  config requirejs (ea4242b7)
+* **config:**
+  *  prod (2b9f014f)
+  *  config (b494b83a)
+* **coupon:**
+  *  remove coupon (8086fcd4)
+  *  remove logs, docker (2d8b97cf)
+* **clean:**  remove unused imports (#225) (8aa3c0e9)
+* **csp:**  more csp (2abcacd7)
+* **env:**  env (e286abce)
+
+##### New Features
+
+* **plugin:**  success (06c731e0)
+* **discount:**  trying discount on order (f00f9fb6)
+* **config:**
+  *  config dx (98ba97b3)
+  *  config magento2 dx (fdafae45)
+* **coupon-magento:**  wip coupon on magento (cd7e24c9)
+
+##### Bug Fixes
+
+* **order:**  fix order and fix plugin url to localhost (3f63032d)
+
 #### 1.0.30 (2022-04-25)
 
 ##### Build System / Dependencies
