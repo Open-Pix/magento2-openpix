@@ -51,10 +51,8 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
         \OpenPix\Pix\Helper\Data $helper,
-        \OpenPix\Pix\Helper\Coupon $coupon,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Message\ManagerInterface $messageManager,
-        \Magento\Checkout\Model\Cart $cart,
         array $data = []
     ) {
         parent::__construct(
@@ -70,10 +68,8 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
             $data
         );
         $this->_helperData = $helper;
-        $this->_coupon = $coupon;
         $this->_storeManager = $storeManager;
         $this->messageManager = $messageManager;
-        $this->cart = $cart;
     }
 
     /**
@@ -238,8 +234,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
 
     public function order(
         \Magento\Payment\Model\InfoInterface $payment,
-        $amount,
-        \Magento\Quote\Api\Data\CartInterface $cart = null
+        $amount
     ) {
         try {
             $this->_helperData->log(
@@ -292,32 +287,6 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
             $order->setOpenpixQrcodeimage($qrCodeImage);
             $order->setOpenpixBrcode($brCode);
 
-            $orderId = $order->getIncrementId();
-
-            //             $couponCode = $this->_coupon->createRule(
-            //                 intval($charge['giftbackAppliedValue']),
-            //                 $orderId
-            //             );
-
-            // @todo apply the coupon on order instead of cart
-            //             $quote = $this->cart
-            //                 ->getQuote()
-            //                 ->setCouponCode($couponCode)
-            //                 ->collectTotals()
-            //                 ->save();
-
-            // trying to apply the discount direct on order
-            if (isset($charge['giftbackAppliedValue'])) {
-                $roundedGiftbackValue = round(
-                    $this->_helperData->absint(
-                        $charge['giftbackAppliedValue']
-                    ) / 100,
-                    2
-                );
-
-                $order->setDiscountAmount($roundedGiftbackValue * -1);
-                $order->setDiscountDescription('giftback-' . $orderId);
-            }
             $orderId = $order->getIncrementId();
 
             // trying to apply the discount direct on order
