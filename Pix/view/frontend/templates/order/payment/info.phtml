@@ -17,6 +17,10 @@ if ($block->getPaymentMethod() === 'openpix_pix'): ?>
             'responsive': true,
         }}">
         <div id="openpix-order" data-appid="<?= $appID ?>" data-correlationID="<?= $correlationID ?>"></div>
-        <script src="<?= $src ?>" async src_type="url"></script>
+        <script>// <![CDATA[
+            require(["jquery","OpenPix"],function($,pym){
+            });
+            // ]]>
+        </script>
     </div>
 <?php endif; ?>
