@@ -16,6 +16,6 @@ class OpenPixConfig
 
     public function getOpenPixPluginUrlScript(): string
     {
-        return 'http://host.docker.internal:4444/openpix.js';
+        return 'http://localhost:4444/openpix.js';
     }
 }
