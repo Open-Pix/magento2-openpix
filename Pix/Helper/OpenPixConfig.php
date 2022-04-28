@@ -3,7 +3,7 @@
 namespace OpenPix\Pix\Helper;
 class OpenPixConfig
 {
-    const OPENPIX_ENV = 'staging';
+    const OPENPIX_ENV = 'production';
 
     public function __construct()
     {
@@ -11,11 +11,11 @@ class OpenPixConfig
 
     public function getOpenPixApiUrl()
     {
-        return 'https://api.openpix.dev';
+        return 'https://api.openpix.com.br';
     }
 
     public function getOpenPixPluginUrlScript(): string
     {
-        return 'https://plugin.openpix.dev/v1/openpix-dev.js';
+        return 'https://plugin.openpix.com.br/v1/openpix.js';
     }
 }
