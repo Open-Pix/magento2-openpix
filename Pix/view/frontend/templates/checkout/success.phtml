@@ -17,6 +17,15 @@ $appID = $block->getAppID();
 <?php if ($payment->getMethod() === 'openpix_pix'): ?>
 <div class="actions-toolbar flex">
     <div id="openpix-order" data-appid="<?= $appID ?>" data-correlationID="<?= $correlationID ?>"></div>
-    <script src="<?= $src ?>" async src_type="url"></script>
+
+    <script>// <![CDATA[
+         require(["jquery","OpenPix"],function($,pym){
+         $(document).ready(function(){
+            console.log({ document });
+            console.log('teste')
+         })
+     });
+        // ]]>
+    </script>
 </div>
 <?php endif; ?>

@@ -318,6 +318,27 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
                 $order->setDiscountAmount($roundedGiftbackValue * -1);
                 $order->setDiscountDescription('giftback-' . $orderId);
             }
+            $orderId = $order->getIncrementId();
+
+            // trying to apply the discount direct on order
+            if (isset($charge['giftbackAppliedValue'])) {
+                $roundedGiftbackValue = round(
+                    $this->_helperData->absint(
+                        $charge['giftbackAppliedValue']
+                    ) / 100,
+                    2
+                );
+
+                $order->setDiscountAmount($roundedGiftbackValue * -1);
+                $order->setDiscountDescription('giftback-' . $orderId);
+
+                $order->setBaseGrandTotal(
+                    $order->getBaseGrandTotal() - $roundedGiftbackValue
+                );
+                $order->setGrandTotal(
+                    $order->getGrandTotal() - $roundedGiftbackValue
+                );
+            }
 
             $message = __(
                 'New Order placed, QrCode Pix generated and saved on OpenPix Platform'
