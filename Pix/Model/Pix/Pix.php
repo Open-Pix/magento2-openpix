@@ -267,6 +267,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
                     self::LOG_NAME,
                     $arrayLog
                 );
+
                 throw new \Exception($response['errors'], 1);
             }
 
@@ -322,7 +323,6 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
             $payment->setSkipOrderProcessing(true);
         } catch (\Exception $e) {
             $this->messageManager->addErrorMessage(__('Error creating Pix'));
-            $this->messageManager->addErrorMessage($e->getMessage());
             $this->_helperData->log(
                 'Pix::Error - Error while creating charge',
                 self::LOG_NAME,
@@ -399,14 +399,8 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
 
             if ($statusCode === 401) {
                 $this->messageManager->addErrorMessage(__('Invalid AppID'));
-                $this->_helperData->log(
-                    'Invalid appID',
-                    self::LOG_NAME,
-                    json_encode(
-                        curl_getinfo($curl),
-                        JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
-                    )
-                );
+                $this->_helperData->log('Invalid appID', self::LOG_NAME);
+
                 throw new \Exception('AppID Inválido', 1);
             }
 
