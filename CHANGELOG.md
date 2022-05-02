@@ -1,3 +1,113 @@
+#### 2.0.1 (2022-05-02)
+
+##### Build System / Dependencies
+
+* **deps-dev:**
+  *  bump babel-jest from 28.0.2 to 28.0.3 (#238) (ceff9c0f)
+  *  bump @babel/preset-env from 7.16.11 to 7.17.10 (#236) (55466fde)
+  *  bump @typescript-eslint/eslint-plugin (b06d9866)
+  *  bump babel-jest from 27.5.1 to 28.0.2 (e0e88083)
+  *  bump lint-staged from 12.4.0 to 12.4.1 (#226) (7bb941b6)
+  *  bump vite from 2.9.5 to 2.9.6 (#228) (c745502b)
+  *  bump @typescript-eslint/parser from 5.20.0 to 5.21.0 (#222) (27274c91)
+  *  bump simple-git from 3.7.0 to 3.7.1 (#213) (e6180a81)
+  *  bump @typescript-eslint/parser from 3.10.1 to 5.20.0 (8eeba9b4)
+  *  bump lint-staged from 12.3.8 to 12.4.0 (#210) (a35d1d06)
+  *  bump simple-git from 3.6.0 to 3.7.0 (#209) (4a70a752)
+  *  bump moment from 2.29.2 to 2.29.3 (#207) (8e98022c)
+  *  bump vite from 2.9.1 to 2.9.5 (#208) (b212f7e1)
+  *  bump lint-staged from 12.3.7 to 12.3.8 (#206) (ff31da39)
+  *  bump moment from 2.29.1 to 2.29.2 (#203) (7947e0d4)
+  *  bump simple-git from 3.5.0 to 3.6.0 (#205) (f1f0bdf5)
+  *  bump prettier from 2.6.1 to 2.6.2 (#202) (1b66b24b)
+  *  bump eslint-import-resolver-typescript (#201) (3e0faab1)
+  *  bump vite from 2.8.6 to 2.9.1 (#200) (72ab3e03)
+  *  bump simple-git from 3.4.0 to 3.5.0 (#199) (a04ee76e)
+  *  bump @prettier/plugin-php from 0.18.3 to 0.18.4 (#198) (8dba00a1)
+  *  bump prettier from 2.6.0 to 2.6.1 (#197) (8a0dd603)
+  *  bump eslint-import-resolver-typescript (#196) (a5337c35)
+  *  bump lint-staged from 12.3.6 to 12.3.7 (#195) (783f2bab)
+  *  bump simple-git from 3.3.0 to 3.4.0 (#194) (027b31ba)
+  *  bump lint-staged from 12.3.5 to 12.3.6 (#193) (00962b26)
+  *  bump prettier from 2.5.1 to 2.6.0 (#192) (807aa67c)
+  *  bump simple-git from 3.2.6 to 3.3.0 (#191) (79f2777a)
+  *  bump @prettier/plugin-php from 0.18.2 to 0.18.3 (#190) (22984eb1)
+  *  bump lint-staged from 12.3.4 to 12.3.5 (#189) (095da680)
+  *  bump vite from 2.8.5 to 2.8.6 (#188) (3585035d)
+  *  bump vite from 2.8.4 to 2.8.5 (#187) (9df4d202)
+  *  bump @prettier/plugin-php from 0.18.1 to 0.18.2 (#184) (b2fa1bb6)
+  *  bump vite from 2.8.3 to 2.8.4 (#183) (a0579735)
+  *  bump simple-git from 3.2.4 to 3.2.6 (#180) (b6df1e08)
+  *  bump vite from 2.8.2 to 2.8.3 (#178) (fb918209)
+  *  bump vite from 2.8.1 to 2.8.2 (#177) (632ec8cb)
+  *  bump vite from 2.1.5 to 2.8.1 (#173) (914c419c)
+  *  bump @prettier/plugin-php from 0.18.0 to 0.18.1 (#176) (7a8d63d5)
+  *  bump lint-staged from 12.3.3 to 12.3.4 (#175) (25a95f6d)
+  *  bump simple-git from 3.1.1 to 3.2.4 (#174) (bd47c4df)
+  *  bump @babel/plugin-transform-typescript (#172) (a9185396)
+  *  bump lint-staged from 10.5.4 to 12.3.3 (#165) (3a61d8f0)
+  *  bump @types/dotenv-safe from 8.1.1 to 8.1.2 (#166) (44a1497f)
+  *  bump @octokit/rest from 18.6.0 to 18.12.0 (#167) (4c84da33)
+  *  bump prettier from 2.3.1 to 2.5.1 (#164) (af93d3b0)
+  *  bump @babel/preset-typescript from 7.13.0 to 7.16.7 (#168) (28cb0c83)
+  *  bump eslint-import-resolver-typescript (a7cfb515)
+  *  bump husky from 6.0.0 to 7.0.4 (00295362)
+  *  bump simple-git from 2.40.0 to 3.1.1 (6b5b5714)
+  *  bump @prettier/plugin-php from 0.16.3 to 0.18.0 (de758f2a)
+* **deps:**
+  *  bump jest from 28.0.2 to 28.0.3 (#237) (86ec2978)
+  *  bump jest from 28.0.1 to 28.0.2 (#235) (5f871a1a)
+  *  bump jest from 27.5.1 to 28.0.1 (664874ef)
+* **change-log:**
+  *  v2.0.0 (ec5e8e46)
+  *  v1.0.30 (4df171fc)
+
+##### Chores
+
+* **codeowners:**  codeowners (5cd04b08)
+* **requirejs:**  config requirejs (ea4242b7)
+* **config:**
+  *  prod (2b9f014f)
+  *  config (b494b83a)
+* **coupon:**
+  *  remove coupon (8086fcd4)
+  *  remove logs, docker (2d8b97cf)
+* **clean:**  remove unused imports (#225) (8aa3c0e9)
+* **csp:**  more csp (2abcacd7)
+* **env:**  env (e286abce)
+* **prettier:**  prettier (4643b366)
+* **package-json:**  op vit as command (44f2f054)
+
+##### Continuous Integration
+
+* **automation:**  dependabot and auto merge (47a8640f)
+* **test:**  automating the tests (2fd1de5d)
+
+##### New Features
+
+* **plugin:**
+  *  success (06c731e0)
+  *  Plugin (1956967b)
+* **discount:**  trying discount on order (f00f9fb6)
+* **config:**
+  *  config dx (98ba97b3)
+  *  config magento2 dx (fdafae45)
+* **coupon-magento:**  wip coupon on magento (cd7e24c9)
+* **white-list:**  whitelist (14112515)
+* **inject:**  inject order plugin, see entria/woovi#31496 (890e2d74)
+* **blank-param:**  check os to run sed (#204) (d7f2d072)
+* **vite:**
+  *  more vite plugin js (48d33117)
+  *  running plugin js with vite (910ab977)
+* **cps:**  csp whitelist (688cadf7)
+
+##### Bug Fixes
+
+* **openpix:**  get correlationID (891bf774)
+* **order:**  fix order and fix plugin url to localhost (3f63032d)
+* **jest:**  jest (562647d1)
+* **release:**  generating pull request (dbd6f1ba)
+
 #### 2.0.0 (2022-04-28)
 
 ##### Build System / Dependencies
