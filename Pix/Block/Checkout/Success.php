@@ -64,13 +64,25 @@ class Success extends \Magento\Sales\Block\Order\Totals
 
     public function getAppID(): string
     {
-        return $this->_helperData->getAppID();
+        $appID = $this->_helperData->getAppID();
+
+        if (isset($appID)) {
+            return $appID;
+        }
+
+        return '';
     }
 
     public function getCorrelationID(): string
     {
         $order = $this->getOrder();
-        return $order->getOpenpixCorrelationid();
+        $correlationID = $order->getOpenpixCorrelationid();
+
+        if (isset($correlationID)) {
+            return $correlationID;
+        }
+
+        return '';
     }
 
     public function getPluginSrc(): string

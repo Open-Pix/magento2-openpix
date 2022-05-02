@@ -58,15 +58,26 @@ class Info extends \Magento\Framework\View\Element\Template
 
     public function getAppID(): string
     {
-        return $this->_helperData->getAppID();
+        $appID = $this->_helperData->getAppID();
+
+        if (isset($appID)) {
+            return $appID;
+        }
+
+        return '';
     }
 
     public function getCorrelationID(): string
     {
         $order_id = $this->getRequest()->getParam('order_id');
         $order = $this->_orderFactory->load($order_id);
+        $correlationID = $order->getOpenpixCorrelationid();
 
-        return $order->getOpenpixCorrelationid();
+        if (isset($correlationID)) {
+            return $correlationID;
+        }
+
+        return '';
     }
 
     public function getPluginSrc(): string
