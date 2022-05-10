@@ -1,3 +1,26 @@
+#### 2.0.2 (2022-05-10)
+
+##### Build System / Dependencies
+
+* **deps-dev:**
+  *  bump @typescript-eslint/parser from 5.22.0 to 5.23.0 (#252) (eed51b49)
+  *  bump @typescript-eslint/eslint-plugin (#250) (0deeb0a4)
+  *  bump babel-jest from 28.0.3 to 28.1.0 (#248) (8a83499d)
+  *  bump vite from 2.9.7 to 2.9.8 (#246) (10fa0fd1)
+  *  bump @typescript-eslint/parser from 5.21.0 to 5.22.0 (#245) (8c1314de)
+  *  bump vite from 2.9.6 to 2.9.7 (#244) (0f041fa3)
+  *  bump @typescript-eslint/eslint-plugin (#243) (f1c156c4)
+* **deps:**  bump jest from 28.0.3 to 28.1.0 (#247) (223a591c)
+
+##### New Features
+
+* **share-invoice-discount:**  make invoice value more robust (#253) (6852cfdc)
+
+##### Bug Fixes
+
+* **pix:**  model nullable values (e7e3f1b4)
+* **charge-post:**  invalid app id error (bc09bffb)
+
 #### 2.0.1 (2022-05-02)
 
 ##### Build System / Dependencies
