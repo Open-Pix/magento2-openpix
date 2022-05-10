@@ -303,10 +303,16 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
                 );
 
                 $order->setDiscountAmount(
-                    ($order->getDiscountAmount() + $roundedGiftbackValue) * -1
+                    $this->_helperData->sumAbsValues([
+                        $order->getDiscountAmount(),
+                        $roundedGiftbackValue,
+                    ]) * -1
                 );
+
                 $order->setDiscountDescription(
-                    $order->getDiscountDescription() . ' | giftback-' . $orderId
+                    ($order->getDiscountDescription() && ' | ') .
+                        'giftback-' .
+                        $orderId
                 );
 
                 $order->setBaseGrandTotal(

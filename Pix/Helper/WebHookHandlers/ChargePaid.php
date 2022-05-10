@@ -124,29 +124,22 @@ class ChargePaid
         $invoice->register();
         $invoice->setSendEmail(true);
 
+        $invoice->setDiscountDescription($invoice->getDiscountDescription());
+
         $invoice->setDiscountAmount(
-            $invoice->getDiscountAmount() + $order->getDiscountAmount()
-        );
-        $invoice->setDiscountDescription(
-            $invoice->getDiscountDescription() .
-                ' + ' .
-                $order->getDiscountDescription()
+            $invoice->getDiscountAmount() + $order->getDiscountAmount() // both are negative
         );
 
         $invoice->setBaseDiscountAmount(
-            $invoice->getBaseDiscountAmount() + $order->getBaseDiscountAmount()
-        );
-        $invoice->setBaseDiscountDescription(
-            $invoice->getBaseDiscountDescription() .
-                ' + ' .
-                $order->getBaseDiscountDescription()
+            $invoice->getBaseDiscountAmount() + $order->getBaseDiscountAmount() // both are negative
         );
 
         $invoice->setGrandTotal(
-            $invoice->getGrandTotal() + $order->getGrandTotal()
+            $invoice->getGrandTotal() - abs($order->getDiscountAmount())
         );
+
         $invoice->setBaseGrandTotal(
-            $invoice->getBaseGrandTotal() + $order->getBaseGrandTotal()
+            $invoice->getBaseGrandTotal() - abs($order->getBaseDiscountAmount()) // both are different
         );
 
         $this->invoiceRepository->save($invoice);
