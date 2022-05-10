@@ -13,7 +13,7 @@
     "@prettier/plugin-php": "^0.18.4",
     "@types/dotenv-safe": "^8.1.2",
     "@typescript-eslint/eslint-plugin": "5.23.0",
-    "@typescript-eslint/parser": "5.22.0",
+    "@typescript-eslint/parser": "5.23.0",
     "babel-jest": "^28.1.0",
     "dotenv-safe": "^8.2.0",
     "esbuild-register": "^2.5.0",
