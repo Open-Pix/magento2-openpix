@@ -219,6 +219,24 @@ class Data extends AbstractHelper
     {
         return abs((int) $maybeint);
     }
+    /**
+     * Sum the absolute value of all the elements of an array.
+     *
+     * @param array $values Values to sum.
+     * @return int A non-negative integer.
+     * @since 2.5.0
+     *
+     */
+    public function sumAbsValues(array $values)
+    {
+        return \array_reduce(
+            $values,
+            function ($carry, $item) {
+                return $carry + abs($item);
+            },
+            0
+        );
+    }
 
     /**
      * Format decimal numbers ready for DB storage.
