@@ -291,7 +291,10 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
             $orderId = $order->getIncrementId();
 
             // trying to apply the discount direct on order
-            if (isset($charge['giftbackAppliedValue'])) {
+            if (
+                isset($charge['giftbackAppliedValue']) &&
+                $charge['giftbackAppliedValue'] > 0
+            ) {
                 $roundedGiftbackValue = round(
                     $this->_helperData->absint(
                         $charge['giftbackAppliedValue']
@@ -299,8 +302,12 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
                     2
                 );
 
-                $order->setDiscountAmount($roundedGiftbackValue * -1);
-                $order->setDiscountDescription('giftback-' . $orderId);
+                $order->setDiscountAmount(
+                    ($order->getDiscountAmount() + $roundedGiftbackValue) * -1
+                );
+                $order->setDiscountDescription(
+                    $order->getDiscountDescription() . ' | giftback-' . $orderId
+                );
 
                 $order->setBaseGrandTotal(
                     $order->getBaseGrandTotal() - $roundedGiftbackValue
