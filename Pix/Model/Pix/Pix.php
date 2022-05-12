@@ -81,7 +81,6 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
     public function isAvailable(
         \Magento\Quote\Api\Data\CartInterface $quote = null
     ) {
-
         if (!$this->_helperData->getOpenPixEnabled()) {
             return false;
         }
@@ -310,10 +309,19 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
                     ]) * -1
                 );
 
+                $order->setBaseDiscountAmount(
+                    $this->_helperData->sumAbsValues([
+                        $order->getBaseDiscountAmount(),
+                        $roundedGiftbackValue,
+                    ]) * -1
+                );
+
+                $discountDescription = !empty($order->getDiscountDescription())
+                    ? $order->getDiscountDescription() . ' | '
+                    : '';
+
                 $order->setDiscountDescription(
-                    ($order->getDiscountDescription() && ' | ') .
-                        'giftback-' .
-                        $orderId
+                    $discountDescription . 'giftback-' . $orderId
                 );
 
                 $order->setBaseGrandTotal(
