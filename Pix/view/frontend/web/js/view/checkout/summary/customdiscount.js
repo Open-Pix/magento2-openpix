@@ -11,7 +11,7 @@ define(['jquery', 'Magento_Checkout/js/view/summary/abstract-total'], function (
       return true;
     },
     getCustomDiscount: function () {
-      return '$10';
+      return '$5';
     },
   });
 });
