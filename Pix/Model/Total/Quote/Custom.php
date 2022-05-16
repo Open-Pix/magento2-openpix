@@ -73,7 +73,7 @@ class Custom extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
 
         if (!$app_ID) {
             $this->messageManager->addErrorMessage(__('Missing AppID'));
-            throw new \Exception('Missing AppID', 1);
+            //            throw new \Exception('Missing AppID', 1);
         }
 
         $apiUrl = $this->_helperData->getOpenPixApiUrl();
@@ -131,10 +131,10 @@ class Custom extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
 
             curl_close($curl);
 
-            throw new \Exception(
-                'Erro ao criar Pix, tente novamente por favor',
-                1
-            );
+            //            throw new \Exception(
+            //                'Erro ao criar Pix, tente novamente por favor',
+            //                1
+            //            );
         }
 
         curl_close($curl);
@@ -162,13 +162,11 @@ class Custom extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
                 )
             );
 
-            throw new \Exception(
-                'Erro ao criar Pix, tente novamente por favor',
-                1
-            );
+            //            throw new \Exception(
+            //                'Erro ao criar Pix, tente novamente por favor',
+            //                1
+            //            );
         }
-
-        $this->_helperData->log('API response ', self::LOG_NAME, $responseBody);
 
         $this->_helperData->log(
             'Pix::collect - response giftback ' . $responseBody,
