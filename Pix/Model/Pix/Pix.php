@@ -214,12 +214,18 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
         $comment = substr("$storeName", 0, 100) . '#' . $orderId;
         $comment_trimmed = substr($comment, 0, 140);
 
+        // @todo if having a discount frmo giftback openpix should get it and add to the payload to send to charge api
+        // check if has giftback as discount applied
+        // get it and save in a variable with name $giftbackAppliedValue
+        // add this variable to the payload to send it to the charge openpix api
+
         if (!$customer) {
             return [
                 'correlationID' => $correlationID,
                 'value' => $this->get_amount_openpix($grandTotal),
                 'comment' => $comment_trimmed,
                 'additionalInfo' => $additionalInfo,
+                // "giftbackAppliedValue" => $giftbackAppliedValue,
             ];
         }
 
@@ -229,6 +235,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
             'comment' => $comment_trimmed,
             'customer' => $customer,
             'additionalInfo' => $additionalInfo,
+            // "giftbackAppliedValue" => $giftbackAppliedValue,
         ];
     }
 
