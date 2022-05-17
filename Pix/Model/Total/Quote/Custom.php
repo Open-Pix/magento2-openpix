@@ -34,6 +34,31 @@ class Custom extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
         $this->_helperData = $helper;
     }
 
+    public function calculateDiscount(
+        $giftbackBalance,
+        $baseGrandTotal,
+        $grandTotal
+    ) {
+        if ($giftbackBalance === 0) {
+            return 0;
+        }
+
+        // the $giftbackBalance is in int
+        // must be converted to double with two decimals cases
+        $giftbackBalanceRounded = round(abs($giftbackBalance / 100), 2);
+
+        // if the $giftbackBalanceRounded is bigger the total value of quote must apply the enough to rest R$ 0.01 cents
+        if ($giftbackBalanceRounded > $baseGrandTotal) {
+            return round($baseGrandTotal - 0.01, 2);
+        }
+
+        // if the $giftbackBalanceRounded is less than quote total apply it fully
+        $discount = $baseGrandTotal - $giftbackBalanceRounded;
+
+        // return the discount calculated
+        return round($discount, 2);
+    }
+
     /**
      * @param \Magento\Quote\Model\Quote $quote
      * @param \Magento\Quote\Api\Data\ShippingAssignmentInterface $shippingAssignment
@@ -47,10 +72,6 @@ class Custom extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
     ) {
         $this->_helperData->log('Pix::collect - collecting', self::LOG_NAME);
 
-        // @todo check if has user logged
-        // @todo check if user logged has taxvat
-        // @todo call openpix api to calculate the giftback discount passing: customer taxvat and total
-
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         $customerSession = $objectManager->get(
             'Magento\Customer\Model\Session'
@@ -58,12 +79,29 @@ class Custom extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
 
         parent::collect($quote, $shippingAssignment, $total);
 
+        // check if customer is logged
         if (!$customerSession->isLoggedIn()) {
             $this->_helperData->log(
                 'Pix::collect - customer not logged',
                 self::LOG_NAME
             );
             // customer login action
+            return null;
+        }
+
+        // check is customer has taxvat (taxID)
+        $customerTaxVat = $quote->getCustomerTaxvat();
+
+        $this->_helperData->log(
+            'Pix::collect - customer taxvat ' . json_encode($customerTaxVat),
+            self::LOG_NAME
+        );
+
+        if (!$customerTaxVat) {
+            $this->_helperData->log(
+                'Pix::collect - customer does not have taxID',
+                self::LOG_NAME
+            );
             return null;
         }
 
@@ -80,22 +118,7 @@ class Custom extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
 
         $this->_helperData->log('API URL ', self::LOG_NAME, $apiUrl);
 
-        $customerTaxVat = $quote->getCustomerTaxvat();
-
-        if (!$customerTaxVat) {
-            $this->_helperData->log(
-                'Pix::collect - customer does not have taxID',
-                self::LOG_NAME
-            );
-            return null;
-        }
-
-        $this->_helperData->log(
-            'customer tax vai ' . json_encode($customerTaxVat),
-            self::LOG_NAME,
-            $apiUrl
-        );
-
+        // getting customer giftback balance by taxID
         curl_setopt_array($curl, [
             CURLOPT_URL =>
                 $apiUrl . '/api/openpix/v1/giftback/balance/' . $customerTaxVat,
@@ -143,7 +166,7 @@ class Custom extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
             $this->messageManager->addErrorMessage(__('Invalid AppID'));
             $this->_helperData->log('Invalid appID', self::LOG_NAME);
 
-            throw new \Exception('AppID Inválido', 1);
+            //            throw new \Exception('AppID Inválido', 1);
         }
 
         $responseBody = json_decode($response, true);
@@ -169,11 +192,32 @@ class Custom extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
         }
 
         $this->_helperData->log(
-            'Pix::collect - response giftback ' . $responseBody,
+            'Pix::collect - response giftback ' . json_encode($responseBody),
             self::LOG_NAME
         );
 
-        $baseDiscount = 5;
+        $giftbackBalance = $responseBody['balance'];
+
+        $this->_helperData->log(
+            'Pix::collect - giftback balance ' . $giftbackBalance,
+            self::LOG_NAME
+        );
+
+        if ($giftbackBalance <= 0) {
+            $this->_helperData->log(
+                'Pix::collect - customer does not have balance. Balance: ' .
+                    $giftbackBalance,
+                self::LOG_NAME
+            );
+            return null;
+        }
+
+        // calculate the discount
+        // the calc is -> quote total - giftback
+        // must pass the total of quote to the function
+        $baseDiscount = $this->calculateDiscount($giftbackBalance);
+
+        // applying the discount calculated
         $discount = $this->_priceCurrency->convert($baseDiscount);
 
         $total->addTotalAmount('customdiscount', -$discount);
