@@ -120,6 +120,7 @@ class OpenPixManagement implements \OpenPix\Pix\Api\OpenPixManagementInterface
             }
 
             $customerOpenpixData = $this->loadDataFromCache();
+
             if (
                 !empty($customerOpenpixData) &&
                 isset($customerOpenpixData['balance'])
@@ -137,7 +138,9 @@ class OpenPixManagement implements \OpenPix\Pix\Api\OpenPixManagementInterface
             }
 
             $headers = $this->prepareHeaders();
+
             $this->getCurlClient()->setHeaders($headers);
+
             $this->getCurlClient()->setOptions([
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_FOLLOWLOCATION => true,
@@ -181,16 +184,17 @@ class OpenPixManagement implements \OpenPix\Pix\Api\OpenPixManagementInterface
     public function getBalanceApiURL($customerTaxId)
     {
         $apiUrl = $this->helperData->getOpenPixApiUrl();
+
         if (empty($apiUrl)) {
             throw new LocalizedException(__('The API URL is empty'));
         }
 
         $getBalanceApiURL =
             $apiUrl . '/' . self::GET_BALANCE_API . '/' . $customerTaxId;
+
         $this->helperData->log(
-            'API URL ',
-            self::OPENPIX_LOG_NAME,
-            $getBalanceApiURL
+            'API URL ' . $getBalanceApiURL,
+            self::OPENPIX_LOG_NAME
         );
 
         return $getBalanceApiURL;
@@ -398,7 +402,9 @@ class OpenPixManagement implements \OpenPix\Pix\Api\OpenPixManagementInterface
      */
     private function formatValueToOpenPix($amount)
     {
-        return $this->helperData->absint($amount);
+        return $this->_helperData->absint(
+            $this->_helperData->format_decimal((float) $amount * 100, 2)
+        );
     }
 
     /**
