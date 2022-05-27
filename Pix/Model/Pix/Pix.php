@@ -40,6 +40,16 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
      */
     protected $messageManager;
 
+    /**
+     * @var \Magento\Quote\Model\QuoteFactory
+     */
+    private $quoteFactory;
+
+    /**
+     * @var \OpenPix\Pix\Api\OpenPixManagementInterface
+     */
+    private $openPixManagement;
+
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
@@ -51,6 +61,8 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
         \OpenPix\Pix\Helper\Data $helper,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Message\ManagerInterface $messageManager,
+        \Magento\Quote\Model\QuoteFactory $quoteFactory,
+        \OpenPix\Pix\Api\OpenPixManagementInterface $openPixManagement,
         \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
         array $data = []
@@ -70,12 +82,15 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
         $this->_helperData = $helper;
         $this->_storeManager = $storeManager;
         $this->messageManager = $messageManager;
+        $this->quoteFactory = $quoteFactory;
+        $this->openPixManagement = $openPixManagement;
     }
 
     /**
      * Determine method availability based on quote amount and config data
      *
      * @param \Magento\Quote\Api\Data\CartInterface|null $quote
+     *
      * @return bool
      */
     public function isAvailable(
@@ -204,6 +219,12 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
         $customer = $this->getCustomerData($order);
 
         $orderId = $order->getIncrementId();
+        $quoteId = $order->getQuoteId();
+        $quote = $this->quoteFactory->create()->load($quoteId);
+        $giftBackAppliedValue = 0;
+        if (!empty($quote) && $quote->getOpenpixDiscount() > 0) {
+            $giftBackAppliedValue = $quote->getOpenpixDiscount();
+        }
 
         $additionalInfo = [
             [
@@ -214,18 +235,13 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
         $comment = substr("$storeName", 0, 100) . '#' . $orderId;
         $comment_trimmed = substr($comment, 0, 140);
 
-        // @todo if having a discount frmo giftback openpix should get it and add to the payload to send to charge api
-        // check if has giftback as discount applied
-        // get it and save in a variable with name $giftbackAppliedValue
-        // add this variable to the payload to send it to the charge openpix api
-
         if (!$customer) {
             return [
                 'correlationID' => $correlationID,
                 'value' => $this->get_amount_openpix($grandTotal),
                 'comment' => $comment_trimmed,
                 'additionalInfo' => $additionalInfo,
-                // "giftbackAppliedValue" => $giftbackAppliedValue,
+                'giftbackValueToApply' => $giftBackAppliedValue,
             ];
         }
 
@@ -235,7 +251,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
             'comment' => $comment_trimmed,
             'customer' => $customer,
             'additionalInfo' => $additionalInfo,
-            // "giftbackAppliedValue" => $giftbackAppliedValue,
+            'giftbackValueToApply' => $giftBackAppliedValue,
         ];
     }
 
@@ -294,50 +310,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
             $order->setOpenpixPaymentlinkurl($paymentLinkUrl);
             $order->setOpenpixQrcodeimage($qrCodeImage);
             $order->setOpenpixBrcode($brCode);
-
             $orderId = $order->getIncrementId();
-
-            // trying to apply the discount direct on order
-            if (
-                isset($charge['giftbackAppliedValue']) &&
-                $charge['giftbackAppliedValue'] > 0
-            ) {
-                $roundedGiftbackValue = round(
-                    $this->_helperData->absint(
-                        $charge['giftbackAppliedValue']
-                    ) / 100,
-                    2
-                );
-
-                $order->setDiscountAmount(
-                    $this->_helperData->sumAbsValues([
-                        $order->getDiscountAmount(),
-                        $roundedGiftbackValue,
-                    ]) * -1
-                );
-
-                $order->setBaseDiscountAmount(
-                    $this->_helperData->sumAbsValues([
-                        $order->getBaseDiscountAmount(),
-                        $roundedGiftbackValue,
-                    ]) * -1
-                );
-
-                $discountDescription = !empty($order->getDiscountDescription())
-                    ? $order->getDiscountDescription() . ' | '
-                    : '';
-
-                $order->setDiscountDescription(
-                    $discountDescription . 'giftback-' . $orderId
-                );
-
-                $order->setBaseGrandTotal(
-                    $order->getBaseGrandTotal() - $roundedGiftbackValue
-                );
-                $order->setGrandTotal(
-                    $order->getGrandTotal() - $roundedGiftbackValue
-                );
-            }
 
             $message = __(
                 'New Order placed, QrCode Pix generated and saved on OpenPix Platform'
@@ -350,6 +323,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
                 ->addStatusHistoryComment($message->getText());
 
             $payment->setSkipOrderProcessing(true);
+            $this->openPixManagement->clearDataInCache();
         } catch (\Exception $e) {
             $this->messageManager->addErrorMessage(__('Error creating Pix'));
             $this->_helperData->log(
