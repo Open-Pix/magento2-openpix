@@ -7,11 +7,11 @@
                     <item name="components" xsi:type="array">
                         <item name="block-totals" xsi:type="array">
                             <item name="children" xsi:type="array">
-                                <item name="custom_discount" xsi:type="array">
-                                    <item name="component"  xsi:type="string">OpenPix_Pix/js/view/checkout/summary/customdiscount</item>
+                                <item name="openpix_discount" xsi:type="array">
+                                    <item name="component"  xsi:type="string">OpenPix_Pix/js/view/cart/totals/openpix_discount</item>
                                     <item name="sortOrder" xsi:type="string">20</item>
                                     <item name="config" xsi:type="array">
-                                        <item name="custom_discount" xsi:type="string" translate="true">Custom Discount</item>
+                                        <item name="title" xsi:type="string" translate="true">OpenPix Discount</item>
                                     </item>
                                 </item>
                             </item>

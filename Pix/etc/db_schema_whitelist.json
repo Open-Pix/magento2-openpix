@@ -1,11 +1,37 @@
 {
-  "sales_order": {
-    "column": {
-      "openpix_paymentlinkurl": true,
-      "openpix_qrcodeimage": true,
-      "openpix_brcode": true,
-      "openpix_correlationid": true,
-      "openpix_endtoendid": true
+    "sales_order": {
+        "column": {
+            "openpix_paymentlinkurl": true,
+            "openpix_qrcodeimage": true,
+            "openpix_brcode": true,
+            "openpix_correlationid": true,
+            "openpix_endtoendid": true,
+            "openpix_discount": true,
+            "base_openpix_discount": true
+        }
+    },
+    "quote": {
+        "column": {
+            "openpix_discount": true,
+            "base_openpix_discount": true
+        }
+    },
+    "quote_address": {
+        "column": {
+            "openpix_discount": true,
+            "base_openpix_discount": true
+        }
+    },
+    "sales_invoice": {
+        "column": {
+            "openpix_discount": true,
+            "base_openpix_discount": true
+        }
+    },
+    "sales_creditmemo": {
+        "column": {
+            "openpix_discount": true,
+            "base_openpix_discount": true
+        }
     }
-  }
 }

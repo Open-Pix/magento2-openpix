@@ -1,7 +1,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Sales:etc/sales.xsd">
     <section name="quote">
         <group name="totals">
-            <item name="customer_discount" instance="OpenPix\Pix\Model\Total\Quote\Custom" sort_order="420"/>
+            <item name="openpix_discount" instance="OpenPix\Pix\Model\Quote\Address\Total\Discount" sort_order="500" />
         </group>
     </section>
 </config>

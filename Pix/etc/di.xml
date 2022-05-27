@@ -26,4 +26,6 @@
             </argument>
         </arguments>
     </type>
+
+    <preference for="OpenPix\Pix\Api\OpenPixManagementInterface" type="OpenPix\Pix\Model\OpenPixManagement" />
 </config>
