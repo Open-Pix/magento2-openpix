@@ -219,12 +219,6 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
         $customer = $this->getCustomerData($order);
 
         $orderId = $order->getIncrementId();
-        $quoteId = $order->getQuoteId();
-        $quote = $this->quoteFactory->create()->load($quoteId);
-        $giftBackAppliedValue = 0;
-        if (!empty($quote) && $quote->getOpenpixDiscount() > 0) {
-            $giftBackAppliedValue = $quote->getOpenpixDiscount();
-        }
 
         $additionalInfo = [
             [
@@ -235,23 +229,37 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
         $comment = substr("$storeName", 0, 100) . '#' . $orderId;
         $comment_trimmed = substr($comment, 0, 140);
 
+        $quoteId = $order->getQuoteId();
+        $quote = $this->quoteFactory->create()->load($quoteId);
+
+        $giftBackAppliedValue = 0;
+
+        if (!empty($quote) && $quote->getOpenpixDiscount() > 0) {
+            $giftBackAppliedValue = $quote->getOpenpixDiscount();
+        }
+
+        $giftbackValueToApply = $this->get_amount_openpix(
+            $giftBackAppliedValue
+        );
+        $value = $this->get_amount_openpix($grandTotal) + $giftbackValueToApply;
+
         if (!$customer) {
             return [
                 'correlationID' => $correlationID,
-                'value' => $this->get_amount_openpix($grandTotal),
+                'value' => $value,
                 'comment' => $comment_trimmed,
                 'additionalInfo' => $additionalInfo,
-                'giftbackValueToApply' => $giftBackAppliedValue,
+                'giftbackValueToApply' => $giftbackValueToApply,
             ];
         }
 
         return [
             'correlationID' => $correlationID,
-            'value' => $this->get_amount_openpix($grandTotal),
+            'value' => $value,
             'comment' => $comment_trimmed,
             'customer' => $customer,
             'additionalInfo' => $additionalInfo,
-            'giftbackValueToApply' => $giftBackAppliedValue,
+            'giftbackValueToApply' => $giftbackValueToApply,
         ];
     }
 
