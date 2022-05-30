@@ -1,3 +1,9 @@
+#### 2.0.4 (2022-05-30)
+
+##### New Features
+
+* **balance:**  format cpf and some scripts (5515cafa)
+
 #### 2.0.3 (2022-05-30)
 
 ##### Build System / Dependencies
