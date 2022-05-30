@@ -221,10 +221,17 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
         $orderId = $order->getIncrementId();
         $quoteId = $order->getQuoteId();
         $quote = $this->quoteFactory->create()->load($quoteId);
+
         $giftBackAppliedValue = 0;
+
         if (!empty($quote) && $quote->getOpenpixDiscount() > 0) {
             $giftBackAppliedValue = $quote->getOpenpixDiscount();
         }
+
+        $giftbackValueToApply = $this->get_amount_openpix(
+            $giftBackAppliedValue
+        );
+        $value = $this->get_amount_openpix($grandTotal) + $giftbackValueToApply;
 
         $additionalInfo = [
             [
@@ -238,20 +245,20 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
         if (!$customer) {
             return [
                 'correlationID' => $correlationID,
-                'value' => $this->get_amount_openpix($grandTotal),
+                'value' => $value,
                 'comment' => $comment_trimmed,
                 'additionalInfo' => $additionalInfo,
-                'giftbackValueToApply' => $giftBackAppliedValue,
+                'giftbackValueToApply' => $giftbackValueToApply,
             ];
         }
 
         return [
             'correlationID' => $correlationID,
-            'value' => $this->get_amount_openpix($grandTotal),
+            'value' => $value,
             'comment' => $comment_trimmed,
             'customer' => $customer,
             'additionalInfo' => $additionalInfo,
-            'giftbackValueToApply' => $giftBackAppliedValue,
+            'giftbackValueToApply' => $giftbackValueToApply,
         ];
     }
 
