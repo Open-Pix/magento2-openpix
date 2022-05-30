@@ -131,15 +131,18 @@ class OpenPixManagement implements \OpenPix\Pix\Api\OpenPixManagementInterface
             ]);
 
             $apiUrl = $this->getBalanceApiURL($customerTaxId);
+
             $this->getCurlClient()->get($apiUrl);
 
             $responseBody = $this->getCurlClient()->getBody();
+
             $this->helperData->log(
                 'Pix::collect - response giftback ' . $responseBody,
                 self::OPENPIX_LOG_NAME
             );
 
             $response = json_decode($responseBody, true);
+
             $this->saveDataToCache($response);
 
             return $response['balance'] ?? 0;
@@ -164,6 +167,7 @@ class OpenPixManagement implements \OpenPix\Pix\Api\OpenPixManagementInterface
     public function getBalanceApiURL($customerTaxId)
     {
         $apiUrl = $this->helperData->getOpenPixApiUrl();
+
         if (empty($apiUrl)) {
             throw new LocalizedException(__('The API URL is empty'));
         }
@@ -177,11 +181,6 @@ class OpenPixManagement implements \OpenPix\Pix\Api\OpenPixManagementInterface
             '/' .
             $customerTaxIdFormatted;
 
-        $this->helperData->log(
-            'API URL ',
-            self::OPENPIX_LOG_NAME,
-            $getBalanceApiURL
-        );
         $this->helperData->log(
             'API URL ',
             self::OPENPIX_LOG_NAME,
