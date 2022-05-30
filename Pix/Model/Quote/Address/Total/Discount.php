@@ -58,32 +58,43 @@ class Discount extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
 
         parent::collect($quote, $shippingAssignment, $total);
 
+        $paymentMethod = $quote->getPayment()->getMethod();
+        if (!$this->validatePaymentMethod($paymentMethod)) {
+            $this->updateTotal($quote, $total, 0);
+            return $this;
+        }
+
         $discountAmount = $this->getDiscountFromCustomer(
             $quote,
             $total->getDiscountAmount()
         );
         if ($discountAmount <= 0) {
-            $quote->setOpenpixDiscount(0)->setBaseOpenpixDiscount(0);
-
-            $total->setOpenpixDiscount(0)->setBaseOpenpixDiscount(0);
-
-            $total->setTotalAmount($this->getCode(), 0);
-            $total->setBaseTotalAmount($this->getCode(), 0);
+            $this->updateTotal($quote, $total, 0);
             return $this;
         }
 
-        $quote
-            ->setOpenpixDiscount($discountAmount)
-            ->setBaseOpenpixDiscount($discountAmount);
-
-        $total
-            ->setOpenpixDiscount($discountAmount)
-            ->setBaseOpenpixDiscount($discountAmount);
-
-        $total->addTotalAmount($this->getCode(), -$discountAmount);
-        $total->addBaseTotalAmount($this->getCode(), -$discountAmount);
+        $this->updateTotal($quote, $total, $discountAmount);
 
         return $this;
+    }
+
+    /**
+     * Update total
+     *
+     * @param $quote
+     * @param $total
+     * @param $amount
+     *
+     * @return void
+     */
+    protected function updateTotal($quote, $total, $amount)
+    {
+        $quote->setOpenpixDiscount($amount)->setBaseOpenpixDiscount($amount);
+
+        $total->setOpenpixDiscount($amount)->setBaseOpenpixDiscount($amount);
+
+        $total->addTotalAmount($this->getCode(), -$amount);
+        $total->addBaseTotalAmount($this->getCode(), -$amount);
     }
 
     /**
@@ -98,11 +109,28 @@ class Discount extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
         if ($amount != 0) {
             $result = [
                 'code' => $this->getCode(),
-                'title' => __('OpenPix Discount (%1)', $amount),
+                'title' => __('Giftback Discount'),
                 'value' => -$amount,
             ];
         }
         return $result;
+    }
+
+    /**
+     * Validate payment method is openpix or not
+     *
+     * @param string $paymentMethod
+     *
+     * @return bool
+     */
+    protected function validatePaymentMethod($paymentMethod)
+    {
+        if (empty($paymentMethod)) {
+            return false;
+        }
+
+        return strcasecmp($paymentMethod, \OpenPix\Pix\Model\Pix\Pix::CODE) ==
+            0;
     }
 
     /**

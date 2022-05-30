@@ -31,7 +31,7 @@ define([
     },
 
     getTitle: function () {
-      return 'OpenPix Discount';
+      return 'Giftback Discount';
     },
   });
 });

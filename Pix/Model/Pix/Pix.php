@@ -219,16 +219,6 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
         $customer = $this->getCustomerData($order);
 
         $orderId = $order->getIncrementId();
-
-        $additionalInfo = [
-            [
-                'key' => __('Pedido'),
-                'value' => $orderId,
-            ],
-        ];
-        $comment = substr("$storeName", 0, 100) . '#' . $orderId;
-        $comment_trimmed = substr($comment, 0, 140);
-
         $quoteId = $order->getQuoteId();
         $quote = $this->quoteFactory->create()->load($quoteId);
 
@@ -242,6 +232,15 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
             $giftBackAppliedValue
         );
         $value = $this->get_amount_openpix($grandTotal) + $giftbackValueToApply;
+
+        $additionalInfo = [
+            [
+                'key' => __('Pedido'),
+                'value' => $orderId,
+            ],
+        ];
+        $comment = substr("$storeName", 0, 100) . '#' . $orderId;
+        $comment_trimmed = substr($comment, 0, 140);
 
         if (!$customer) {
             return [
