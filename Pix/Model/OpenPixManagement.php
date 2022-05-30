@@ -168,8 +168,20 @@ class OpenPixManagement implements \OpenPix\Pix\Api\OpenPixManagementInterface
             throw new LocalizedException(__('The API URL is empty'));
         }
 
+        $customerTaxIdFormatted = preg_replace('/[^0-9]/', '', $customerTaxId);
+
         $getBalanceApiURL =
-            $apiUrl . '/' . self::GET_BALANCE_API . '/' . $customerTaxId;
+            $apiUrl .
+            '/' .
+            self::GET_BALANCE_API .
+            '/' .
+            $customerTaxIdFormatted;
+
+        $this->helperData->log(
+            'API URL ',
+            self::OPENPIX_LOG_NAME,
+            $getBalanceApiURL
+        );
         $this->helperData->log(
             'API URL ',
             self::OPENPIX_LOG_NAME,
@@ -188,6 +200,9 @@ class OpenPixManagement implements \OpenPix\Pix\Api\OpenPixManagementInterface
     private function prepareHeaders()
     {
         $app_ID = $this->helperData->getAppID();
+
+        $this->helperData->log('appID ', self::OPENPIX_LOG_NAME, $app_ID);
+
         if (empty($app_ID)) {
             throw new LocalizedException(__('The APP ID is not configured!'));
         }
