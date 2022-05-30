@@ -4,4 +4,16 @@
             <item name="openpix_discount" instance="OpenPix\Pix\Model\Quote\Address\Total\Discount" sort_order="500" />
         </group>
     </section>
+
+    <section name="order_invoice">
+        <group name="totals">
+            <item name="openpix_discount" instance="OpenPix\Pix\Model\Order\Invoice\Total\Discount" sort_order="110"/>
+        </group>
+    </section>
+
+    <section name="order_creditmemo">
+        <group name="totals">
+            <item name="openpix_discount" instance="OpenPix\Pix\Model\Order\Creditmemo\Total\Discount" sort_order="110"/>
+        </group>
+    </section>
 </config>
