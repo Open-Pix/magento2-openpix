@@ -102,13 +102,13 @@ class OpenPixManagement implements \OpenPix\Pix\Api\OpenPixManagementInterface
                 return false;
             }
 
-            $customerOpenpixData = $this->loadDataFromCache();
-            if (
-                !empty($customerOpenpixData) &&
-                isset($customerOpenpixData['balance'])
-            ) {
-                return $customerOpenpixData['balance'];
-            }
+            //            $customerOpenpixData = $this->loadDataFromCache();
+            //            if (
+            //                !empty($customerOpenpixData) &&
+            //                isset($customerOpenpixData['balance'])
+            //            ) {
+            //                return $customerOpenpixData['balance'];
+            //            }
 
             if (empty($customerTaxId)) {
                 $this->helperData->log(
