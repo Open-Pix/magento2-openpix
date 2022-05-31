@@ -1,3 +1,64 @@
+#### 2.0.7 (2022-05-31)
+
+##### Build System / Dependencies
+
+* **change-log:**
+  *  v2.0.6 (e2a884a6)
+  *  v2.0.5 (10a3511d)
+  *  v2.0.4 (020b4e64)
+  *  v2.0.3 (8c52e571)
+* **deps-dev:**
+  *  bump @typescript-eslint/parser from 5.26.0 to 5.27.0 (#293) (0f6254df)
+  *  bump @prettier/plugin-php from 0.18.6 to 0.18.7 (#292) (0d7dfdb9)
+  *  bump lint-staged from 12.4.2 to 12.4.3 (#291) (7e03b447)
+  *  bump @typescript-eslint/eslint-plugin (#290) (cbde3ef2)
+  *  bump @babel/plugin-transform-typescript (#282) (9f61a67b)
+  *  bump @prettier/plugin-php from 0.18.5 to 0.18.6 (#278) (314a29ae)
+  *  bump @babel/preset-env from 7.18.0 to 7.18.2 (#277) (959df7d6)
+  *  bump lint-staged from 12.4.1 to 12.4.2 (#276) (6785902a)
+  *  bump @typescript-eslint/parser from 5.25.0 to 5.26.0 (#275) (db7e6176)
+  *  bump @prettier/plugin-php from 0.18.4 to 0.18.5 (#274) (6ab5e8ce)
+  *  bump @typescript-eslint/eslint-plugin (#273) (3f76c4dc)
+  *  bump @typescript-eslint/eslint-plugin (#272) (e7a2f60e)
+  *  bump @babel/preset-env from 7.17.12 to 7.18.0 (#271) (dc0faf61)
+  *  bump @typescript-eslint/parser from 5.24.0 to 5.25.0 (#270) (b90bd75a)
+  *  bump @babel/plugin-transform-typescript (#269) (ac71e809)
+  *  bump @babel/preset-typescript from 7.16.7 to 7.17.12 (#263) (ad1c7a37)
+  *  bump @typescript-eslint/eslint-plugin (#266) (8fc9defd)
+  *  bump @babel/plugin-transform-typescript (#264) (4dd23591)
+  *  bump @typescript-eslint/parser from 5.23.0 to 5.24.0 (#265) (9ff1c5f8)
+  *  bump @babel/preset-env from 7.17.10 to 7.17.12 (#262) (e3b74a78)
+  *  bump vite from 2.9.8 to 2.9.9 (#256) (6b3f972a)
+  *  bump husky from 7.0.4 to 8.0.1 (a56a3fa2)
+
+##### Chores
+
+* **pem:**  pem (a7a23ace)
+* **logs:**  fewer logs (4e037ae1)
+* **versions:**  remove versions (2da72e92)
+* **c:**  c (7bed654c)
+* **order:**  model (f286df69)
+* **custom:**  discount model (8f503281)
+* **errors:**  comment throws by now (43aec6a5)
+* **discount:**  js (7616435d)
+
+##### New Features
+
+* **cart:**  remove customer cache form cart (80922939)
+* **balance:**  format cpf and some scripts (5515cafa)
+* **magento2:**  from arrow hitech (b443a390)
+* **giftback:**  get balance (a877366f)
+* **checkout:**  cart xml (ae2efa08)
+* **collect:**  trying collect (15d6ab73)
+
+##### Bug Fixes
+
+* **discount:**  removing old code (4f7c8398)
+* **order:**  detail with discount (349e983c)
+* **charge:**  payload (6c234bc5)
+* **cart:**  index checkout (3ecd94ed)
+* **description:**  fix giftback description (#257) (108726e3)
+
 #### 2.0.6 (2022-05-31)
 
 ##### Build System / Dependencies
