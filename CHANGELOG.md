@@ -1,3 +1,25 @@
+#### 2.0.6 (2022-05-31)
+
+##### Build System / Dependencies
+
+* **deps-dev:**
+  *  bump @typescript-eslint/parser from 5.26.0 to 5.27.0 (#293) (0f6254df)
+  *  bump @prettier/plugin-php from 0.18.6 to 0.18.7 (#292) (0d7dfdb9)
+  *  bump lint-staged from 12.4.2 to 12.4.3 (#291) (7e03b447)
+  *  bump @typescript-eslint/eslint-plugin (#290) (cbde3ef2)
+
+##### Chores
+
+* **pem:**  pem (a7a23ace)
+
+##### New Features
+
+* **cart:**  remove customer cache form cart (80922939)
+
+##### Bug Fixes
+
+* **discount:**  removing old code (4f7c8398)
+
 #### 2.0.5 (2022-05-30)
 
 ##### Chores

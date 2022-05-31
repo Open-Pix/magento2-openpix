@@ -1,6 +1,6 @@
 {
   "name": "magento2-openpix",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "dependencies": {
     "jest": "^28.1.0"
   },
