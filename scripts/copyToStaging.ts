@@ -1,18 +1,24 @@
-import { exec as execCb } from 'child_process';
 import path from 'path';
 
-import util from 'util';
+import dotenvSafe from 'dotenv-safe';
 
-// eslint-disable-next-line
-const argv = require('minimist')(process.argv.slice(1));
+const cwd = process.cwd();
 
-const exec = util.promisify(execCb);
+const root = path.join.bind(cwd);
 
-const root = path.join.bind(this, __dirname, '../');
+dotenvSafe.config({
+  path: root('.env'),
+  sample: root('.env.example'),
+});
 
 (async () => {
-  await exec(
-    `sudo scp -i ./pem/LightsailDefaultKey-us-east-1.pem ../../openpix_pix.2.0.5.zip bitnami@magento2.woovi.dev:/opt/bitnami/magento/app/code/OpenPix/ `,
-  );
-  // @todo copy the new version relead to magento2 bitnami
+  console.log(process.env);
+  console.log({
+    e: process.env.PEM,
+  });
+
+  // await exec(
+  //   `sudo scp -i ./pem/LightsailDefaultKey-us-east-1.pem ../../openpix_pix.2.0.5.zip bitnami@magento2.woovi.dev:/opt/bitnami/magento/app/code/OpenPix/ `,
+  // );
+  // @todo copy the new version released to magento2 bitnami
 })();
