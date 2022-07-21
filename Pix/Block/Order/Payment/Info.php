@@ -2,7 +2,7 @@
 
 namespace OpenPix\Pix\Block\Order\Payment;
 
-class Info extends \Magento\Framework\View\Element\Template
+class Info extends \Magento\Payment\Block\Info
 {
     protected $_checkoutSession;
     protected $_orderFactory;
@@ -15,6 +15,11 @@ class Info extends \Magento\Framework\View\Element\Template
     protected $_helperData;
 
     const LOG_NAME = 'pix_sales_order_block';
+
+    /**
+     * @var string
+     */
+    protected $_template = 'OpenPix_Pix::order/payment/info.phtml';
 
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
@@ -29,10 +34,30 @@ class Info extends \Magento\Framework\View\Element\Template
         $this->_helperData = $helper;
     }
 
+    public function getOrder()
+    {
+        try {
+            $order_id = $this->getRequest()->getParam('order_id');
+            if (empty($order_id)) {
+                $info = $this->getInfo();
+                if (!empty($info)) {
+                    return $info->getOrder();
+                }
+            }
+
+            return $this->_orderFactory->load($order_id);
+        } catch (\Exception $exception) {
+            return null;
+        }
+    }
+
     public function getPaymentMethod()
     {
-        $order_id = $this->getRequest()->getParam('order_id');
-        $order = $this->_orderFactory->load($order_id);
+        $order = $this->getOrder();
+        if (empty($order) || !$order->getId()) {
+            return null;
+        }
+
         $payment = $order->getPayment();
 
         $this->_helperData->log(
@@ -45,13 +70,15 @@ class Info extends \Magento\Framework\View\Element\Template
 
     public function getPaymentInfo()
     {
-        $order_id = $this->getRequest()->getParam('order_id');
-        $order = $this->_orderFactory->load($order_id);
+        $order = $this->getOrder();
+        if (empty($order) || !$order->getId()) {
+            return null;
+        }
 
         return [
             'tipo' => 'Pix',
             'qrcodeimage' => $order->getOpenpixQrcodeimage(),
-            'text' => 'Clique aqui para ver seu QRCode.',
+            'text' => __('Clique aqui para ver seu QRCode.'),
             'brcode' => $order->getOpenpixBrcode(),
         ];
     }
@@ -69,8 +96,11 @@ class Info extends \Magento\Framework\View\Element\Template
 
     public function getCorrelationID(): string
     {
-        $order_id = $this->getRequest()->getParam('order_id');
-        $order = $this->_orderFactory->load($order_id);
+        $order = $this->getOrder();
+        if (empty($order) || !$order->getId()) {
+            return '';
+        }
+
         $correlationID = $order->getOpenpixCorrelationid();
 
         if (isset($correlationID)) {
@@ -83,5 +113,11 @@ class Info extends \Magento\Framework\View\Element\Template
     public function getPluginSrc(): string
     {
         return $this->_helperData->getOpenPixPluginUrlScript();
+    }
+
+    public function isSendEmail()
+    {
+        return $this->getIsSendingEmail() !== null &&
+            $this->getIsSendingEmail() == 1;
     }
 }

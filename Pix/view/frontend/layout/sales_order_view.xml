@@ -7,7 +7,7 @@
     </head>
     <body>
         <referenceContainer name="content">
-            <block class="OpenPix\Pix\Block\Order\Payment\Info" template="OpenPix_Pix::order/payment/info.phtml"/>
+            <block class="OpenPix\Pix\Block\Order\Payment\Info" />
         </referenceContainer>
         <referenceBlock name="order_totals">
             <block name="openpix_discount" class="OpenPix\Pix\Block\Sales\Order\Totals" />

@@ -28,4 +28,5 @@
     </type>
 
     <preference for="OpenPix\Pix\Api\OpenPixManagementInterface" type="OpenPix\Pix\Model\OpenPixManagement" />
+    <preference for="Magento\Payment\Helper\Data" type="OpenPix\Pix\Helper\Payment\Override\Data" />
 </config>
