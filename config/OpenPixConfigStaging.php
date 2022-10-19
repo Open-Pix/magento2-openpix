@@ -11,11 +11,11 @@ class OpenPixConfig
 
     public function getOpenPixApiUrl()
     {
-        return 'https://api.openpix.dev';
+        return 'https://api.woovi.dev';
     }
 
     public function getOpenPixPluginUrlScript(): string
     {
-        return 'https://plugin.openpix.dev/v1/openpix-dev.js';
+        return 'https://plugin.woovi.dev/v1/openpix-dev.js';
     }
 }
