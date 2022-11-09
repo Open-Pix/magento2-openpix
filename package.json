@@ -20,7 +20,7 @@
     "eslint-import-resolver-typescript": "3.5.2",
     "eslint-plugin-typescript": "0.14.0",
     "generate-changelog": "^1.8.0",
-    "husky": "^8.0.1",
+    "husky": "^8.0.2",
     "lint-staged": "13.0.3",
     "moment": "^2.29.4",
     "prettier": "^2.7.1",
