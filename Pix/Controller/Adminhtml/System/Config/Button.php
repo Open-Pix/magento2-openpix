@@ -71,7 +71,7 @@ class Button extends Action
         );
 
         $responseGetWebhooks = $this->getWebhooksFromApi(
-            $apiUrl . '/api/openpix/v1/webhook',
+            $apiUrl . '/api/v1/webhook',
             $appID,
             $webhookUrl
         );
@@ -95,7 +95,7 @@ class Button extends Action
         }
 
         $responseCreateWebhook = $this->createNewWebhok(
-            $apiUrl . '/api/openpix/v1/webhook',
+            $apiUrl . '/api/v1/webhook',
             $appID,
             $webhookUrl,
             $newAuthorization
