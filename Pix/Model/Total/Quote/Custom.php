@@ -121,7 +121,7 @@ class Custom extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
         // getting customer giftback balance by taxID
         curl_setopt_array($curl, [
             CURLOPT_URL =>
-                $apiUrl . '/api/openpix/v1/giftback/balance/' . $customerTaxVat,
+                $apiUrl . '/api/v1/giftback/balance/' . $customerTaxVat,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,

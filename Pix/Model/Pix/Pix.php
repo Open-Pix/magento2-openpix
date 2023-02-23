@@ -363,7 +363,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
             $this->_helperData->log('API URL ', self::LOG_NAME, $apiUrl);
 
             curl_setopt_array($curl, [
-                CURLOPT_URL => $apiUrl . '/api/openpix/v1/charge',
+                CURLOPT_URL => $apiUrl . '/api/v1/charge',
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
