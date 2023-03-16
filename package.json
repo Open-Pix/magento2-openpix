@@ -21,7 +21,7 @@
     "eslint-plugin-typescript": "0.14.0",
     "generate-changelog": "^1.8.0",
     "husky": "^8.0.3",
-    "lint-staged": "13.1.0",
+    "lint-staged": "13.2.0",
     "moment": "^2.29.4",
     "prettier": "^2.8.4",
     "simple-git": "^3.16.1",
