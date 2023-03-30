@@ -6,11 +6,14 @@
         'jquery',
         'prototype'
     ], function (jQuery) {
-        $('payment_us_openpix_configurations_openpix_credentials_webhook_hmac_authorization').setAttribute('readonly','true')
-        $('payment_us_openpix_configurations_openpix_credentials_webhook_status').setAttribute('readonly','true')
+        const prefix = $('payment_us_openpix_configurations_openpix_credentials_webhook_hmac_authorization') ? 'payment_us' : 'payment'
+        
+        $(`${prefix}_openpix_configurations_openpix_credentials_webhook_hmac_authorization`).setAttribute('readonly','true')
+        $(`${prefix}_openpix_configurations_openpix_credentials_webhook_status`).setAttribute('readonly','true')
+
         jQuery('#openpix_webhook_button').click(function () {
             var params = {
-                app_ID: $('payment_us_openpix_configurations_openpix_credentials_app_ID').value
+                app_ID: $(`${prefix}_openpix_configurations_openpix_credentials_app_ID`).value
             };
 
             new Ajax.Request('<?php echo $block->getAjaxUrl(); ?>', {
@@ -22,13 +25,13 @@
                         var response = transport.responseText.evalJSON();
                         if(response?.success) {
                             if(response?.body?.webhook_authorization) {
-                                jQuery("#payment_us_openpix_configurations_openpix_credentials_webhook_authorization").val(response.body.webhook_authorization);
+                                jQuery(`#${prefix}_openpix_configurations_openpix_credentials_webhook_authorization`).val(response.body.webhook_authorization);
                             }
                             if(response?.body?.hmac_authorization) {
-                                jQuery("#payment_us_openpix_configurations_openpix_credentials_webhook_hmac_authorization").val(response.body.hmac_authorization);
+                                jQuery(`#${prefix}_openpix_configurations_openpix_credentials_webhook_hmac_authorization`).val(response.body.hmac_authorization);
                             }
                             if(response?.body?.webhook_status) {
-                                jQuery("#payment_us_openpix_configurations_openpix_credentials_webhook_status").val(response.body.webhook_status);
+                                jQuery(`#${prefix}_openpix_configurations_openpix_credentials_webhook_status`).val(response.body.webhook_status);
                             }
                         }
                         if(response?.message) {
