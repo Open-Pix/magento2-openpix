@@ -7,7 +7,7 @@
   "devDependencies": {
     "@babel/plugin-transform-typescript": "7.21.3",
     "@babel/polyfill": "^7.12.1",
-    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-env": "^7.21.4",
     "@babel/preset-typescript": "7.21.0",
     "@octokit/rest": "^19.0.7",
     "@prettier/plugin-php": "^0.19.4",
