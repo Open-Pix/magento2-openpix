@@ -21,6 +21,8 @@ class Custom extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
      */
     protected $_helperData;
 
+    protected $messageManager;
+
     /**
      * Custom constructor.
      * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency

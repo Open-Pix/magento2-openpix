@@ -8,6 +8,11 @@ use OpenPix\Pix\Helper\Data;
 class ChargePaid
 {
     /**
+     * @var \Psr\Log\LoggerInterface
+     */
+    protected \Psr\Log\LoggerInterface $logger;
+
+    /**
      * @var \Magento\Sales\Api\OrderRepositoryInterface
      */
     protected $orderRepository;
@@ -16,6 +21,23 @@ class ChargePaid
      * @var \Magento\Sales\Api\InvoiceRepositoryInterface
      */
     protected $invoiceRepository;
+
+        /**
+     * @var \Magento\Sales\Model\Order\Email\Sender\InvoiceSender
+     */
+    protected $invoiceSender;
+
+    /**
+     * @var Order
+     */
+    protected $order;
+
+    /**
+     * @var Data
+     */
+    protected $_helperData;
+
+    protected $messageManager;
 
     const LOG_NAME = 'charge_paid';
 
