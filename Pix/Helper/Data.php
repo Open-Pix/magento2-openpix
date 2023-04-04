@@ -34,6 +34,22 @@ class Data extends AbstractHelper
      */
     protected $_openpixLogger;
     protected $_openpixConfig;
+    protected $storeManager;
+    protected $logger;
+    protected $checkoutSession;
+    protected $customer;
+    protected $productMetadata;
+    protected $moduleList;
+    protected $curl;
+    protected $serializer;
+    protected $remoteAddress;
+    protected $encryptor;
+    protected $writerConfig;
+    protected $cacheTypeList;
+    protected $customerRepo;
+    protected $_curl;
+    protected $_encryptor;
+    protected $_writerConfig;
 
     /**
      * Data constructor.

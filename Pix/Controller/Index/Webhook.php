@@ -8,7 +8,9 @@ use Magento\Framework\Controller\Result\JsonFactory;
 
 class Webhook extends \Magento\Framework\App\Action\Action
 {
+    protected $logger;
     protected $_pageFactory;
+    protected $helperData;
     private $webhookHandler;
     private $resultJsonFactory;
 
