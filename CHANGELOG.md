@@ -1,3 +1,19 @@
+#### 2.0.10 (2023-04-04)
+
+##### Build System / Dependencies
+
+* **deps-dev:**
+  *  bump @babel/preset-typescript from 7.21.0 to 7.21.4 (#550) (980daa4b)
+  *  bump @typescript-eslint/parser from 5.56.0 to 5.57.0 (#552) (d60d2fd5)
+  *  bump eslint-import-resolver-typescript (#551) (8293969a)
+  *  bump @typescript-eslint/eslint-plugin (#553) (789a4cb5)
+  *  bump @babel/preset-env from 7.20.2 to 7.21.4 (#554) (1f587acb)
+* **change-log:**  v2.0.9 (#549) (d1c15ce1)
+
+##### Bug Fixes
+
+* **php:**  define properties (#555) (6f2df8af)
+
 #### 2.0.9 (2023-03-30)
 
 #### 2.0.8 (2023-03-23)
