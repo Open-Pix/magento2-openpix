@@ -43,9 +43,16 @@
     ],
     "*.php": [
       "prettier --write"
+    ],
+    "./Pix/view/frontend/requirejs-config.js": [
+      "yarn blockNotMergeable"
+    ],
+    "./Pix/Helper/OpenPixConfig.php": [
+      "yarn blockNotMergeable"
     ]
   },
   "scripts": {
+    "blockNotMergeable": "yarn es ./scripts/blockNotMergeable",
     "es": "node -r esbuild-register",
     "op:vite": "vite checkout-success",
     "prepare": "husky install",
