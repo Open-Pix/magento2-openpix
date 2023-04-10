@@ -1,3 +1,20 @@
+#### 2.1.0 (2023-04-10)
+
+##### Build System / Dependencies
+
+* **deps-dev:**
+  *  bump lint-staged from 13.2.0 to 13.2.1 (#560) (0c8781e1)
+  *  bump eslint-import-resolver-typescript (#559) (f2db8b40)
+  *  bump @typescript-eslint/parser from 5.57.0 to 5.57.1 (#557) (dfd47931)
+  *  bump @typescript-eslint/eslint-plugin (#558) (0d09d622)
+* **change-log:**  v2.0.10 (#556) (f30b17ad)
+
+##### New Features
+
+* **do-not-merge:**  block files (#563) (51e2da02)
+* **configuration:**  remove unused fields (#562) (b949c28e)
+* **webhook:**  add public key verification (#561) (c7a1e091)
+
 #### 2.0.10 (2023-04-04)
 
 ##### Build System / Dependencies
