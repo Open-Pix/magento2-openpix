@@ -5,6 +5,7 @@ namespace OpenPix\Pix\Controller\Index;
 use OpenPix\Pix\Helper\Data;
 use OpenPix\Pix\Helper\WebhookHandler;
 use Magento\Framework\Controller\Result\JsonFactory;
+use OpenPix\Pix\Helper\OpenPixConfig;
 
 class Webhook extends \Magento\Framework\App\Action\Action
 {
@@ -35,9 +36,13 @@ class Webhook extends \Magento\Framework\App\Action\Action
      */
     public function execute()
     {
+
         $resultJson = $this->resultJsonFactory->create();
+        $body = file_get_contents('php://input');
+
         $this->logger->debug(__(sprintf('Start webhook')));
-        if (!$this->validateRequest()) {
+
+        if (!$this->validateRequest($body)) {
             $ip = $this->webhookHandler->getRemoteIp();
 
             $this->logger->error(
@@ -47,11 +52,10 @@ class Webhook extends \Magento\Framework\App\Action\Action
             $resultJson->setHttpResponseCode(400);
 
             return $resultJson->setData([
-                'error' => 'Invalid Webhook Authorization',
+                'error' => 'Invalid Webhook Signature',
             ]);
         }
 
-        $body = file_get_contents('php://input');
         $this->logger->info(__(sprintf("Webhook New Event!\n%s", $body)));
 
         $result = $this->webhookHandler->handle($body);
@@ -65,29 +69,45 @@ class Webhook extends \Magento\Framework\App\Action\Action
         return $resultJson->setData(['success' => $result['success']]);
     }
 
+    public function verifySignature(string $payload, string $signature)
+    {
+        $publicKey = OpenPixConfig::OPENPIX_PUBLIC_KEY_BASE64;
+
+        $verify = openssl_verify(
+            $payload,
+            base64_decode($signature),
+            base64_decode($publicKey),
+            'sha256WithRSAEncryption'
+        );
+
+        $log = [
+            "signature" => $signature,
+            "payload" => $payload,
+            "isValid" => $verify,
+            "publicKey" => $publicKey,
+        ];
+
+        $this->logger->info(
+            __(sprintf(
+                "\nSignature: %s\nPayload: %s\nisValid: %s\npublicKey: %s",
+                $signature, $payload, $verify == 1 ? "true" : "false", $publicKey
+            ))
+        );
+        
+        return $verify;
+    }
+
     /**
      * Validate the webhook for security reasons.
      *
      * @return bool
      */
-    private function validateRequest()
+    private function validateRequest(string $payload)
     {
-        $systemWebhookAuthorization = $this->helperData->getWebhookAuthorization();
+        $signatureHeader = $this->getRequest()->getHeader("x-webhook-signature");
 
-        $webhookAuthHeader = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
-        $webhookAuthOpenPixHeader =
-            $_SERVER['HTTP_X_OPENPIX_AUTHORIZATION'] ?? '';
-        $webhookAuthQueryString =
-            $this->getRequest()->getParam('authorization') ?? '';
+        $isValid = $this->verifySignature($payload, $signatureHeader);
 
-        $isAuthHeaderValid = $webhookAuthHeader === $systemWebhookAuthorization;
-        $isAuthOpenPixHeaderValid =
-            $webhookAuthOpenPixHeader === $systemWebhookAuthorization;
-        $isAuthQueryStringValid =
-            $webhookAuthQueryString === $systemWebhookAuthorization;
-
-        return $isAuthHeaderValid ||
-            $isAuthOpenPixHeaderValid ||
-            $isAuthQueryStringValid;
+        return $isValid;
     }
 }
