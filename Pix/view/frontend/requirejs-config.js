@@ -1,7 +1,7 @@
 let config = {
   map: {
     '*': {
-      OpenPix: 'http://localhost:4444/openpix.js',
+      OpenPix: 'https://plugin.openpix.com.br/v1/openpix.js',
     },
   },
 };

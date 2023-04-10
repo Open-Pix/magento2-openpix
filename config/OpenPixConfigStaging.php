@@ -1,5 +1,7 @@
 <?php
 
+// @woovi/do-not-merge
+
 namespace OpenPix\Pix\Helper;
 class OpenPixConfig
 {
