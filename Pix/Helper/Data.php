@@ -206,14 +206,6 @@ class Data extends AbstractHelper
         return $this->getConfig('payment/openpix_pix/app_ID', $clearCache);
     }
 
-    public function getWebhookAuthorization($clearCache = false)
-    {
-        return $this->getConfig(
-            'payment/openpix_pix/webhook_authorization',
-            $clearCache
-        );
-    }
-
     public function getOrderStatus($clearCache = false)
     {
         $status = $this->getConfig(

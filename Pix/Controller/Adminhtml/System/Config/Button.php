@@ -53,8 +53,7 @@ class Button extends Action
         $apiUrl = $this->_helperData->getOpenPixApiUrl();
         $webhookUrl =
             $this->urlInterface->getBaseUrl() . 'openpix/index/webhook';
-        $newAuthorization = $this->_helperData::uuid_v4();
-        $oldAuthorization = $this->_helperData->getWebhookAuthorization(true);
+
         if (empty($appID)) {
             $result->setData([
                 'success' => false,
@@ -63,12 +62,6 @@ class Button extends Action
             ]);
             return $result;
         }
-
-        $this->_helperData->setConfig(
-            'webhook_authorization',
-            $newAuthorization,
-            true
-        );
 
         $responseGetWebhooks = $this->getWebhooksFromApi(
             $apiUrl . '/api/v1/webhook',
@@ -97,32 +90,16 @@ class Button extends Action
         $responseCreateWebhook = $this->createNewWebhok(
             $apiUrl . '/api/v1/webhook',
             $appID,
-            $webhookUrl,
-            $newAuthorization
+            $webhookUrl
         );
 
         if (
             isset($responseCreateWebhook['error']) ||
             isset($responseCreateWebhook['errors'])
         ) {
-            // roolback of oldSettings
-            $result->setData(
-                $this->handleError($responseCreateWebhook, [
-                    'oldAuth' => $oldAuthorization,
-                    'newAuth' => $newAuthorization,
-                    'actualAuth' => $this->_helperData->getWebhookAuthorization(
-                        true
-                    ),
-                ])
-            );
-            $this->_helperData->setConfig(
-                'webhook_authorization',
-                $oldAuthorization,
-                true
-            );
-
             return $result;
         }
+
         if (isset($responseCreateWebhook['webhook'])) {
             $responseCreateWebhook = $this->returnCreateWebhookPayload(
                 $responseCreateWebhook
@@ -169,14 +146,12 @@ class Button extends Action
     public function createNewWebhok(
         $apiUrl,
         $appID,
-        $webhookUrl,
-        $newAuthorization
+        $webhookUrl
     ) {
         $payload = [
             'webhook' => [
                 'name' => 'Magento-2-Webhook',
                 'url' => $webhookUrl,
-                'authorization' => $newAuthorization, // should be uuid
                 'isActive' => true,
             ],
         ];
@@ -225,46 +200,24 @@ class Button extends Action
     }
     public function returnHasActiveWebhookPayload($webhook)
     {
-        if (isset($webhook['authorization'])) {
-            $this->_helperData->setConfig(
-                'webhook_authorization',
-                $webhook['authorization'],
-                true
-            );
-        }
-        if (isset($webhook['hmacSecretKey'])) {
-            $this->_helperData->setConfig(
-                'hmac_authorization',
-                $webhook['hmacSecretKey']
-            );
-        }
         $this->_helperData->setConfig('webhook_status', 'Configured');
+        
         $result = [
             'message' => 'OpenPix: Webhook already configured.',
             'body' => [
-                'webhook_authorization' => $webhook['authorization'],
-                'hmac_authorization' => $webhook['hmacSecretKey'],
                 'webhook_status' => 'Configured',
             ],
             'success' => true,
         ];
+
         return $result;
     }
     public function returnCreateWebhookPayload($responseCreateWebhook)
     {
         $formatedBodyWebhook = [
-            'webhook_authorization' =>
-                $responseCreateWebhook['webhook']['authorization'],
-            'hmac_authorization' =>
-                $responseCreateWebhook['webhook']['hmacSecretKey'],
             'webhook_status' => 'Configured',
         ];
-        if ($responseCreateWebhook['webhook']['authorization']) {
-            $this->_helperData->setConfig(
-                'webhook_authorization',
-                $responseCreateWebhook['webhook']['authorization']
-            );
-        }
+
         $result = [
             'body' => $formatedBodyWebhook,
             'success' => true,
