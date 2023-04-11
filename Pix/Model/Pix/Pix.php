@@ -29,6 +29,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
      */
     protected $_helperData;
     protected $_storeManager;
+    protected $_canRefund = true;
 
     /**
      *
@@ -100,6 +101,18 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
             return false;
         }
         return true;
+    }
+
+    public function refund(
+        \Magento\Payment\Model\InfoInterface $payment,
+        $amount
+    ) {
+        $endToEndId = $payment
+            ->getCreditmemo()
+            ->getInvoice()
+            ->getTransactionId();
+
+        // create refund in OpenPix using our API
     }
 
     public function getStoreName()

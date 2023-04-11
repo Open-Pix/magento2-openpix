@@ -22,7 +22,7 @@ class ChargePaid
      */
     protected $invoiceRepository;
 
-        /**
+    /**
      * @var \Magento\Sales\Model\Order\Email\Sender\InvoiceSender
      */
     protected $invoiceSender;
@@ -145,6 +145,7 @@ class ChargePaid
         $invoice->setRequestedCaptureCase(Invoice::CAPTURE_OFFLINE);
         $invoice->register();
         $invoice->setSendEmail(true);
+        $invoice->setTransactionId($pix['endToEndId']);
 
         $this->invoiceRepository->save($invoice);
 
