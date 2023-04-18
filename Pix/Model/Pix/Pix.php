@@ -3,6 +3,7 @@
 namespace OpenPix\Pix\Model\Pix;
 
 use Magento\Sales\Model\Order;
+use Ramsey\Uuid\Uuid;
 
 /**
  * Class Payment Pix
@@ -30,6 +31,8 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
     protected $_helperData;
     protected $_storeManager;
 
+    protected $_canRefund = true;
+
     /**
      *
      */
@@ -50,6 +53,8 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
      */
     private $openPixManagement;
 
+    private \Magento\Framework\HTTP\Client\Curl $_curl;
+
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
@@ -58,6 +63,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Payment\Model\Method\Logger $logger,
+        \Magento\Framework\HTTP\Client\Curl $curl,
         \OpenPix\Pix\Helper\Data $helper,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Message\ManagerInterface $messageManager,
@@ -84,6 +90,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
         $this->messageManager = $messageManager;
         $this->quoteFactory = $quoteFactory;
         $this->openPixManagement = $openPixManagement;
+        $this->_curl = $curl;
     }
 
     /**
@@ -100,6 +107,56 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
             return false;
         }
         return true;
+    }
+
+    public function refund(
+        \Magento\Payment\Model\InfoInterface $payment,
+        $value
+    ) {
+        $appID = $this->_helperData->getAppID();
+
+        if (empty($appID)) {
+            $this->_helperData->log(
+                'OpenPix: AppID not configured',
+                self::LOG_NAME
+            );
+
+            return;
+        }
+
+        $valueInCents = round(floatval($value), 2) * 100;
+        $chargeId = $payment
+            ->getCreditmemo()
+            ->getInvoice()
+            ->getTransactionId();
+
+        $baseUrl = $this->_helperData->getOpenPixApiUrl();
+        $url = "$baseUrl/api/v1/charge/$chargeId/refund";
+
+        $this->_curl->setOptions([
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_HTTPHEADER => [
+                'Content-Type: application/json',
+                'Accept: application/json',
+                'Authorization: ' . $appID,
+            ],
+            CURLOPT_VERBOSE => true,
+        ]);
+
+        $payload = [
+            'correlationID' => Uuid::uuid4()->toString(),
+            'value' => $valueInCents,
+        ];
+
+        $this->_curl->post($url, \json_encode($payload));
+
+        $response = json_decode($this->_curl->getBody(), true);
     }
 
     public function getStoreName()
