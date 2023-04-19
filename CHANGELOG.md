@@ -1,3 +1,21 @@
+#### 2.2.0 (2023-04-19)
+
+##### Build System / Dependencies
+
+* **deps-dev:**
+  *  bump @typescript-eslint/eslint-plugin (eedd288f)
+  *  bump @typescript-eslint/parser from 5.57.1 to 5.58.0 (#567) (f8f0c4da)
+* **change-log:**  v2.1.0 (#564) (efc89fd6)
+
+##### New Features
+
+* **credentials:**  add webhook comment (#569) (859af564)
+* **refund:**  add refund (#568) (8e140621)
+
+##### Bug Fixes
+
+* **plugin:**  fix staging url (#570) (26b4e4d9)
+
 #### 2.1.0 (2023-04-10)
 
 ##### Build System / Dependencies
