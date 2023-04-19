@@ -32,6 +32,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
     protected $_storeManager;
 
     protected $_canRefund = true;
+    protected $_canRefundInvoicePartial = true;
 
     /**
      *
