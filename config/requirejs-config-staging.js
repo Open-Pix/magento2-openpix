@@ -3,7 +3,7 @@
 let config = {
   map: {
     '*': {
-      OpenPix: 'https://plugin.openpix.dev/v1/openpix-dev.js',
+      OpenPix: 'https://plugin.woovi.dev/v1/openpix-dev.js',
     },
   },
 };
