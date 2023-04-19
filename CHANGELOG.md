@@ -1,3 +1,17 @@
+#### 2.2.1 (2023-04-19)
+
+##### Build System / Dependencies
+
+* **change-log:**  v2.2.0 (#571) (23d367d7)
+
+##### New Features
+
+* **refund:**  partial refunds (#572) (aac0f34d)
+
+##### Bug Fixes
+
+* **php:**  remove types from properties (#573) (1da62cc7)
+
 #### 2.2.0 (2023-04-19)
 
 ##### Build System / Dependencies
