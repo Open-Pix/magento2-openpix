@@ -9,7 +9,7 @@ class CsrfValidatorSkip
     /**
      * @var ProductMetadata
      */
-    protected ProductMetadata $productMetadata;
+    protected $productMetadata;
 
     public function __construct(ProductMetadata $productMetadata)
     {

@@ -10,7 +10,7 @@ class ChargePaid
     /**
      * @var \Psr\Log\LoggerInterface
      */
-    protected \Psr\Log\LoggerInterface $logger;
+    protected $logger;
 
     /**
      * @var \Magento\Sales\Api\OrderRepositoryInterface
