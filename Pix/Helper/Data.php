@@ -206,6 +206,16 @@ class Data extends AbstractHelper
         return $this->getConfig('payment/openpix_pix/app_ID', $clearCache);
     }
 
+    /**
+     * @param string $appID
+     * @param boolean $clearCache
+     * @return null
+     */
+    public function setAppID($appID, $clearCache = false)
+    {
+        return $this->setConfig('app_ID', $appID, $clearCache);
+    }
+
     public function getOrderStatus($clearCache = false)
     {
         $status = $this->getConfig(
