@@ -28,6 +28,11 @@ class WebhookHandler
      */
     protected $_helperData;
 
+    /**
+     * @var OpenPix\Pix\Helper\WebHookHandlers\ConfigureHandler
+     */
+    protected $configureHandler;
+
     private $resultJsonFactory;
 
     const LOG_NAME = 'webhook_handler';
@@ -37,11 +42,13 @@ class WebhookHandler
         \Psr\Log\LoggerInterface $logger,
         \OpenPix\Pix\Helper\WebHookHandlers\ChargePaid $chargePaid,
         \OpenPix\Pix\Helper\Data $helper,
-        JsonFactory $resultJsonFactory
+        JsonFactory $resultJsonFactory,
+        \OpenPix\Pix\Helper\WebHookHandlers\ConfigureHandler $configureHandler
     ) {
         $this->remoteAddress = $remoteAddress;
         $this->logger = $logger;
         $this->chargePaid = $chargePaid;
+        $this->configureHandler = $configureHandler;
         $this->_helperData = $helper;
         $this->resultJsonFactory = $resultJsonFactory;
     }
@@ -49,15 +56,6 @@ class WebhookHandler
     public function getRemoteIp()
     {
         return $this->remoteAddress->getRemoteAddress();
-    }
-
-    public function isValidTestWebhookPayload($jsonBody)
-    {
-        if (isset($jsonBody['evento'])) {
-            return true;
-        }
-
-        return false;
     }
 
     public function isValidWebhookPayload($jsonBody)
@@ -107,7 +105,9 @@ class WebhookHandler
         try {
             $jsonBody = json_decode($body, true);
 
-            if ($this->isValidTestWebhookPayload($jsonBody)) {
+            $event = $jsonBody['event'] ?? ($jsonBody['evento'] ?? null);
+
+            if ($event == 'teste_webhook') {
                 $this->_helperData->log(
                     'OpenPix WebApi::ProcessWebhook Test Call',
                     self::LOG_NAME
@@ -117,6 +117,17 @@ class WebhookHandler
                     'error' => null,
                     'success' => 'Webhook Test Call: ' . $jsonBody['evento'],
                 ];
+            }
+
+            if ($event == 'magento2-configure' && !empty($jsonBody['appID'])) {
+                $this->_helperData->log(
+                    'OpenPix WebApi::ProcessWebhook Configure',
+                    self::LOG_NAME
+                );
+
+                $appID = $jsonBody['appID'];
+
+                return $this->configureHandler->configure($appID);
             }
 
             if ($this->isPixDetachedPayload($jsonBody)) {
@@ -133,15 +144,20 @@ class WebhookHandler
                 ];
             }
 
-            if (!$this->isValidWebhookPayload($jsonBody)) {
+            if ($this->isValidWebhookPayload($jsonBody)) {
                 $this->_helperData->log(
                     'OpenPix WebApi::ProcessWebhook Invalid Payload',
                     self::LOG_NAME,
                     $jsonBody
                 );
 
-                return ['error' => 'Invalid Payload', 'success' => null];
+                $charge = $jsonBody['charge'];
+                $pix = $jsonBody['pix'];
+
+                return $this->chargePaid->chargePaid($charge, $pix);
             }
+
+            return ['error' => 'Invalid Payload', 'success' => null];
         } catch (\Exception $e) {
             $this->logger->info(
                 __(
@@ -151,12 +167,10 @@ class WebhookHandler
                     )
                 )
             );
-            return false;
+            return [
+                'error' => 'Internal server error',
+                'success' => null,
+            ];
         }
-
-        $charge = $jsonBody['charge'];
-        $pix = $jsonBody['pix'];
-
-        return $this->chargePaid->chargePaid($charge, $pix);
     }
 }
