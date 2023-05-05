@@ -2,7 +2,6 @@
 
 namespace OpenPix\Pix\Helper\WebHookHandlers;
 
-use Magento\Sales\Model\Order\Invoice;
 use OpenPix\Pix\Helper\Data;
 
 class ConfigureHandler
