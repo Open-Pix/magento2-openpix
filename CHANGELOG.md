@@ -1,3 +1,31 @@
+#### 2.3.0 (2023-05-05)
+
+##### Build System / Dependencies
+
+* **deps-dev:**
+  *  bump @babel/preset-typescript from 7.21.4 to 7.21.5 (#584) (70962486)
+  *  bump @typescript-eslint/eslint-plugin (#586) (54474314)
+  *  bump vite from 4.3.3 to 4.3.4 (#588) (c8eaa852)
+  *  bump vite from 4.3.1 to 4.3.3 (#581) (0b8fb2a8)
+  *  bump @babel/preset-env from 7.21.4 to 7.21.5 (#585) (31f5c18c)
+  *  bump @typescript-eslint/parser from 5.59.1 to 5.59.2 (#587) (49501807)
+  *  bump lint-staged from 13.2.1 to 13.2.2 (#582) (03113fad)
+  *  bump simple-git from 3.17.0 to 3.18.0 (#583) (989783ee)
+  *  bump @typescript-eslint/eslint-plugin (#579) (71d1c1d5)
+  *  bump @typescript-eslint/parser from 5.58.0 to 5.59.1 (#580) (e3a45913)
+  *  bump vite from 4.2.1 to 4.3.1 (#576) (84f9301f)
+  *  bump @typescript-eslint/eslint-plugin (#577) (fe022ee2)
+  *  bump prettier from 2.8.7 to 2.8.8 (#578) (9f798a25)
+* **change-log:**  v2.2.1 (#574) (f87bd23e)
+
+##### Chores
+
+* **configure-handler:**  remove unused import (#590) (9e1eb8c2)
+
+##### New Features
+
+* **one-click:**  add (#589) (081697f6)
+
 #### 2.2.1 (2023-04-19)
 
 ##### Build System / Dependencies
