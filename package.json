@@ -9,7 +9,7 @@
     "@babel/polyfill": "^7.12.1",
     "@babel/preset-env": "^7.22.9",
     "@babel/preset-typescript": "7.22.5",
-    "@octokit/rest": "^19.0.13",
+    "@octokit/rest": "^20.0.1",
     "@prettier/plugin-php": "^0.19.6",
     "@types/dotenv-safe": "^8.1.2",
     "@typescript-eslint/eslint-plugin": "5.61.0",
