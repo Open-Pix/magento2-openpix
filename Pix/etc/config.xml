@@ -9,6 +9,13 @@
                 <payment_action>order</payment_action>
                 <order_status>pending</order_status>
             </openpix_pix>
+            <openpix_pix_parcelado>
+                <active>1</active>
+                <title translate="label">Pay with OpenPix Parcelado</title>
+                <model>OpenPix\Pix\Model\Pix\PixParcelado</model>
+                <payment_action>order</payment_action>
+                <order_status>pending</order_status>
+            </openpix_pix_parcelado>
         </payment>
         <openpixconfiguration>
             <general>
