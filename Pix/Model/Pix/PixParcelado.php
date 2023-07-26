@@ -200,8 +200,8 @@ class PixParcelado extends \Magento\Payment\Model\Method\AbstractMethod
     public function getAddress($billing) {
         $street = $billing->getStreetLine(1);
         $number = $billing->getStreetLine(2);
-        $neighborhood = $billing->getStreetLine(3);
-        $complement = $billing->getStreetLine(4);
+        $neighborhood = $billing->getStreetLine(4);
+        $complement = $billing->getStreetLine(3);
 
         return [
             'zipcode' => $billing->getPostcode(),
