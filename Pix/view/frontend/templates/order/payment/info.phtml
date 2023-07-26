@@ -31,11 +31,11 @@ if ($block->getPaymentMethod() === 'openpix_pix'): ?>
         'Magento_Ui/js/modal/modal':{
             'type': 'popup',
             'modalClass': 'modalpix-parcelado',
-            'title': 'Escaneie o QRcode',
+            'title': 'OpenPix Parcelado',
             'trigger': '[data-trigger=trigger-parcelado]',
             'responsive': true,
         }}">
-        <div id="openpix-parcelado-order" data-appid="<?= $appID ?>" data-correlationID="<?= $correlationID ?>"></div>
+        <div id="openpix-order" data-appid="<?= $appID ?>" data-correlationID="<?= $correlationID ?>"></div>
         <script>// <![CDATA[
             require(["jquery","OpenPix"],function($,pym){
             });
