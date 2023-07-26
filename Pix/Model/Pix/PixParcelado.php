@@ -197,6 +197,24 @@ class PixParcelado extends \Magento\Payment\Model\Method\AbstractMethod
         return null;
     }
 
+    public function getAddress($billing) {
+        $street = $billing->getStreetLine(1);
+        $number = $billing->getStreetLine(2);
+        $neighborhood = $billing->getStreetLine(3);
+        $complement = $billing->getStreetLine(4);
+
+        return [
+            'zipcode' => $billing->getPostcode(),
+            'street' => $street,
+            'number' => $number,
+            'neighborhood' => $neighborhood,
+            'city' => $billing->getCity(),
+            'state' => $billing->getRegion(),
+            'complement' => $complement,
+            'country' => 'BR',
+        ];
+    }
+
     // get customer from billing
     public function getCustomerGuestData($order)
     {
@@ -210,6 +228,11 @@ class PixParcelado extends \Magento\Payment\Model\Method\AbstractMethod
         $email = $billing->getEmail();
         $phone = $billing->getTelephone();
 
+        $address = $this->getAddress($billing);
+
+        $this->_helperData->debugJson('Address ', self::LOG_NAME, $address);
+        $this->_helperData->debugJson('BillingAddress ', self::LOG_NAME, $billing);
+
         if (!$taxIDSafe && !$email && !$phone) {
             return null;
         }
@@ -219,6 +242,7 @@ class PixParcelado extends \Magento\Payment\Model\Method\AbstractMethod
                 'name' => $firstname . ' ' . $lastname,
                 'email' => $email,
                 'phone' => $this->formatPhone($phone),
+                'address' => $address
             ];
         }
 
@@ -227,6 +251,7 @@ class PixParcelado extends \Magento\Payment\Model\Method\AbstractMethod
             'taxID' => $taxIDSafe,
             'email' => $email,
             'phone' => $this->formatPhone($phone),
+            'address' => $address
         ];
     }
 
@@ -250,6 +275,8 @@ class PixParcelado extends \Magento\Payment\Model\Method\AbstractMethod
         $lastname = $order->getCustomerLastname();
         $phone = $billing->getTelephone();
 
+        $address = $this->getAddress($billing);
+
         if (!$taxIDSafe && !$email && !$phone) {
             return null;
         }
@@ -259,6 +286,7 @@ class PixParcelado extends \Magento\Payment\Model\Method\AbstractMethod
                 'name' => $firstname . ' ' . $lastname,
                 'email' => $email,
                 'phone' => $this->formatPhone($phone),
+                'address' => $address
             ];
         }
 
@@ -267,6 +295,7 @@ class PixParcelado extends \Magento\Payment\Model\Method\AbstractMethod
             'taxID' => $taxIDSafe,
             'email' => $email,
             'phone' => $this->formatPhone($phone),
+            'address' => $address
         ];
     }
 
