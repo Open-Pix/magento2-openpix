@@ -23,4 +23,23 @@ if ($block->getPaymentMethod() === 'openpix_pix'): ?>
             // ]]>
         </script>
     </div>
+<?php elseif ($block->getPaymentMethod() === 'openpix_pix_parcelado'): ?>
+    <button type="button" class="action primary btn-openpix-pix-parcelado" data-trigger="trigger-parcelado">
+        <span data-bind="i18n: '<?= $paymentInfo['text'] ?>'"></span>
+    </button>
+    <div data-bind="mageInit: {
+        'Magento_Ui/js/modal/modal':{
+            'type': 'popup',
+            'modalClass': 'modalpix-parcelado',
+            'title': 'Escaneie o QRcode',
+            'trigger': '[data-trigger=trigger-parcelado]',
+            'responsive': true,
+        }}">
+        <div id="openpix-parcelado-order" data-appid="<?= $appID ?>" data-correlationID="<?= $correlationID ?>"></div>
+        <script>// <![CDATA[
+            require(["jquery","OpenPix"],function($,pym){
+            });
+            // ]]>
+        </script>
+    </div>
 <?php endif; ?>
