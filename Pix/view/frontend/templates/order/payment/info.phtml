@@ -37,7 +37,7 @@ if ($block->getPaymentMethod() === 'openpix_pix'): ?>
         }}">
         <div id="openpix-parcelado-order" data-appid="<?= $appID ?>" data-correlationID="<?= $correlationID ?>"></div>
         <script>// <![CDATA[
-            require(["jquery","Woovi"],function($,pym){
+            require(["jquery","OpenPix"],function($,pym){
             });
             // ]]>
         </script>
