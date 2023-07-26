@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenPix\Pix\Model\PixParcelado;
+namespace OpenPix\Pix\Model\Pix;
 
 use Magento\Sales\Model\Order;
 use Ramsey\Uuid\Uuid;
