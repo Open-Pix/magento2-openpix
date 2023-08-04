@@ -400,10 +400,10 @@ class PixParcelado extends \Magento\Payment\Model\Method\AbstractMethod
             $qrCodeImage = $charge['qrCodeImage'];
             $brCode = $response['brCode'];
 
-            $order->setOpenPixCorrelationid($correlationID);
-            $order->setOpenPixPaymentlinkurl($paymentLinkUrl);
-            $order->setOpenPixQrcodeimage($qrCodeImage);
-            $order->setOpenPixBrcode($brCode);
+            $order->setOpenpixCorrelationid($correlationID);
+            $order->setOpenpixPaymentlinkurl($paymentLinkUrl);
+            $order->setOpenpixQrcodeimage($qrCodeImage);
+            $order->setOpenpixBrcode($brCode);
             $orderId = $order->getIncrementId();
 
             $message = __(
