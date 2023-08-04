@@ -1,3 +1,88 @@
+#### 2.4.0 (2023-08-04)
+
+##### Build System / Dependencies
+
+* **deps-dev:**
+  *  bump vite from 4.4.7 to 4.4.8 (#657) (4a3d3894)
+  *  bump babel-jest from 29.6.1 to 29.6.2 (#656) (fe1d0983)
+  *  bump vite from 4.4.6 to 4.4.7 (#640) (4e1b4d4c)
+  *  bump vite from 4.4.5 to 4.4.6 (#639) (a16f49ea)
+  *  bump @babel/preset-env from 7.22.7 to 7.22.9 (#634) (f06b8d35)
+  *  bump vite from 4.4.4 to 4.4.5 (#638) (36c18fe9)
+  *  bump vite from 4.4.2 to 4.4.4 (#635) (1ffc45b0)
+  *  bump @babel/plugin-transform-typescript (#636) (450468cf)
+  *  bump vite from 4.4.1 to 4.4.2 (#633) (75b4b736)
+  *  bump babel-jest from 29.6.0 to 29.6.1 (#631) (91f0c1d9)
+  *  bump vite from 4.3.9 to 4.4.1 (#629) (295f8a0b)
+  *  bump @babel/preset-env from 7.22.6 to 7.22.7 (#630) (08409548)
+  *  bump @typescript-eslint/parser from 5.60.1 to 5.61.0 (#627) (f215c0c5)
+  *  bump @babel/preset-env from 7.22.5 to 7.22.6 (#624) (d12f767d)
+  *  bump @typescript-eslint/eslint-plugin (#625) (c6b57e71)
+  *  bump babel-jest from 29.5.0 to 29.6.0 (#628) (81658706)
+  *  bump lint-staged from 13.2.2 to 13.2.3 (#623) (960699db)
+  *  bump @typescript-eslint/eslint-plugin (#620) (76a366e9)
+  *  bump simple-git from 3.19.0 to 3.19.1 (#621) (f8d06644)
+  *  bump @typescript-eslint/parser from 5.60.0 to 5.60.1 (#622) (9b378750)
+  *  bump @typescript-eslint/eslint-plugin (#617) (9bd75721)
+  *  bump @octokit/rest from 19.0.11 to 19.0.13 (#618) (e50ac304)
+  *  bump @typescript-eslint/parser from 5.59.9 to 5.60.0 (#619) (96cbe6d8)
+  *  bump @babel/plugin-transform-typescript (#614) (7a16f762)
+  *  bump @babel/preset-env from 7.22.4 to 7.22.5 (#615) (5a3fde37)
+  *  bump @prettier/plugin-php from 0.19.5 to 0.19.6 (#613) (d98c8f29)
+  *  bump @babel/preset-typescript from 7.21.5 to 7.22.5 (#616) (c729618a)
+  *  bump @typescript-eslint/eslint-plugin (#611) (f34d13f8)
+  *  bump @babel/preset-env from 7.22.2 to 7.22.4 (#610) (2592c9c2)
+  *  bump @typescript-eslint/parser from 5.59.7 to 5.59.9 (#612) (105c61e3)
+  *  bump @babel/plugin-transform-typescript (#606) (19bfe15c)
+  *  bump vite from 4.3.8 to 4.3.9 (#605) (190a5992)
+  *  bump @babel/preset-env from 7.21.5 to 7.22.2 (#607) (f554a3ac)
+  *  bump @typescript-eslint/parser from 5.59.6 to 5.59.7 (1661cd6d)
+  *  bump @typescript-eslint/eslint-plugin (#602) (2f52bccc)
+  *  bump @prettier/plugin-php from 0.19.4 to 0.19.5 (#603) (eac3806c)
+  *  bump simple-git from 3.18.0 to 3.19.0 (#604) (dcb07919)
+  *  bump vite from 4.3.7 to 4.3.8 (#599) (ea486343)
+  *  bump @octokit/rest from 19.0.8 to 19.0.11 (#600) (8bf6fd03)
+  *  bump @typescript-eslint/eslint-plugin (#596) (d4d46260)
+  *  bump vite from 4.3.5 to 4.3.7 (#597) (74275f1f)
+  *  bump @typescript-eslint/parser from 5.59.5 to 5.59.6 (#598) (02552ae1)
+  *  bump @octokit/rest from 19.0.7 to 19.0.8 (#595) (1a85d459)
+  *  bump @typescript-eslint/eslint-plugin (#593) (c39d2238)
+  *  bump @typescript-eslint/parser from 5.59.2 to 5.59.5 (#594) (5c96b962)
+  *  bump vite from 4.3.4 to 4.3.5 (#592) (edb30bf1)
+* **deps:**
+  *  bump jest from 29.6.1 to 29.6.2 (#655) (4b25a026)
+  *  bump jest from 29.6.0 to 29.6.1 (#632) (b3cc7394)
+  *  bump jest from 29.5.0 to 29.6.0 (#626) (975d6628)
+* **change-log:**  v2.3.0 (#591) (012dcedc)
+
+##### Chores
+
+* **env:**  remove unused PEM variable (#653) (51a69c12)
+
+##### New Features
+
+* **checkout:**
+  *  send customer address on charge creation (#652) (b60830de)
+  *  add js plugin to checkout success page (#650) (04491008)
+  *  add parcelado payment option (#647) (2384bffc)
+  *  add parcelado payment method html (#645) (ef4728cd)
+* **payment-info:**  fix modal detail for openpix parcelado (#651) (8c623491)
+* **payment:**  add qrcode to order payment info page (#646) (8d47f6bf)
+* **parcelado:**
+  *  add default settings (#643) (cc4d898f)
+  *  add system config (#642) (d7cae53d)
+  *  add parcelado payment method model (#641) (7205e8fe)
+
+##### Bug Fixes
+
+* **parcelado:**
+  *  add openpix info to parcelado orders (#658) (b3f82f5e)
+  *  fix payment method model namespace (#644) (c1766bd3)
+* **checkout:**
+  *  change address line order (#654) (d2d2d163)
+  *  make address required (#649) (b3e138ea)
+  *  fix payment option component name (#648) (1403a51c)
+
 #### 2.3.0 (2023-05-05)
 
 ##### Build System / Dependencies
