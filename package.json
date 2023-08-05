@@ -61,6 +61,7 @@
     "release:major": "yarn es ./scripts/changelog --major",
     "release:minor": "yarn es ./scripts/changelog --minor",
     "release:patch": "yarn es ./scripts/changelog --patch",
+    "release:publish": "yarn es ./scripts/publish",
     "release:zip": "bash ./pack.sh",
     "config:local": "cp config/OpenPixConfigDevelopment.php Pix/Helper/OpenPixConfig.php && cp config/requirejs-config-local.js Pix/view/frontend/requirejs-config.js",
     "config:staging": "cp config/OpenPixConfigStaging.php Pix/Helper/OpenPixConfig.php && cp config/requirejs-config-staging.js Pix/view/frontend/requirejs-config.js",
