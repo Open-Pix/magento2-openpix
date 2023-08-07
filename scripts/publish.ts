@@ -38,14 +38,14 @@ const repo = process.env.CIRCLE_PROJECT_REPONAME || 'magento2-openpix';
       body,
     });
 
-    const data = await fs.readFile(root(`openpix_pix_pix.${version}.zip`), 'utf-8');
+    const data = await fs.readFile(root(`openpix_pix.${version}.zip`), 'utf-8');
 
     await octokit.repos.uploadReleaseAsset({
       owner,
       repo,
       release_id: release.data.id,
       data,
-      name: `openpix_pix_pix.${version}.zip`,
+      name: `openpix_pix.${version}.zip`,
       mediaType: {
         format: 'application/zip',
       },
