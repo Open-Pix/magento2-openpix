@@ -1,3 +1,33 @@
+#### 2.4.1 (2023-09-01)
+
+##### Build System / Dependencies
+
+* **deps-dev:**
+  *  bump @babel/preset-env from 7.22.10 to 7.22.14 (#677) (1831f161)
+  *  bump @babel/preset-typescript from 7.22.5 to 7.22.11 (#672) (6972aaac)
+  *  bump @babel/plugin-transform-typescript (#674) (fdee29da)
+  *  bump babel-jest from 29.6.3 to 29.6.4 (#675) (8f6d0dde)
+  *  bump babel-jest from 29.6.2 to 29.6.3 (#671) (ede7fed9)
+  *  bump @prettier/plugin-php from 0.19.6 to 0.19.7 (#667) (a4278bd6)
+  *  bump eslint-import-resolver-typescript (#665) (709cd613)
+  *  bump @babel/plugin-transform-typescript (#662) (ff469e37)
+  *  bump vite from 4.4.8 to 4.4.9 (#663) (329da9e9)
+  *  bump @babel/preset-env from 7.22.9 to 7.22.10 (#664) (a7ccd38a)
+  *  bump @octokit/rest from 19.0.13 to 20.0.1 (f094dba4)
+* **deps:**
+  *  bump jest from 29.6.3 to 29.6.4 (#673) (9718aab3)
+  *  bump jest from 29.6.2 to 29.6.3 (#669) (a917efa1)
+* **change-log:**  v2.4.0 (#659) (c4ab86cc)
+
+##### Chores
+
+* **release:**  add release:publish script (#660) (7247c94c)
+
+##### Bug Fixes
+
+* **nullish:**  add the nullish operator (#678) (b0544c6d)
+* **scripts/publish:**  fix publish script (#661) (d26ba770)
+
 #### 2.4.0 (2023-08-04)
 
 ##### Build System / Dependencies
