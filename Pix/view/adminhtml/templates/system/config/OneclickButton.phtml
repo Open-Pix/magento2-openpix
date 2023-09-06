@@ -1,0 +1,37 @@
+<?php
+/* @var $block \OpenPix\Pix\Block\System\Config\Button */
+?>
+<script>
+    require([
+        'jquery',
+        'prototype'
+    ], function (jQuery) {
+        const prefix = $('payment_us_openpix_configurations_openpix_credentials_webhook_status') ? 'payment_us' : 'payment'
+
+        $(`${prefix}_openpix_configurations_openpix_credentials_webhook_status`)?.setAttribute('readonly','true')
+
+        jQuery('#openpix_oneclick_button').click(function () {
+            new Ajax.Request('<?php echo $block->getAjaxUrl(); ?>', {
+                loaderArea: false,
+                asynchronous: true,
+                onComplete: function(transport) {
+                    if (transport.responseText.isJSON()) {
+                        var response = transport.responseText.evalJSON();
+                        if(response?.redirectUrl) {
+                            window.open(response.redirectUrl, "_blank");
+                        }
+                        if(response?.message) {
+                            alert(response.message);
+                        }
+                    }
+                }
+            });
+        });
+    });
+</script>
+
+<?php echo $block->getButtonHtml(); ?>
+
+<p>
+    <span id="custom_button_response_message"></span>
+</p>
