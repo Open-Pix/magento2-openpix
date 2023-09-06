@@ -17,6 +17,11 @@ class OpenPixConfig
         return 'https://api.woovi.dev';
     }
 
+    public function getOpenPixPlatformUrl()
+    {
+        return 'https://app.woovi.dev';
+    }
+
     public function getOpenPixPluginUrlScript(): string
     {
         return 'https://plugin.woovi.dev/v1/openpix-dev.js';
