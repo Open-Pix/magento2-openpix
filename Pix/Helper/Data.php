@@ -165,6 +165,11 @@ class Data extends AbstractHelper
         return $this->_openpixConfig->getOpenPixApiUrl();
     }
 
+    public function getOpenPixPlatformUrl()
+    {
+        return $this->_openpixConfig->getOpenPixPlatformUrl();
+    }
+
     public function getOpenPixPluginUrlScript(): string
     {
         return $this->_openpixConfig->getOpenPixPluginUrlScript();

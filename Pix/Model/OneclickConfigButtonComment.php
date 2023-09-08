@@ -4,7 +4,7 @@ namespace OpenPix\Pix\Model;
 
 use Magento\Config\Model\Config\CommentInterface;
 
-class WebhookComment implements CommentInterface
+class OneclickConfigButtonComment implements CommentInterface
 {
     /**
      * @var \Magento\Framework\UrlInterface
@@ -20,7 +20,7 @@ class WebhookComment implements CommentInterface
     {
         return sprintf(
             __(
-                'Or use the url below to set up the Webhook on OpenPix Platform.'
+                'By pressing this button, you will be redirected to our platform where we will quickly configure a new integration. Or use the url below to set up the Webhook on OpenPix Platform.'
             )
         ) .
             ' <strong>' .

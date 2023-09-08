@@ -17,6 +17,11 @@ class OpenPixConfig
         return 'http://host.docker.internal:5001';
     }
 
+    public function getOpenPixPlatformUrl()
+    {
+        return 'https://host.docker.internal:5001';
+    }
+
     public function getOpenPixPluginUrlScript(): string
     {
         return 'http://localhost:4444/openpix.js';

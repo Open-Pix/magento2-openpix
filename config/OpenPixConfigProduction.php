@@ -15,6 +15,11 @@ class OpenPixConfig
         return 'https://api.openpix.com.br';
     }
 
+    public function getOpenPixPlatformUrl()
+    {
+        return 'https://app.openpix.com.br';
+    }
+
     public function getOpenPixPluginUrlScript(): string
     {
         return 'https://plugin.openpix.com.br/v1/openpix.js';
