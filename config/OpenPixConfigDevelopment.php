@@ -19,7 +19,7 @@ class OpenPixConfig
 
     public function getOpenPixPlatformUrl()
     {
-        return 'https://host.docker.internal:5001';
+        return 'http://localhost:8103';
     }
 
     public function getOpenPixPluginUrlScript(): string
