@@ -230,7 +230,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
 
         $address = $this->getAddress($billing);
 
-        $hasAddressFieldsFilled = $this->isAddressFieldsFilled($address);
+        $isValidAddress = $this->isValidAddress($address);
 
         if (!$taxIDSafe && !$email && !$phone) {
             return null;
@@ -243,7 +243,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
                 'phone' => $this->formatPhone($phone),
             ];
 
-            if ($hasAddressFieldsFilled) {
+            if ($isValidAddress) {
                 $customer['address'] = $address;
             }
 
@@ -257,7 +257,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
             'phone' => $this->formatPhone($phone),
         ];
 
-        if ($hasAddressFieldsFilled) {
+        if ($isValidAddress) {
             $customer['address'] = $address;
         }
 
