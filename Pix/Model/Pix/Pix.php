@@ -197,6 +197,24 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
         return null;
     }
 
+    public function getAddress($billing) {
+        $street = $billing->getStreetLine(1);
+        $number = $billing->getStreetLine(2);
+        $neighborhood = $billing->getStreetLine(4);
+        $complement = $billing->getStreetLine(3);
+
+        return [
+            'zipcode' => $billing->getPostcode(),
+            'street' => $street,
+            'number' => $number,
+            'neighborhood' => $neighborhood,
+            'city' => $billing->getCity(),
+            'state' => $billing->getRegion(),
+            'complement' => $complement,
+            'country' => 'BR',
+        ];
+    }
+
     // get customer from billing
     public function getCustomerGuestData($order)
     {
@@ -210,24 +228,40 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
         $email = $billing->getEmail();
         $phone = $billing->getTelephone();
 
+        $address = $this->getAddress($billing);
+
+        $isValidAddress = $this->isValidAddress($address);
+
         if (!$taxIDSafe && !$email && !$phone) {
             return null;
         }
 
         if (!$taxIDSafe) {
-            return [
+            $customer = [
                 'name' => $firstname . ' ' . $lastname,
                 'email' => $email,
                 'phone' => $this->formatPhone($phone),
             ];
+
+            if ($isValidAddress) {
+                $customer['address'] = $address;
+            }
+
+            return $customer;
         }
 
-        return [
+        $customer = [
             'name' => $firstname . ' ' . $lastname,
             'taxID' => $taxIDSafe,
             'email' => $email,
             'phone' => $this->formatPhone($phone),
         ];
+
+        if ($isValidAddress) {
+            $customer['address'] = $address;
+        }
+
+        return $customer;
     }
 
     // get customer guest or from order if logged in
@@ -250,24 +284,51 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
         $lastname = $order->getCustomerLastname();
         $phone = $billing->getTelephone();
 
+        $address = $this->getAddress($billing);
+
+        $isValidAddress = $this->isValidAddress($address);
+
         if (!$taxIDSafe && !$email && !$phone) {
             return null;
         }
 
         if (!$taxIDSafe) {
-            return [
+            $customer = [
                 'name' => $firstname . ' ' . $lastname,
                 'email' => $email,
                 'phone' => $this->formatPhone($phone),
             ];
+
+            if ($isValidAddress) {
+                $customer['address'] = $address;
+            }
+
+            return $customer;
         }
 
-        return [
+        $customer = [
             'name' => $firstname . ' ' . $lastname,
             'taxID' => $taxIDSafe,
             'email' => $email,
             'phone' => $this->formatPhone($phone),
         ];
+
+        if ($isValidAddress) {
+            $customer['address'] = $address;
+        }
+
+        return $customer;
+    }
+
+    private function isValidAddress($address)
+    {
+        return ! empty($address['zipcode'])
+            && ! empty($address['street'])
+            && ! empty($address['number'])
+            && ! empty($address['neighborhood'])
+            && ! empty($address['city'])
+            && ! empty($address['state'])
+            && ! empty($address['country']);
     }
 
     public function getPayload($order, $correlationID)

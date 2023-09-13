@@ -1,3 +1,25 @@
+#### 2.5.0 (2023-09-12)
+
+##### Build System / Dependencies
+
+* **deps-dev:**
+  *  bump @babel/preset-typescript from 7.22.11 to 7.22.15 (#681) (c8f0d0d3)
+  *  bump @babel/preset-env from 7.22.14 to 7.22.15 (#680) (c7791812)
+  *  bump @babel/plugin-transform-typescript (#682) (e6b7e6ab)
+* **change-log:**  v2.4.1 (#679) (83cf1449)
+
+##### Chores
+
+* **config:**  fix dev var envs (#686) (211bd579)
+
+##### New Features
+
+* **admin:**  add oneclick v2 button (#683) (c68fbba5)
+
+##### Bug Fixes
+
+* **config:**  use production (#684) (3ecc1326)
+
 #### 2.4.1 (2023-09-01)
 
 ##### Build System / Dependencies
