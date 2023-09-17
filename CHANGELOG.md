@@ -1,3 +1,23 @@
+#### 2.5.3 (2023-09-17)
+
+##### Build System / Dependencies
+
+* **change-log:**  v2.5.1 (#690) (50b82be2)
+* **deps-dev:**  bump babel-jest from 29.6.4 to 29.7.0 (#688) (f7bccf93)
+* **deps:**  bump jest from 29.6.4 to 29.7.0 (#689) (a0ba2a93)
+
+##### Chores
+
+* **config:**  fix dev var envs (#686) (211bd579)
+
+##### New Features
+
+* **checkout:**  send customer address when using normal pix (#685) (2fe4ddbf)
+
+##### Other Changes
+
+* **change-log:**  v2.5.1 (#690)" (#691) (2f93dca2)
+
 #### 2.5.2 (2023-09-17)
 
 ##### Build System / Dependencies

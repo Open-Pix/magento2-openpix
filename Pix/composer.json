@@ -2,7 +2,7 @@
   "name": "openpix/pix",
   "description": "OpenPix Magento 2 Plugin",
   "type": "magento2-module",
-  "version": "2.5.2",
+  "version": "2.5.3",
   "license": [
     "OSL-3.0",
     "AFL-3.0"
