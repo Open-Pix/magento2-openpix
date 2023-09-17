@@ -1,3 +1,14 @@
+#### 2.5.1 (2023-09-17)
+
+##### Build System / Dependencies
+
+* **deps-dev:**  bump babel-jest from 29.6.4 to 29.7.0 (#688) (f7bccf93)
+* **deps:**  bump jest from 29.6.4 to 29.7.0 (#689) (a0ba2a93)
+
+##### Chores
+
+* **config:**  fix dev var envs (#686) (211bd579)
+
 #### 2.5.0 (2023-09-12)
 
 ##### Build System / Dependencies
