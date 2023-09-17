@@ -1,3 +1,17 @@
+#### 2.5.1 (2023-09-17)
+
+##### Build System / Dependencies
+
+* **change-log:**  v2.5.1 (#690) (50b82be2)
+
+##### New Features
+
+* **checkout:**  send customer address when using normal pix (#685) (2fe4ddbf)
+
+##### Other Changes
+
+* **change-log:**  v2.5.1 (#690)" (#691) (2f93dca2)
+
 #### 2.5.0 (2023-09-12)
 
 ##### Build System / Dependencies
