@@ -8,7 +8,7 @@
     "@babel/plugin-transform-typescript": "7.22.15",
     "@babel/polyfill": "^7.12.1",
     "@babel/preset-env": "^7.22.20",
-    "@babel/preset-typescript": "7.22.15",
+    "@babel/preset-typescript": "7.23.0",
     "@octokit/rest": "^20.0.1",
     "@prettier/plugin-php": "^0.19.7",
     "@types/dotenv-safe": "^8.1.3",
