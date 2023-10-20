@@ -54,7 +54,7 @@ class PixParcelado extends \Magento\Payment\Model\Method\AbstractMethod
      */
     private $openpixManagement;
 
-    private \Magento\Framework\HTTP\Client\Curl $_curl;
+    private $_curl;
 
     public function __construct(
         \Magento\Framework\Model\Context $context,
@@ -112,7 +112,7 @@ class PixParcelado extends \Magento\Payment\Model\Method\AbstractMethod
 
     public function refund(
         \Magento\Payment\Model\InfoInterface $payment,
-                                             $value
+        $value
     ) {
         $appID = $this->_helperData->getAppID();
 
@@ -197,7 +197,8 @@ class PixParcelado extends \Magento\Payment\Model\Method\AbstractMethod
         return null;
     }
 
-    public function getAddress($billing) {
+    public function getAddress($billing)
+    {
         $street = $billing->getStreetLine(1);
         $number = $billing->getStreetLine(2);
         $neighborhood = $billing->getStreetLine(4);
@@ -351,7 +352,7 @@ class PixParcelado extends \Magento\Payment\Model\Method\AbstractMethod
 
     public function order(
         \Magento\Payment\Model\InfoInterface $payment,
-                                             $amount
+        $amount
     ) {
         try {
             $this->_helperData->log(
