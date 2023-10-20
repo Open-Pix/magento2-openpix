@@ -1,3 +1,13 @@
+#### 2.5.3 (2023-10-20)
+
+##### Build System / Dependencies
+
+* **change-log:**  v2.5.2 (#711) (2cc0b72c)
+
+##### Bug Fixes
+
+* **plugin-js:**  remove CDATA comment (#712) (736633ba)
+
 #### 2.5.2 (2023-10-20)
 
 ##### Build System / Dependencies
