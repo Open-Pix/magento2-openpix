@@ -54,7 +54,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
      */
     private $openPixManagement;
 
-    private \Magento\Framework\HTTP\Client\Curl $_curl;
+    private $_curl;
 
     public function __construct(
         \Magento\Framework\Model\Context $context,
@@ -197,7 +197,8 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
         return null;
     }
 
-    public function getAddress($billing) {
+    public function getAddress($billing)
+    {
         $street = $billing->getStreetLine(1);
         $number = $billing->getStreetLine(2);
         $neighborhood = $billing->getStreetLine(4);
@@ -322,13 +323,13 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
 
     private function isValidAddress($address)
     {
-        return ! empty($address['zipcode'])
-            && ! empty($address['street'])
-            && ! empty($address['number'])
-            && ! empty($address['neighborhood'])
-            && ! empty($address['city'])
-            && ! empty($address['state'])
-            && ! empty($address['country']);
+        return !empty($address['zipcode'])
+            && !empty($address['street'])
+            && !empty($address['number'])
+            && !empty($address['neighborhood'])
+            && !empty($address['city'])
+            && !empty($address['state'])
+            && !empty($address['country']);
     }
 
     public function getPayload($order, $correlationID)
