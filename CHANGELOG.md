@@ -1,3 +1,26 @@
+#### 2.5.2 (2023-10-20)
+
+##### Build System / Dependencies
+
+* **deps-dev:**
+  *  bump vite from 4.4.11 to 4.5.0 (#707) (ea82993c)
+  *  bump @types/dotenv-safe from 8.1.3 to 8.1.4 (#706) (4d354cf3)
+  *  bump @babel/preset-env from 7.22.20 to 7.23.2 (#703) (3378f5b9)
+  *  bump @babel/preset-typescript from 7.23.0 to 7.23.2 (#704) (92d860e5)
+  *  bump vite from 4.4.10 to 4.4.11 (#702) (cd9a43db)
+  *  bump vite from 4.4.9 to 4.4.10 (#701) (7d9a1c42)
+  *  bump @octokit/rest from 20.0.1 to 20.0.2 (#699) (40b662ca)
+  *  bump @babel/preset-typescript from 7.22.15 to 7.23.0 (#700) (c29eb880)
+  *  bump @types/dotenv-safe from 8.1.2 to 8.1.3 (#696) (8981a927)
+  *  bump simple-git from 3.19.1 to 3.20.0 (#697) (309a8906)
+  *  bump eslint-import-resolver-typescript (#698) (1c568020)
+  *  bump @babel/preset-env from 7.22.15 to 7.22.20 (#695) (1322e7c4)
+* **change-log:**  v2.5.1 (#694) (5207ceb2)
+
+##### Bug Fixes
+
+* **typing:**  remove typed properties (#709) (6b75b3d5)
+
 #### 2.5.1 (2023-09-17)
 
 ##### Build System / Dependencies
