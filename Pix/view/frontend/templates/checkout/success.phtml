@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
@@ -14,24 +15,20 @@ $src = $block->getPluginSrc();
 $correlationID = $block->getCorrelationID();
 $appID = $block->getAppID();
 ?>
-<?php if ($payment->getMethod() === 'openpix_pix'): ?>
-<div class="actions-toolbar flex">
-    <div id="openpix-order" data-appid="<?= $appID ?>" data-correlationID="<?= $correlationID ?>"></div>
-
-    <script>// <![CDATA[
-         require(["jquery","OpenPix"],function($,pym){
-     });
-        // ]]>
-    </script>
-</div>
-<?php elseif ($payment->getMethod() === 'openpix_pix_parcelado'): ?>
+<?php if ($payment->getMethod() === 'openpix_pix') : ?>
     <div class="actions-toolbar flex">
         <div id="openpix-order" data-appid="<?= $appID ?>" data-correlationID="<?= $correlationID ?>"></div>
 
-        <script>// <![CDATA[
-            require(["jquery","OpenPix"],function($,pym){
-            });
-            // ]]>
+        <script>
+            require(["jquery", "OpenPix"], function($, pym) {});
+        </script>
+    </div>
+<?php elseif ($payment->getMethod() === 'openpix_pix_parcelado') : ?>
+    <div class="actions-toolbar flex">
+        <div id="openpix-order" data-appid="<?= $appID ?>" data-correlationID="<?= $correlationID ?>"></div>
+
+        <script>
+            require(["jquery", "OpenPix"], function($, pym) {});
         </script>
     </div>
 <?php endif; ?>
