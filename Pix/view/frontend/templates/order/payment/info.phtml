@@ -4,7 +4,7 @@ $src = $block->getPluginSrc();
 $correlationID = $block->getCorrelationID();
 $appID = $block->getAppID();
 
-if ($block->getPaymentMethod() === 'openpix_pix'): ?>
+if ($block->getPaymentMethod() === 'openpix_pix') : ?>
     <button type="button" class="action primary btn-openpix-pix" data-trigger="trigger">
         <span data-bind="i18n: '<?= $paymentInfo['text'] ?>'"></span>
     </button>
@@ -17,13 +17,11 @@ if ($block->getPaymentMethod() === 'openpix_pix'): ?>
             'responsive': true,
         }}">
         <div id="openpix-order" data-appid="<?= $appID ?>" data-correlationID="<?= $correlationID ?>"></div>
-        <script>// <![CDATA[
-            require(["jquery","OpenPix"],function($,pym){
-            });
-            // ]]>
+        <script>
+            require(["jquery", "OpenPix"], function($, pym) {});
         </script>
     </div>
-<?php elseif ($block->getPaymentMethod() === 'openpix_pix_parcelado'): ?>
+<?php elseif ($block->getPaymentMethod() === 'openpix_pix_parcelado') : ?>
     <button type="button" class="action primary btn-openpix-pix-parcelado" data-trigger="trigger-parcelado">
         <span data-bind="i18n: '<?= $paymentInfo['text'] ?>'"></span>
     </button>
@@ -36,10 +34,8 @@ if ($block->getPaymentMethod() === 'openpix_pix'): ?>
             'responsive': true,
         }}">
         <div id="openpix-order" data-appid="<?= $appID ?>" data-correlationID="<?= $correlationID ?>"></div>
-        <script>// <![CDATA[
-            require(["jquery","OpenPix"],function($,pym){
-            });
-            // ]]>
+        <script>
+            require(["jquery", "OpenPix"], function($, pym) {});
         </script>
     </div>
 <?php endif; ?>
