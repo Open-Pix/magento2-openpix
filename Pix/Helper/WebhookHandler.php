@@ -105,7 +105,8 @@ class WebhookHandler
         try {
             $jsonBody = json_decode($body, true);
 
-            $event = $jsonBody['event'] ?? ($jsonBody['evento'] ?? null);
+            $event = $jsonBody['evento'] ?? $jsonBody['event'];
+
 
             if ($event == 'teste_webhook') {
                 $this->_helperData->log(
