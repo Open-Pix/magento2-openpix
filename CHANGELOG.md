@@ -1,3 +1,28 @@
+#### 2.5.4 (2024-03-28)
+
+##### Build System / Dependencies
+
+* **deps-dev:**
+  *  bump @babel/plugin-transform-typescript (#721) (96fd58c5)
+  *  bump simple-git from 3.20.0 to 3.21.0 (#722) (adfe4e5f)
+  *  bump @babel/plugin-transform-typescript (#716) (57b9e567)
+  *  bump @babel/preset-env from 7.23.2 to 7.23.3 (#715) (59d66b2c)
+  *  bump @babel/preset-typescript from 7.23.2 to 7.23.3 (#717) (1f44aeaf)
+  *  bump @types/dotenv-safe from 8.1.4 to 8.1.5 (#714) (bd79f187)
+* **change-log:**  v2.5.3 (#713) (6cb10c6f)
+
+##### Chores
+
+* **env:**  remove github_token from env (#727) (4695d4f2)
+
+##### New Features
+
+* **clean:**  clean (835986da)
+
+##### Bug Fixes
+
+* **oneclick:**  fix oneclick event order (#726) (65ee9ea3)
+
 #### 2.5.3 (2023-10-20)
 
 ##### Build System / Dependencies
