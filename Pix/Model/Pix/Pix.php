@@ -63,6 +63,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Framework\Api\AttributeValueFactory $customAttributeFactory,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Payment\Model\Method\Logger $logger,
         \Magento\Framework\HTTP\Client\Curl $curl,
         \OpenPix\Pix\Helper\Data $helper,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -80,6 +81,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
             $customAttributeFactory,
             $paymentData,
             $scopeConfig,
+            $logger,
             $resource,
             $resourceCollection,
             $data
@@ -91,6 +93,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
         $this->openPixManagement = $openPixManagement;
         $this->_curl = $curl;
     }
+
 
     /**
      * Determine method availability based on quote amount and config data
