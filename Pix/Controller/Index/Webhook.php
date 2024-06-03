@@ -9,21 +9,18 @@ use OpenPix\Pix\Helper\OpenPixConfig;
 
 class Webhook extends \Magento\Framework\App\Action\Action
 {
-    protected $logger;
     protected $_pageFactory;
     protected $helperData;
     private $webhookHandler;
     private $resultJsonFactory;
 
     public function __construct(
-        \Psr\Log\LoggerInterface $logger,
         WebhookHandler $webhookHandler,
         Data $helperData,
         \Magento\Framework\App\Action\Context $context,
         \Magento\Framework\View\Result\PageFactory $pageFactory,
         JsonFactory $resultJsonFactory
     ) {
-        $this->logger = $logger;
         $this->_pageFactory = $pageFactory;
         $this->webhookHandler = $webhookHandler;
         $this->helperData = $helperData;
@@ -40,12 +37,12 @@ class Webhook extends \Magento\Framework\App\Action\Action
         $resultJson = $this->resultJsonFactory->create();
         $body = file_get_contents('php://input');
 
-        $this->logger->debug(__(sprintf('Start webhook')));
+        $this->helperData->log(__(sprintf('Start webhook')));
 
         if (!$this->validateRequest($body)) {
             $ip = $this->webhookHandler->getRemoteIp();
 
-            $this->logger->error(
+            $this->helperData->log(
                 __(sprintf('Invalid webhook attempt from IP %s', $ip))
             );
 
@@ -56,7 +53,7 @@ class Webhook extends \Magento\Framework\App\Action\Action
             ]);
         }
 
-        $this->logger->info(__(sprintf("Webhook New Event!\n%s", $body)));
+        $this->helperData->log(__(sprintf("Webhook New Event!\n%s", $body)));
 
         $result = $this->webhookHandler->handle($body);
 
@@ -80,20 +77,13 @@ class Webhook extends \Magento\Framework\App\Action\Action
             'sha256WithRSAEncryption'
         );
 
-        $log = [
-            "signature" => $signature,
-            "payload" => $payload,
-            "isValid" => $verify,
-            "publicKey" => $publicKey,
-        ];
-
-        $this->logger->info(
+        $this->helperData->log(
             __(sprintf(
                 "\nSignature: %s\nPayload: %s\nisValid: %s\npublicKey: %s",
                 $signature, $payload, $verify == 1 ? "true" : "false", $publicKey
             ))
         );
-        
+
         return $verify;
     }
 

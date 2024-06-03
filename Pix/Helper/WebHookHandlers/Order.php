@@ -1,13 +1,12 @@
 <?php
 
+
 namespace OpenPix\Pix\Helper\WebHookHandlers;
+use OpenPix\Pix\Helper\Data;
 
 class Order
 {
-    /**
-     * @var \Psr\Log\LoggerInterface
-     */
-    protected $logger;
+    protected $_helperData;
 
     /**
      * @var \Magento\Sales\Model\ResourceModel\Order\CollectionFactory
@@ -15,11 +14,11 @@ class Order
     protected $orderCollectionFactory;
 
     public function __construct(
-        \Psr\Log\LoggerInterface $logger,
-        \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $orderCollectionFactory
+        \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $orderCollectionFactory,
+        Data $_helperData
     ) {
-        $this->logger = $logger;
         $this->orderCollectionFactory = $orderCollectionFactory;
+        $this->_helperData = $_helperData;
     }
 
     /**
@@ -35,7 +34,7 @@ class Order
         $order = $this->getOrderByCorrelationID($charge['correlationID']);
 
         if (!$order || !$order->getId()) {
-            $this->logger->warning(
+            $this->_helperData->log(
                 __(
                     sprintf(
                         'No order was found to invoice: %d',

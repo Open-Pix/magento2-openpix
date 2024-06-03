@@ -12,11 +12,6 @@ class WebhookHandler
     protected $remoteAddress;
 
     /**
-     * @var \Psr\Log\LoggerInterface
-     */
-    protected $logger;
-
-    /**
      * @var \OpenPix\Pix\Helper\WebHookHandlers\ChargePaid
      */
     protected $chargePaid;
@@ -39,14 +34,12 @@ class WebhookHandler
 
     public function __construct(
         \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,
-        \Psr\Log\LoggerInterface $logger,
         \OpenPix\Pix\Helper\WebHookHandlers\ChargePaid $chargePaid,
         \OpenPix\Pix\Helper\Data $helper,
         JsonFactory $resultJsonFactory,
         \OpenPix\Pix\Helper\WebHookHandlers\ConfigureHandler $configureHandler
     ) {
         $this->remoteAddress = $remoteAddress;
-        $this->logger = $logger;
         $this->chargePaid = $chargePaid;
         $this->configureHandler = $configureHandler;
         $this->_helperData = $helper;
@@ -160,7 +153,7 @@ class WebhookHandler
 
             return ['error' => 'Invalid Payload', 'success' => null];
         } catch (\Exception $e) {
-            $this->logger->info(
+            $this->_helperData->log(
                 __(
                     sprintf(
                         'Fail when interpreting webhook JSON: %s',
