@@ -7,11 +7,6 @@ use OpenPix\Pix\Helper\Data;
 class ConfigureHandler
 {
     /**
-     * @var \Psr\Log\LoggerInterface
-     */
-    protected $logger;
-
-    /**
      * @var Data
      */
     protected $_helperData;
@@ -19,10 +14,8 @@ class ConfigureHandler
     const LOG_NAME = 'magento2-configure';
 
     public function __construct(
-        \Psr\Log\LoggerInterface $logger,
         Data $_helperData
     ) {
-        $this->logger = $logger;
         $this->_helperData = $_helperData;
     }
 

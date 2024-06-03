@@ -8,11 +8,6 @@ use OpenPix\Pix\Helper\Data;
 class ChargePaid
 {
     /**
-     * @var \Psr\Log\LoggerInterface
-     */
-    protected $logger;
-
-    /**
      * @var \Magento\Sales\Api\OrderRepositoryInterface
      */
     protected $orderRepository;
@@ -42,14 +37,12 @@ class ChargePaid
     const LOG_NAME = 'charge_paid';
 
     public function __construct(
-        \Psr\Log\LoggerInterface $logger,
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
         \Magento\Sales\Api\InvoiceRepositoryInterface $invoiceRepository,
         \Magento\Sales\Model\Order\Email\Sender\InvoiceSender $invoiceSender,
         Order $order,
         Data $_helperData
     ) {
-        $this->logger = $logger;
         $this->orderRepository = $orderRepository;
         $this->invoiceRepository = $invoiceRepository;
         $this->invoiceSender = $invoiceSender;
@@ -76,7 +69,7 @@ class ChargePaid
                 self::LOG_NAME
             );
 
-            $this->logger->error(__(sprintf('Order Not Found')));
+            $this->_helperData->log(__(sprintf('Order Not Found')));
 
             return ['error' => 'Order Not Found', 'success' => null];
         }
@@ -116,7 +109,7 @@ class ChargePaid
         }
 
         if (!$order->canInvoice()) {
-            $this->logger->error(
+            $this->_helperData->log(
                 __(
                     sprintf(
                         'Impossible to generate invoice for order %s.',
@@ -137,7 +130,7 @@ class ChargePaid
             "Generating invoice for the order {$order->getId()}.",
             self::LOG_NAME
         );
-        $this->logger->info(
+        $this->_helperData->log(
             __(sprintf('Generating invoice for the order %s.', $order->getId()))
         );
 
@@ -164,7 +157,6 @@ class ChargePaid
         $order->setOpenpixEndtoendid($pix['endToEndId']);
 
         $this->_helperData->log('Invoice created with success', self::LOG_NAME);
-        $this->logger->info(__('Invoice created with success'));
 
         $order->addStatusHistoryComment(
             __(

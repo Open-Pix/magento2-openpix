@@ -63,7 +63,6 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Framework\Api\AttributeValueFactory $customAttributeFactory,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Payment\Model\Method\Logger $logger,
         \Magento\Framework\HTTP\Client\Curl $curl,
         \OpenPix\Pix\Helper\Data $helper,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -81,7 +80,6 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
             $customAttributeFactory,
             $paymentData,
             $scopeConfig,
-            $logger,
             $resource,
             $resourceCollection,
             $data
@@ -342,16 +340,7 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
         $quoteId = $order->getQuoteId();
         $quote = $this->quoteFactory->create()->load($quoteId);
 
-        $giftBackAppliedValue = 0;
-
-        if (!empty($quote) && $quote->getOpenpixDiscount() > 0) {
-            $giftBackAppliedValue = $quote->getOpenpixDiscount();
-        }
-
-        $giftbackValueToApply = $this->get_amount_openpix(
-            $giftBackAppliedValue
-        );
-        $value = $this->get_amount_openpix($grandTotal) + $giftbackValueToApply;
+        $value = $this->get_amount_openpix($grandTotal);
 
         $additionalInfo = [
             [
@@ -368,7 +357,6 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
                 'value' => $value,
                 'comment' => $comment_trimmed,
                 'additionalInfo' => $additionalInfo,
-                'giftbackValueToApply' => $giftbackValueToApply,
             ];
         }
 
@@ -378,7 +366,6 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
             'comment' => $comment_trimmed,
             'customer' => $customer,
             'additionalInfo' => $additionalInfo,
-            'giftbackValueToApply' => $giftbackValueToApply,
         ];
     }
 
