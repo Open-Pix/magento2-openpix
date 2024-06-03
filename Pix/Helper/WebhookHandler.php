@@ -139,17 +139,16 @@ class WebhookHandler
             }
 
             if ($this->isValidWebhookPayload($jsonBody)) {
-                $this->_helperData->log(
-                    'OpenPix WebApi::ProcessWebhook Invalid Payload',
-                    self::LOG_NAME,
-                    $jsonBody
-                );
-
                 $charge = $jsonBody['charge'];
                 $pix = $jsonBody['pix'];
 
                 return $this->chargePaid->chargePaid($charge, $pix);
             }
+
+            $this->_helperData->log(
+                "OpenPix WebApi::ProcessWebhook Invalid Payload event: $event",
+                self::LOG_NAME
+            );
 
             return ['error' => 'Invalid Payload', 'success' => null];
         } catch (\Exception $e) {
@@ -162,7 +161,7 @@ class WebhookHandler
                 )
             );
             return [
-                'error' => 'Internal server error',
+                'error' => 'Fail when interpreting webhook JSON',
                 'success' => null,
             ];
         }

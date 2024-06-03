@@ -65,6 +65,8 @@ vendor
 
 woocommerce-openpix*.zip
 
+*OpenPixConfig.php
+
 *pot~
 *po~
 

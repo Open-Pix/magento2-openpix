@@ -37,14 +37,12 @@ class Webhook extends \Magento\Framework\App\Action\Action
         $resultJson = $this->resultJsonFactory->create();
         $body = file_get_contents('php://input');
 
-        $this->helperData->log(__(sprintf('Start webhook')));
+        $this->helperData->log('Start webhook');
 
         if (!$this->validateRequest($body)) {
             $ip = $this->webhookHandler->getRemoteIp();
 
-            $this->helperData->log(
-                __(sprintf('Invalid webhook attempt from IP %s', $ip))
-            );
+            $this->helperData->log("Invalid webhook attempt from IP $ip");
 
             $resultJson->setHttpResponseCode(400);
 
@@ -53,17 +51,15 @@ class Webhook extends \Magento\Framework\App\Action\Action
             ]);
         }
 
-        $this->helperData->log(__(sprintf("Webhook New Event!\n%s", $body)));
+        $this->helperData->debugJson("Webhook New Event!", 'debug event', \json_decode($body, true));
 
         $result = $this->webhookHandler->handle($body);
 
-        if (isset($result['error'])) {
-            $resultJson->setHttpResponseCode(400);
-            return $resultJson->setData(['error' => $result['error']]);
-        }
+        $statusCode = isset($result['error']) && \strlen($result['error']) > 0 ? 400 : 200;
 
-        $resultJson->setHttpResponseCode(200);
-        return $resultJson->setData(['success' => $result['success']]);
+        $resultJson->setHttpResponseCode($statusCode);
+
+        return $resultJson->setData($result);
     }
 
     public function verifySignature(string $payload, string $signature)
@@ -77,12 +73,15 @@ class Webhook extends \Magento\Framework\App\Action\Action
             'sha256WithRSAEncryption'
         );
 
-        $this->helperData->log(
-            __(sprintf(
-                "\nSignature: %s\nPayload: %s\nisValid: %s\npublicKey: %s",
-                $signature, $payload, $verify == 1 ? "true" : "false", $publicKey
-            ))
-        );
+        if(!$verify) {
+            $this->helperData->log('Invalid signature');
+            $this->helperData->log(
+                __(sprintf(
+                    "\nSignature: %s\nPayload: %s\nisValid: %s\npublicKey: %s",
+                    $signature, $payload, $verify == 1 ? "true" : "false", $publicKey
+                ))
+            );
+        }
 
         return $verify;
     }
