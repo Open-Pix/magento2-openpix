@@ -56,6 +56,8 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
 
     private $_curl;
 
+    protected $_infoBlockType = \OpenPix\Pix\Block\Info\Pix::class;
+
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
