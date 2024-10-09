@@ -1,3 +1,17 @@
+#### 2.6.0 (2024-10-09)
+
+##### Build System / Dependencies
+
+* **change-log:**  v2.5.5 (#733) (e1062fd7)
+
+##### New Features
+
+* **email:**  add qrcode image (#735) (a4501a83)
+
+##### Bug Fixes
+
+* **fixed:**  fixed width (#736) (0d477b74)
+
 #### 2.5.5 (2024-06-04)
 
 ##### Build System / Dependencies
