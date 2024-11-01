@@ -1,13 +1,17 @@
 <?php
 
 /**
- * @var $block \OpenPix\Pix\Block\Info\Pix
+ * @var \OpenPix\Pix\Block\Info\Pix $block
  */
+
+$order = $block->getInfo()->getOrder();
 ?>
 
 <dl class="payment-method purchase order">
     <dt class="title"><?= $block->escapeHtml($block->getMethod()->getTitle()) ?></dt>
     <dd class="content">
-        <img src="<?= $block->getInfo()->getOrder()->getOpenpixQrcodeimage() ?>" width="200" height="200" />
+        <?php if ($order): ?>
+            <img src="<?= $order->getOpenpixQrcodeimage() ?>" width="200" height="200" />
+        <?php endif; ?>
     </dd>
 </dl>
