@@ -1,3 +1,9 @@
+#### 2.7.1 (2024-11-11)
+
+##### Build System / Dependencies
+
+* **change-log:**  v2.7.0 (#739) (b27f4bb7)
+
 #### 2.7.0 (2024-11-11)
 
 ##### Build System / Dependencies
