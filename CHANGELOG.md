@@ -1,3 +1,13 @@
+#### 2.7.0 (2024-11-11)
+
+##### Build System / Dependencies
+
+* **change-log:**  v2.6.0 (#737) (f818d07e)
+
+##### Bug Fixes
+
+* **checkout:**  allow multiple address (#738) (e67a2f63)
+
 #### 2.6.0 (2024-10-09)
 
 ##### Build System / Dependencies
