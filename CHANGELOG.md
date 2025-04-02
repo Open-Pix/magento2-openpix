@@ -1,3 +1,17 @@
+#### 2.8.0 (2025-04-02)
+
+##### Build System / Dependencies
+
+* **change-log:**  v2.7.1 (#740) (a60e5d48)
+
+##### New Features
+
+*  add handler for expired charge (c34eb62e)
+
+##### Bug Fixes
+
+*  adjust description for update status (7a5ad806)
+
 #### 2.7.1 (2024-11-11)
 
 ##### Build System / Dependencies
