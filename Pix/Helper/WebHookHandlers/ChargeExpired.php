@@ -84,7 +84,7 @@ class ChargeExpired
     }
 
     /**
-     * create expired invoice
+     * update order status
      * @return bool
      */
     public function updateStatus(\Magento\Sales\Model\Order $order, $charge)
