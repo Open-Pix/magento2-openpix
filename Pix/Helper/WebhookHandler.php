@@ -17,6 +17,11 @@ class WebhookHandler
     protected $chargePaid;
 
     /**
+     * @var \OpenPix\Pix\Helper\WebHookHandlers\ChargeExpired
+     */
+    protected $chargeExpired;
+
+    /**
      * OpenPix Helper
      *
      * @var OpenPix\Pix\Helper\Data;
@@ -35,12 +40,14 @@ class WebhookHandler
     public function __construct(
         \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,
         \OpenPix\Pix\Helper\WebHookHandlers\ChargePaid $chargePaid,
+        \OpenPix\Pix\Helper\WebHookHandlers\ChargeExpired $chargeExpired,
         \OpenPix\Pix\Helper\Data $helper,
         JsonFactory $resultJsonFactory,
         \OpenPix\Pix\Helper\WebHookHandlers\ConfigureHandler $configureHandler
     ) {
         $this->remoteAddress = $remoteAddress;
         $this->chargePaid = $chargePaid;
+        $this->chargeExpired = $chargeExpired;
         $this->configureHandler = $configureHandler;
         $this->_helperData = $helper;
         $this->resultJsonFactory = $resultJsonFactory;
@@ -63,6 +70,24 @@ class WebhookHandler
         if (
             !isset($jsonBody['pix']) ||
             !isset($jsonBody['pix']['endToEndId'])
+        ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function isChargeExpiredPayload($jsonBody)
+    {
+        if (
+            !isset($jsonBody['charge']) ||
+            !isset($jsonBody['charge']['correlationID'])
+        ) {
+            return false;
+        }
+
+        if (
+            $jsonBody['charge']['status'] !== 'EXPIRED'
         ) {
             return false;
         }
@@ -124,6 +149,11 @@ class WebhookHandler
                 return $this->configureHandler->configure($appID);
             }
 
+            if ($this->isChargeExpiredPayload($jsonBody)) {
+                $charge = $jsonBody['charge'];
+                return $this->chargeExpired->chargeExpired($charge);
+            }
+
             if ($this->isPixDetachedPayload($jsonBody)) {
                 $this->_helperData->log(
                     'OpenPix WebApi::ProcessWebhook Pix Detached',
@@ -141,7 +171,6 @@ class WebhookHandler
             if ($this->isValidWebhookPayload($jsonBody)) {
                 $charge = $jsonBody['charge'];
                 $pix = $jsonBody['pix'];
-
                 return $this->chargePaid->chargePaid($charge, $pix);
             }
 
