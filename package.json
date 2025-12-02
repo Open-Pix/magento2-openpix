@@ -66,5 +66,6 @@
     "config:local": "cp config/OpenPixConfigDevelopment.php Pix/Helper/OpenPixConfig.php && cp config/requirejs-config-local.js Pix/view/frontend/requirejs-config.js",
     "config:staging": "cp config/OpenPixConfigStaging.php Pix/Helper/OpenPixConfig.php && cp config/requirejs-config-staging.js Pix/view/frontend/requirejs-config.js",
     "config:prod": "cp config/OpenPixConfigProduction.php Pix/Helper/OpenPixConfig.php && cp config/requirejs-config-prod.js Pix/view/frontend/requirejs-config.js"
+    ,"test": "jest"
   }
 }
