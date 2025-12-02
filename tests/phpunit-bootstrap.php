@@ -73,6 +73,22 @@ PHP
     );
 }
 
+if (!class_exists('\\Magento\\Payment\\Block\\Info')) {
+    eval(
+        <<<'PHP'
+namespace Magento\Payment\Block {
+    class Info {
+        public function __construct(...$args) {}
+        public function getInfo() { return $this; }
+        public function getOrder() { return null; }
+        public function getMethod() { return $this; }
+        public function getTitle() { return 'Payment Method'; }
+    }
+}
+PHP
+    );
+}
+
 if (!class_exists('\\Magento\\Sales\\Model\\Order')) {
     eval(
         <<<'PHP'

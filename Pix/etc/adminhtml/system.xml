@@ -7,6 +7,7 @@
                 <include path="OpenPix_Pix::system/credentials.xml"/>
                 <include path="OpenPix_Pix::system/pix.xml"/>
                 <include path="OpenPix_Pix::system/pix_parcelado.xml"/>
+                <include path="OpenPix_Pix::system/boleto.xml"/>
             </group>
         </section>
     </system>
