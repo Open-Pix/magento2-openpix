@@ -1,0 +1,92 @@
+<?php
+
+/**
+ * @var \OpenPix\Pix\Block\Info\Boleto $block
+ */
+
+$order = $block->getInfo()->getOrder();
+?>
+
+<dl class="payment-method purchase order">
+    <dt class="title"><?= $block->escapeHtml($block->getMethod()->getTitle()) ?></dt>
+    <dd class="content">
+        <?php if ($order): ?>
+            <div class="boleto-payment-info">
+                <h3><?= __('Boleto Bancário') ?></h3>
+                
+                <?php if ($block->getBoletoImageUrl()): ?>
+                    <div class="boleto-barcode-image">
+                        <img src="<?= $block->escapeUrl($block->getBoletoImageUrl()) ?>" alt="<?= __('Boleto Barcode') ?>" />
+                    </div>
+                <?php endif; ?>
+                
+                <?php if ($block->getBoletoDigitable()): ?>
+                    <div class="boleto-digitable-line">
+                        <strong><?= __('Digitable Line:') ?></strong>
+                        <p class="boleto-code"><?= $block->escapeHtml($block->getBoletoDigitable()) ?></p>
+                        <button type="button" class="action copy-boleto" onclick="navigator.clipboard.writeText('<?= $block->escapeJs($block->getBoletoDigitable()) ?>')">
+                            <?= __('Copy Code') ?>
+                        </button>
+                    </div>
+                <?php endif; ?>
+                
+                <?php if ($block->getBoletoBarcode()): ?>
+                    <div class="boleto-barcode">
+                        <strong><?= __('Barcode:') ?></strong>
+                        <p class="boleto-code"><?= $block->escapeHtml($block->getBoletoBarcode()) ?></p>
+                    </div>
+                <?php endif; ?>
+                
+                <?php if ($block->getPaymentLinkUrl()): ?>
+                    <div class="boleto-payment-link">
+                        <a href="<?= $block->escapeUrl($block->getPaymentLinkUrl()) ?>" target="_blank" class="action primary">
+                            <?= __('View Boleto') ?>
+                        </a>
+                    </div>
+                <?php endif; ?>
+                
+                <div class="boleto-instructions">
+                    <p><?= __('You can pay this boleto at any bank, lottery, or using your internet banking.') ?></p>
+                    <p><?= __('The payment may take up to 2 business days to be processed.') ?></p>
+                </div>
+            </div>
+        <?php endif; ?>
+    </dd>
+</dl>
+
+<style>
+.boleto-payment-info {
+    margin: 20px 0;
+}
+.boleto-barcode-image {
+    margin: 15px 0;
+}
+.boleto-barcode-image img {
+    max-width: 100%;
+    height: auto;
+}
+.boleto-digitable-line, .boleto-barcode {
+    margin: 15px 0;
+}
+.boleto-code {
+    font-family: monospace;
+    font-size: 14px;
+    padding: 10px;
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    word-break: break-all;
+}
+.copy-boleto {
+    margin-top: 10px;
+}
+.boleto-payment-link {
+    margin: 20px 0;
+}
+.boleto-instructions {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f9f9f9;
+    border-left: 4px solid #0066cc;
+}
+</style>

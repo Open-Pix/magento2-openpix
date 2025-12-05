@@ -8,6 +8,7 @@ build
 yarn-error.log
 .cache
 .vs/
+.phpunit.result.cache
 
 #MacOS speciffic
 .icloud

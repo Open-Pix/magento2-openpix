@@ -1,3 +1,9 @@
+#### 3.0.0 (2025-12-02)
+
+- Added `Boleto` feature
+- Added internal tests for Woovi features
+- Fixed automatic CD testing for JS and PHP
+
 #### 2.8.0 (2025-04-02)
 
 ##### Build System / Dependencies

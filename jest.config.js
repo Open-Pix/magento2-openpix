@@ -2,7 +2,6 @@ const { defaults } = require('jest-config');
 const pkg = require('./package');
 
 module.exports = {
-  name: pkg.name,
   displayName: pkg.name,
   setupFilesAfterEnv: ['<rootDir>/test/setupTestFramework.js'],
   testPathIgnorePatterns: ['/node_modules/', './dist'],
