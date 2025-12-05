@@ -1,7 +1,7 @@
 ## OpenPix for Magento2
 OpenPix Magento2 Pix plugin.
 
-Follow the docs on [OpenPix - Magento2 Docs](https://entria.github.io/dev-docs/docs/openpix/openpix-magento2)
+Follow the docs on [OpenPix - Magento2 Docs](https://developers.woovi.com/docs/ecommerce/magento2/magento2-plugin)
 
 ![Product Page with Boleto Payment](./assets/demo1.png)
 
