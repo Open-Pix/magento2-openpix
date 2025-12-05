@@ -3,6 +3,27 @@ OpenPix Magento2 Pix plugin.
 
 Follow the docs on [OpenPix - Magento2 Docs](https://entria.github.io/dev-docs/docs/openpix/openpix-magento2)
 
+![Product Page with Boleto Payment](./assets/demo1.png)
+
+## Features
+
+- Multiple payment methods: PIX, PIX Parcelado (Installments), and Boleto
+- Fast and secure payment processing with OpenPix/Woovi
+- Mobile-friendly checkout experience
+- Automatic webhook notifications for payment updates
+- Payment confirmation in real-time
+- Support for multiple delivery addresses
+
+## Available Payment Methods
+
+The plugin provides three payment methods:
+
+1. **PIX** (`openpix_pix`) - Instant payment via PIX QR Code
+2. **PIX Parcelado** (`openpix_pix_parcelado`) - Installment payments via PIX
+3. **Boleto Bancário** (`openpix_boleto`) - Bank slip payment with barcode
+
+![Boleto Payment Confirmation](./assets/demo2.png)
+
 ## Requirements
 
 Minimum requirements to run this module and developer tooling:
