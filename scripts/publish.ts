@@ -30,20 +30,49 @@ const repo = process.env.CIRCLE_PROJECT_REPONAME || 'magento2-openpix';
 
     const body = changelogContent.replace(/^#### (.*)\n/gm, '');
 
-    const release = await octokit.repos.createRelease({
+    const existingRelease = await octokit.repos
+      .getReleaseByTag({ owner, repo, tag: tagVersion })
+      .then((r) => r.data)
+      .catch(() => null);
+
+    const release =
+      existingRelease ??
+      (
+        await octokit.repos.createRelease({
+          owner,
+          repo,
+          tag_name: tagVersion,
+          name: tagVersion,
+          body,
+        })
+      ).data;
+
+    const data = (await fs.readFile(
+      root(`openpix_pix.${version}.zip`),
+    )) as unknown as string;
+
+    const existingAssets = await octokit.repos.listReleaseAssets({
       owner,
       repo,
-      tag_name: tagVersion,
-      name: tagVersion,
-      body,
+      release_id: release.id,
     });
 
-    const data = await fs.readFile(root(`openpix_pix.${version}.zip`), 'utf-8');
+    const existingAsset = existingAssets.data.find(
+      (asset) => asset.name === `openpix_pix.${version}.zip`,
+    );
+
+    if (existingAsset) {
+      await octokit.repos.deleteReleaseAsset({
+        owner,
+        repo,
+        asset_id: existingAsset.id,
+      });
+    }
 
     await octokit.repos.uploadReleaseAsset({
       owner,
       repo,
-      release_id: release.data.id,
+      release_id: release.id,
       data,
       name: `openpix_pix.${version}.zip`,
       mediaType: {
