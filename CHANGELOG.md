@@ -1,3 +1,14 @@
+#### 3.0.1 (2026-04-16)
+
+##### Chores
+
+*  update openpix_pix.3.0.0.zip with latest changes (e12f8e92)
+*  update CHANGELOG for version 3.0.0 with new features and fixes (97b380b0)
+
+##### Other Changes
+
+*  update documentation link for OpenPix Magento2 (bbd747cd)
+
 #### 3.0.0 (2025-12-02)
 
 - Added `Boleto` feature
