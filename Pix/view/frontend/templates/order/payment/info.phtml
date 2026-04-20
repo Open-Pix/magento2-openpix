@@ -6,7 +6,7 @@ $appID = $block->getAppID();
 
 if ($block->getPaymentMethod() === 'openpix_pix') : ?>
     <button type="button" class="action primary btn-openpix-pix" data-trigger="trigger">
-        <span data-bind="i18n: '<?= $paymentInfo['text'] ?>'"></span>
+        <span data-bind="i18n: '<?= $block->escapeHtmlAttr($paymentInfo['text']) ?>'"></span>
     </button>
     <div data-bind="mageInit: {
         'Magento_Ui/js/modal/modal':{
@@ -16,14 +16,14 @@ if ($block->getPaymentMethod() === 'openpix_pix') : ?>
             'trigger': '[data-trigger=trigger]',
             'responsive': true,
         }}">
-        <div id="openpix-order" data-appid="<?= $appID ?>" data-correlationID="<?= $correlationID ?>"></div>
+        <div id="openpix-order" data-appid="<?= $block->escapeHtmlAttr($appID) ?>" data-correlationID="<?= $block->escapeHtmlAttr($correlationID) ?>"></div>
         <script>
             require(["jquery", "OpenPix"], function($, pym) {});
         </script>
     </div>
 <?php elseif ($block->getPaymentMethod() === 'openpix_pix_parcelado') : ?>
     <button type="button" class="action primary btn-openpix-pix-parcelado" data-trigger="trigger-parcelado">
-        <span data-bind="i18n: '<?= $paymentInfo['text'] ?>'"></span>
+        <span data-bind="i18n: '<?= $block->escapeHtmlAttr($paymentInfo['text']) ?>'"></span>
     </button>
     <div data-bind="mageInit: {
         'Magento_Ui/js/modal/modal':{
@@ -33,7 +33,7 @@ if ($block->getPaymentMethod() === 'openpix_pix') : ?>
             'trigger': '[data-trigger=trigger-parcelado]',
             'responsive': true,
         }}">
-        <div id="openpix-order" data-appid="<?= $appID ?>" data-correlationID="<?= $correlationID ?>"></div>
+        <div id="openpix-order" data-appid="<?= $block->escapeHtmlAttr($appID) ?>" data-correlationID="<?= $block->escapeHtmlAttr($correlationID) ?>"></div>
         <script>
             require(["jquery", "OpenPix"], function($, pym) {});
         </script>

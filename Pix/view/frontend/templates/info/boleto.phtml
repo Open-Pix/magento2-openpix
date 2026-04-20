@@ -12,27 +12,27 @@ $order = $block->getInfo()->getOrder();
     <dd class="content">
         <?php if ($order): ?>
             <div class="boleto-payment-info">
-                <h3><?= __('Boleto Bancário') ?></h3>
+                <h3><?= $block->escapeHtml(__('Boleto Bancário')) ?></h3>
                 
                 <?php if ($block->getBoletoImageUrl()): ?>
                     <div class="boleto-barcode-image">
-                        <img src="<?= $block->escapeUrl($block->getBoletoImageUrl()) ?>" alt="<?= __('Boleto Barcode') ?>" />
+                        <img src="<?= $block->escapeUrl($block->getBoletoImageUrl()) ?>" alt="<?= $block->escapeHtmlAttr(__('Boleto Barcode')) ?>" />
                     </div>
                 <?php endif; ?>
                 
                 <?php if ($block->getBoletoDigitable()): ?>
                     <div class="boleto-digitable-line">
-                        <strong><?= __('Digitable Line:') ?></strong>
+                        <strong><?= $block->escapeHtml(__('Digitable Line:')) ?></strong>
                         <p class="boleto-code"><?= $block->escapeHtml($block->getBoletoDigitable()) ?></p>
                         <button type="button" class="action copy-boleto" onclick="navigator.clipboard.writeText('<?= $block->escapeJs($block->getBoletoDigitable()) ?>')">
-                            <?= __('Copy Code') ?>
+                            <?= $block->escapeHtml(__('Copy Code')) ?>
                         </button>
                     </div>
                 <?php endif; ?>
                 
                 <?php if ($block->getBoletoBarcode()): ?>
                     <div class="boleto-barcode">
-                        <strong><?= __('Barcode:') ?></strong>
+                        <strong><?= $block->escapeHtml(__('Barcode:')) ?></strong>
                         <p class="boleto-code"><?= $block->escapeHtml($block->getBoletoBarcode()) ?></p>
                     </div>
                 <?php endif; ?>
@@ -40,14 +40,14 @@ $order = $block->getInfo()->getOrder();
                 <?php if ($block->getPaymentLinkUrl()): ?>
                     <div class="boleto-payment-link">
                         <a href="<?= $block->escapeUrl($block->getPaymentLinkUrl()) ?>" target="_blank" class="action primary">
-                            <?= __('View Boleto') ?>
+                            <?= $block->escapeHtml(__('View Boleto')) ?>
                         </a>
                     </div>
                 <?php endif; ?>
                 
                 <div class="boleto-instructions">
-                    <p><?= __('You can pay this boleto at any bank, lottery, or using your internet banking.') ?></p>
-                    <p><?= __('The payment may take up to 2 business days to be processed.') ?></p>
+                    <p><?= $block->escapeHtml(__('You can pay this boleto at any bank, lottery, or using your internet banking.')) ?></p>
+                    <p><?= $block->escapeHtml(__('The payment may take up to 2 business days to be processed.')) ?></p>
                 </div>
             </div>
         <?php endif; ?>
