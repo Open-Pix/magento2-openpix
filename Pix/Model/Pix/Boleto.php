@@ -72,8 +72,8 @@ class Boleto extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Quote\Model\QuoteFactory $quoteFactory,
         \OpenPix\Pix\Api\OpenPixManagementInterface $openPixManagement,
-        \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
-        \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
+        ?\Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
+        ?\Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
         array $data = []
     ) {
         parent::__construct(

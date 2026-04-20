@@ -11,7 +11,7 @@ $order = $block->getInfo()->getOrder();
     <dt class="title"><?= $block->escapeHtml($block->getMethod()->getTitle()) ?></dt>
     <dd class="content">
         <?php if ($order): ?>
-            <img src="<?= $order->getOpenpixQrcodeimage() ?>" width="200" height="200" />
+            <img src="<?= $block->escapeUrl($order->getOpenpixQrcodeimage()) ?>" width="200" height="200" />
         <?php endif; ?>
     </dd>
 </dl>

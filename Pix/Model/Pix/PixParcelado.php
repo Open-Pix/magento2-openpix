@@ -70,8 +70,8 @@ class PixParcelado extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Quote\Model\QuoteFactory $quoteFactory,
         \OpenPix\Pix\Api\OpenPixManagementInterface $openpixManagement,
-        \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
-        \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
+        ?\Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
+        ?\Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
         array $data = []
     ) {
         parent::__construct(
@@ -232,7 +232,11 @@ class PixParcelado extends \Magento\Payment\Model\Method\AbstractMethod
         $address = $this->getAddress($billing);
 
         $this->_helperData->debugJson('Address ', self::LOG_NAME, $address);
-        $this->_helperData->debugJson('BillingAddress ', self::LOG_NAME, $billing);
+        $this->_helperData->debugJson(
+            'BillingAddress ',
+            self::LOG_NAME,
+            $billing
+        );
 
         if (!$taxIDSafe && !$email && !$phone) {
             return null;
@@ -243,7 +247,7 @@ class PixParcelado extends \Magento\Payment\Model\Method\AbstractMethod
                 'name' => $firstname . ' ' . $lastname,
                 'email' => $email,
                 'phone' => $this->formatPhone($phone),
-                'address' => $address
+                'address' => $address,
             ];
         }
 
@@ -252,7 +256,7 @@ class PixParcelado extends \Magento\Payment\Model\Method\AbstractMethod
             'taxID' => $taxIDSafe,
             'email' => $email,
             'phone' => $this->formatPhone($phone),
-            'address' => $address
+            'address' => $address,
         ];
     }
 
@@ -287,7 +291,7 @@ class PixParcelado extends \Magento\Payment\Model\Method\AbstractMethod
                 'name' => $firstname . ' ' . $lastname,
                 'email' => $email,
                 'phone' => $this->formatPhone($phone),
-                'address' => $address
+                'address' => $address,
             ];
         }
 
@@ -296,7 +300,7 @@ class PixParcelado extends \Magento\Payment\Model\Method\AbstractMethod
             'taxID' => $taxIDSafe,
             'email' => $email,
             'phone' => $this->formatPhone($phone),
-            'address' => $address
+            'address' => $address,
         ];
     }
 
@@ -316,7 +320,9 @@ class PixParcelado extends \Magento\Payment\Model\Method\AbstractMethod
             $giftBackAppliedValue = $quote->getOpenPixDiscount();
         }
 
-        $giftbackValueToApply = $this->get_amount_openpix($giftBackAppliedValue);
+        $giftbackValueToApply = $this->get_amount_openpix(
+            $giftBackAppliedValue
+        );
         $value = $this->get_amount_openpix($grandTotal) + $giftbackValueToApply;
 
         $additionalInfo = [
@@ -420,7 +426,9 @@ class PixParcelado extends \Magento\Payment\Model\Method\AbstractMethod
             $payment->setSkipOrderProcessing(true);
             $this->openpixManagement->clearDataInCache();
         } catch (\Exception $e) {
-            $this->messageManager->addErrorMessage(__('Error creating Pix Parcelado'));
+            $this->messageManager->addErrorMessage(
+                __('Error creating Pix Parcelado')
+            );
             $this->_helperData->log(
                 'Pix::Error Parcelado - Error while creating charge',
                 self::LOG_NAME,
@@ -532,7 +540,9 @@ class PixParcelado extends \Magento\Payment\Model\Method\AbstractMethod
 
             return $responseBody;
         } catch (\Exception $e) {
-            $this->messageManager->addErrorMessage(__('Error creating Pix Parcelado'));
+            $this->messageManager->addErrorMessage(
+                __('Error creating Pix Parcelado')
+            );
             $this->messageManager->addErrorMessage($e->getMessage());
             throw new \Magento\Framework\Exception\LocalizedException(
                 __($e->getMessage())

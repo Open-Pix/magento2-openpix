@@ -72,8 +72,8 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Quote\Model\QuoteFactory $quoteFactory,
         \OpenPix\Pix\Api\OpenPixManagementInterface $openPixManagement,
-        \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
-        \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
+        ?\Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
+        ?\Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
         array $data = []
     ) {
         parent::__construct(
@@ -95,7 +95,6 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
         $this->openPixManagement = $openPixManagement;
         $this->_curl = $curl;
     }
-
 
     /**
      * Determine method availability based on quote amount and config data
@@ -326,13 +325,13 @@ class Pix extends \Magento\Payment\Model\Method\AbstractMethod
 
     private function isValidAddress($address)
     {
-        return !empty($address['zipcode'])
-            && !empty($address['street'])
-            && !empty($address['number'])
-            && !empty($address['neighborhood'])
-            && !empty($address['city'])
-            && !empty($address['state'])
-            && !empty($address['country']);
+        return !empty($address['zipcode']) &&
+            !empty($address['street']) &&
+            !empty($address['number']) &&
+            !empty($address['neighborhood']) &&
+            !empty($address['city']) &&
+            !empty($address['state']) &&
+            !empty($address['country']);
     }
 
     public function getPayload($order, $correlationID)
