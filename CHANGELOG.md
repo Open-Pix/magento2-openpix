@@ -1,3 +1,13 @@
+#### 3.0.3 (2026-04-20)
+
+##### Build System / Dependencies
+
+* **change-log:**  v3.0.2 (#756) (3dc9f421)
+
+##### Bug Fixes
+
+*  PHP 8.4 implicit nullable in isAvailable() method (#757) (4c0d7b94)
+
 #### 3.0.2 (2026-04-20)
 
 ##### Build System / Dependencies
