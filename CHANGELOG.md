@@ -1,3 +1,13 @@
+#### 3.0.2 (2026-04-20)
+
+##### Build System / Dependencies
+
+* **change-log:**  v3.0.1 (#752) (0eaea010)
+
+##### Bug Fixes
+
+*  EQP - PHP 8.4 implicit nullable and XSS escaping in templates (#755) (5312f28e)
+
 #### 3.0.1 (2026-04-16)
 
 ##### Chores
