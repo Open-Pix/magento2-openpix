@@ -63,6 +63,10 @@ const createPullRequest = async (branchName, tag) => {
 
 (async () => {
   try {
+    console.log('Running PHPCS...');
+    await exec('php vendor/bin/phpcs');
+    console.log('PHPCS passed.');
+
     const resultTag = await git().tags();
     const latestTag = resultTag.latest;
 
