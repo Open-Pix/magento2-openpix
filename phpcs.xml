@@ -4,7 +4,8 @@
 
     <file>Pix</file>
 
-    <arg name="standard" value="vendor/magento/magento-coding-standard/Magento2"/>
+    <rule ref="vendor/magento/magento-coding-standard/Magento2"/>
+
     <arg name="severity" value="10"/>
     <arg name="extensions" value="php,phtml"/>
     <arg name="colors"/>
