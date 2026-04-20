@@ -1,3 +1,9 @@
+#### 3.0.2 (2026-04-20)
+
+##### Build System / Dependencies
+
+* **change-log:**  v3.0.1 (#752) (0eaea010)
+
 #### 3.0.1 (2026-04-16)
 
 ##### Chores
