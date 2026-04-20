@@ -63,6 +63,21 @@ const createPullRequest = async (branchName, tag) => {
 
 (async () => {
   try {
+    const { stdout: phpVersion } = await exec(
+      "php -r 'echo PHP_MAJOR_VERSION;'",
+    );
+    if (phpVersion.trim() !== '8') {
+      throw new Error(`PHP 8.x required, got PHP ${phpVersion.trim()}`);
+    }
+    const { stdout: phpMinor } = await exec("php -r 'echo PHP_MINOR_VERSION;'");
+    if (parseInt(phpMinor.trim()) < 4) {
+      throw new Error(`PHP >= 8.4 required, got PHP 8.${phpMinor.trim()}`);
+    }
+
+    console.log('Running PHPCS...');
+    await exec('php vendor/bin/phpcs');
+    console.log('PHPCS passed.');
+
     const resultTag = await git().tags();
     const latestTag = resultTag.latest;
 
