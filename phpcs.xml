@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<ruleset name="OpenPix_Pix">
+    <description>PHPCS rules matching Adobe Commerce EQP — only severity 10 (ERRORs) cause failure</description>
+
+    <file>Pix</file>
+
+    <arg name="standard" value="vendor/magento/magento-coding-standard/Magento2"/>
+    <arg name="severity" value="10"/>
+    <arg name="extensions" value="php,phtml"/>
+    <arg name="colors"/>
+    <arg value="sp"/>
+
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+</ruleset>

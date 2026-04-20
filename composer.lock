@@ -4,35 +4,34 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "eaf427e91c04d06abdb542687ebc4d5d",
+    "content-hash": "e8b1965d864692719af65e6e415dba5c",
     "packages": [],
     "packages-dev": [
         {
             "name": "doctrine/instantiator",
-            "version": "2.0.0",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/instantiator.git",
-                "reference": "c6222283fa3f4ac679f8b9ced9a4e23f163e80d0"
+                "reference": "23da848e1a2308728fe5fdddabf4be17ff9720c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/c6222283fa3f4ac679f8b9ced9a4e23f163e80d0",
-                "reference": "c6222283fa3f4ac679f8b9ced9a4e23f163e80d0",
+                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/23da848e1a2308728fe5fdddabf4be17ff9720c7",
+                "reference": "23da848e1a2308728fe5fdddabf4be17ff9720c7",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.1"
+                "php": "^8.4"
             },
             "require-dev": {
-                "doctrine/coding-standard": "^11",
+                "doctrine/coding-standard": "^14",
                 "ext-pdo": "*",
                 "ext-phar": "*",
                 "phpbench/phpbench": "^1.2",
-                "phpstan/phpstan": "^1.9.4",
-                "phpstan/phpstan-phpunit": "^1.3",
-                "phpunit/phpunit": "^9.5.27",
-                "vimeo/psalm": "^5.4"
+                "phpstan/phpstan": "^2.1",
+                "phpstan/phpstan-phpunit": "^2.0",
+                "phpunit/phpunit": "^10.5.58"
             },
             "type": "library",
             "autoload": {
@@ -59,7 +58,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/instantiator/issues",
-                "source": "https://github.com/doctrine/instantiator/tree/2.0.0"
+                "source": "https://github.com/doctrine/instantiator/tree/2.1.0"
             },
             "funding": [
                 {
@@ -75,7 +74,50 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-12-30T00:23:10+00:00"
+            "time": "2026-01-05T06:47:08+00:00"
+        },
+        {
+            "name": "magento/magento-coding-standard",
+            "version": "5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/magento/magento-coding-standard.git",
+                "reference": "da46c5d57a43c950dfa364edc7f1f0436d5353a5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/magento/magento-coding-standard/zipball/da46c5d57a43c950dfa364edc7f1f0436d5353a5",
+                "reference": "da46c5d57a43c950dfa364edc7f1f0436d5353a5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6.0",
+                "squizlabs/php_codesniffer": "^3.4",
+                "webonyx/graphql-php": ">=0.12.6 <1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0"
+            },
+            "type": "phpcodesniffer-standard",
+            "autoload": {
+                "psr-4": {
+                    "Magento2\\": "Magento2/"
+                },
+                "classmap": [
+                    "PHP_CodeSniffer/Tokenizers/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "OSL-3.0",
+                "AFL-3.0"
+            ],
+            "description": "A set of Magento specific PHP CodeSniffer rules.",
+            "support": {
+                "issues": "https://github.com/magento/magento-coding-standard/issues",
+                "source": "https://github.com/magento/magento-coding-standard/tree/v5"
+            },
+            "time": "2019-11-04T22:08:27+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -139,16 +181,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v5.6.2",
+            "version": "v5.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "3a454ca033b9e06b63282ce19562e892747449bb"
+                "reference": "dca41cd15c2ac9d055ad70dbfd011130757d1f82"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/3a454ca033b9e06b63282ce19562e892747449bb",
-                "reference": "3a454ca033b9e06b63282ce19562e892747449bb",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/dca41cd15c2ac9d055ad70dbfd011130757d1f82",
+                "reference": "dca41cd15c2ac9d055ad70dbfd011130757d1f82",
                 "shasum": ""
             },
             "require": {
@@ -191,9 +233,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v5.6.2"
+                "source": "https://github.com/nikic/PHP-Parser/tree/v5.7.0"
             },
-            "time": "2025-10-21T19:32:17+00:00"
+            "time": "2025-12-06T11:56:16+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -634,16 +676,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.6.30",
+            "version": "9.6.34",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "b69489b312503bf8fa6d75a76916919d7d2fa6d4"
+                "reference": "b36f02317466907a230d3aa1d34467041271ef4a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/b69489b312503bf8fa6d75a76916919d7d2fa6d4",
-                "reference": "b69489b312503bf8fa6d75a76916919d7d2fa6d4",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/b36f02317466907a230d3aa1d34467041271ef4a",
+                "reference": "b36f02317466907a230d3aa1d34467041271ef4a",
                 "shasum": ""
             },
             "require": {
@@ -665,7 +707,7 @@
                 "phpunit/php-timer": "^5.0.3",
                 "sebastian/cli-parser": "^1.0.2",
                 "sebastian/code-unit": "^1.0.8",
-                "sebastian/comparator": "^4.0.9",
+                "sebastian/comparator": "^4.0.10",
                 "sebastian/diff": "^4.0.6",
                 "sebastian/environment": "^5.1.5",
                 "sebastian/exporter": "^4.0.8",
@@ -717,7 +759,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.30"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.34"
             },
             "funding": [
                 {
@@ -741,7 +783,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-12-01T07:35:08+00:00"
+            "time": "2026-01-27T05:45:00+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -912,16 +954,16 @@
         },
         {
             "name": "sebastian/comparator",
-            "version": "4.0.9",
+            "version": "4.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/comparator.git",
-                "reference": "67a2df3a62639eab2cc5906065e9805d4fd5dfc5"
+                "reference": "e4df00b9b3571187db2831ae9aada2c6efbd715d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/67a2df3a62639eab2cc5906065e9805d4fd5dfc5",
-                "reference": "67a2df3a62639eab2cc5906065e9805d4fd5dfc5",
+                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/e4df00b9b3571187db2831ae9aada2c6efbd715d",
+                "reference": "e4df00b9b3571187db2831ae9aada2c6efbd715d",
                 "shasum": ""
             },
             "require": {
@@ -974,7 +1016,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/comparator/issues",
-                "source": "https://github.com/sebastianbergmann/comparator/tree/4.0.9"
+                "source": "https://github.com/sebastianbergmann/comparator/tree/4.0.10"
             },
             "funding": [
                 {
@@ -994,7 +1036,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-08-10T06:51:50+00:00"
+            "time": "2026-01-24T09:22:56+00:00"
         },
         {
             "name": "sebastian/complexity",
@@ -1755,6 +1797,85 @@
             "time": "2020-09-28T06:39:44+00:00"
         },
         {
+            "name": "squizlabs/php_codesniffer",
+            "version": "3.13.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHPCSStandards/PHP_CodeSniffer.git",
+                "reference": "0ca86845ce43291e8f5692c7356fccf3bcf02bf4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/0ca86845ce43291e8f5692c7356fccf3bcf02bf4",
+                "reference": "0ca86845ce43291e8f5692c7356fccf3bcf02bf4",
+                "shasum": ""
+            },
+            "require": {
+                "ext-simplexml": "*",
+                "ext-tokenizer": "*",
+                "ext-xmlwriter": "*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0 || ^9.3.4"
+            },
+            "bin": [
+                "bin/phpcbf",
+                "bin/phpcs"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Greg Sherwood",
+                    "role": "Former lead"
+                },
+                {
+                    "name": "Juliette Reinders Folmer",
+                    "role": "Current lead"
+                },
+                {
+                    "name": "Contributors",
+                    "homepage": "https://github.com/PHPCSStandards/PHP_CodeSniffer/graphs/contributors"
+                }
+            ],
+            "description": "PHP_CodeSniffer tokenizes PHP, JavaScript and CSS files and detects violations of a defined set of coding standards.",
+            "homepage": "https://github.com/PHPCSStandards/PHP_CodeSniffer",
+            "keywords": [
+                "phpcs",
+                "standards",
+                "static analysis"
+            ],
+            "support": {
+                "issues": "https://github.com/PHPCSStandards/PHP_CodeSniffer/issues",
+                "security": "https://github.com/PHPCSStandards/PHP_CodeSniffer/security/policy",
+                "source": "https://github.com/PHPCSStandards/PHP_CodeSniffer",
+                "wiki": "https://github.com/PHPCSStandards/PHP_CodeSniffer/wiki"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/PHPCSStandards",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/jrfnl",
+                    "type": "github"
+                },
+                {
+                    "url": "https://opencollective.com/php_codesniffer",
+                    "type": "open_collective"
+                },
+                {
+                    "url": "https://thanks.dev/u/gh/phpcsstandards",
+                    "type": "thanks_dev"
+                }
+            ],
+            "time": "2025-11-04T16:30:35+00:00"
+        },
+        {
             "name": "theseer/tokenizer",
             "version": "1.3.1",
             "source": {
@@ -1803,6 +1924,68 @@
                 }
             ],
             "time": "2025-11-17T20:03:58+00:00"
+        },
+        {
+            "name": "webonyx/graphql-php",
+            "version": "v0.13.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/webonyx/graphql-php.git",
+                "reference": "d9a94fddcad0a35d4bced212b8a44ad1bc59bdf3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/webonyx/graphql-php/zipball/d9a94fddcad0a35d4bced212b8a44ad1bc59bdf3",
+                "reference": "d9a94fddcad0a35d4bced212b8a44ad1bc59bdf3",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": "^7.1||^8.0"
+            },
+            "require-dev": {
+                "doctrine/coding-standard": "^6.0",
+                "phpbench/phpbench": "^0.14.0",
+                "phpstan/phpstan": "^0.11.4",
+                "phpstan/phpstan-phpunit": "^0.11.0",
+                "phpstan/phpstan-strict-rules": "^0.11.0",
+                "phpunit/phpcov": "^5.0",
+                "phpunit/phpunit": "^7.2",
+                "psr/http-message": "^1.0",
+                "react/promise": "2.*"
+            },
+            "suggest": {
+                "psr/http-message": "To use standard GraphQL server",
+                "react/promise": "To leverage async resolving on React PHP platform"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "GraphQL\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A PHP port of GraphQL reference implementation",
+            "homepage": "https://github.com/webonyx/graphql-php",
+            "keywords": [
+                "api",
+                "graphql"
+            ],
+            "support": {
+                "issues": "https://github.com/webonyx/graphql-php/issues",
+                "source": "https://github.com/webonyx/graphql-php/tree/0.13.x"
+            },
+            "funding": [
+                {
+                    "url": "https://opencollective.com/webonyx-graphql-php",
+                    "type": "open_collective"
+                }
+            ],
+            "time": "2020-07-02T05:49:25+00:00"
         }
     ],
     "aliases": [],
