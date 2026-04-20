@@ -102,7 +102,7 @@ class PixParcelado extends \Magento\Payment\Model\Method\AbstractMethod
      * @return bool
      */
     public function isAvailable(
-        \Magento\Quote\Api\Data\CartInterface $quote = null
+        ?\Magento\Quote\Api\Data\CartInterface $quote = null
     ) {
         if (!$this->_helperData->getOpenPixEnabled()) {
             return false;
