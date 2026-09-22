@@ -48,7 +48,7 @@ const repo = process.env.CIRCLE_PROJECT_REPONAME || 'magento2-openpix';
       ).data;
 
     const data = (await fs.readFile(
-      root(`openpix_pix.${version}.zip`),
+      root(`woovi_pix.${version}.zip`),
     )) as unknown as string;
 
     const existingAssets = await octokit.repos.listReleaseAssets({
@@ -58,7 +58,7 @@ const repo = process.env.CIRCLE_PROJECT_REPONAME || 'magento2-openpix';
     });
 
     const existingAsset = existingAssets.data.find(
-      (asset) => asset.name === `openpix_pix.${version}.zip`,
+      (asset) => asset.name === `woovi_pix.${version}.zip`,
     );
 
     if (existingAsset) {
@@ -74,7 +74,7 @@ const repo = process.env.CIRCLE_PROJECT_REPONAME || 'magento2-openpix';
       repo,
       release_id: release.id,
       data,
-      name: `openpix_pix.${version}.zip`,
+      name: `woovi_pix.${version}.zip`,
       mediaType: {
         format: 'application/zip',
       },

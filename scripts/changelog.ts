@@ -132,7 +132,7 @@ const createPullRequest = async (branchName, tag) => {
       today.getMonth() + 1
     }${today.getDate()}${today.getUTCHours()}${today.getUTCMinutes()}`;
 
-    const releaseZipFileName = `openpix_pix.${newVersion}.zip`;
+    const releaseZipFileName = `woovi_pix.${newVersion}.zip`;
 
     await exec(`zip -r ${releaseZipFileName} ./Pix/*`);
 
