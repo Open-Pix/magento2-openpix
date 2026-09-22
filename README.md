@@ -55,6 +55,29 @@ yarn test
 npm test
 ```
 
+## Testing a zip before uploading to the Adobe Commerce Marketplace
+
+`magento-test` runs locally the checks of the Marketplace technical review, so a wrong zip is caught before the upload:
+
+```bash
+pnpm magento-test                         # zip built from the current Pix/
+pnpm magento-test path/to/release.zip     # a release zip
+pnpm magento-test --quick                 # package and code checks only, no Docker (seconds)
+MAGENTO_VERSION=2.4.9 pnpm magento-test   # another Magento release (default 2.4.8-p5)
+pnpm magento-test --clean                 # remove the Docker containers, volumes and image
+```
+
+| Stage | Checks |
+|---|---|
+| Package | composer name (its vendor must be the Marketplace vendor), type, version in `composer.json`, `etc/module.xml` and `package.json`, autoload, module registration |
+| Production config | `Helper/OpenPixConfig.php` and `view/frontend/requirejs-config.js` are the production ones, no `@woovi/do-not-merge` marker |
+| Files | no `.DS_Store`, `__MACOSX` or other junk, same files and content as the committed `Pix/` |
+| Code | `php -l` (errors and deprecations) and PHPCS with the EQP rules of `phpcs.xml` |
+| Installation | Magento from the Mage-OS mirror in Docker: `composer require` of the zip, `setup:install`, `setup:di:compile`, `setup:static-content:deploy`, production mode, `indexer:reindex` |
+| Varnish | the EQP scenario: with 10 products and 2 categories, home, 2 categories and 3 products must be `MISS` then `HIT` (`X-EQP-Cache` header), and again after updating 3 prices via REST |
+
+It needs PHP 8.4, `composer install`, `jq` and Docker. The first Docker run downloads Magento and takes longer, the next ones reuse the volumes. The Commerce-supplied MFTF tests are not reproduced: Adobe does not require them to pass.
+
 Notes
 
 - There are environment helper scripts in `package.json` that copy environment-specific configuration into `Pix/Helper/OpenPixConfig.php` (see `config:local`, `config:staging`, `config:prod`).
