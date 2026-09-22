@@ -1,0 +1,78 @@
+name: magento-test
+
+services:
+  db:
+    image: ${MYSQL_IMAGE:-mysql:8.4}
+    command: --disable-log-bin
+    environment:
+      MYSQL_ROOT_PASSWORD: magento
+      MYSQL_DATABASE: magento
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'mysqladmin',
+          'ping',
+          '-h',
+          '127.0.0.1',
+          '-uroot',
+          '-pmagento',
+          '--silent',
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 60
+
+  opensearch:
+    image: opensearchproject/opensearch:3
+    environment:
+      discovery.type: single-node
+      DISABLE_SECURITY_PLUGIN: 'true'
+      DISABLE_INSTALL_DEMO_CONFIG: 'true'
+      OPENSEARCH_JAVA_OPTS: -Xms512m -Xmx512m
+      cluster.routing.allocation.disk.threshold_enabled: 'false'
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          "curl -fs 'http://localhost:9200/_cluster/health?wait_for_status=yellow&timeout=5s' > /dev/null",
+        ]
+      interval: 5s
+      timeout: 10s
+      retries: 60
+
+  php:
+    build:
+      context: .
+      args:
+        PHP_VERSION: ${PHP_VERSION:-8.4}
+    image: magento-test-php:${PHP_VERSION:-8.4}
+    command: sleep infinity
+    init: true
+    environment:
+      MAGENTO_VERSION: ${MAGENTO_VERSION:-2.4.8-p5}
+      PKG_NAME: ${PKG_NAME:-}
+      PKG_VERSION: ${PKG_VERSION:-}
+      MODULE_NAME: ${MODULE_NAME:-}
+    volumes:
+      - magento:/magento
+      - composer:/composer
+      - varnish:/varnish
+      - ./:/scripts:ro
+      - ${ARTIFACTS_DIR:-./}:/artifacts:ro
+      - ${PACKAGE_DIR:-./}:/package:ro
+
+  varnish:
+    image: varnish:8
+    environment:
+      VARNISH_SIZE: 256M
+    volumes:
+      - varnish:/etc/varnish
+
+volumes:
+  magento:
+    name: magento-test-${MAGENTO_VERSION:-2.4.8-p5}
+  composer:
+    name: magento-test-composer
+  varnish:
+    name: magento-test-varnish

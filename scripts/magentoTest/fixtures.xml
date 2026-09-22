@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- Fixture profile of the Varnish test of the Adobe Commerce Marketplace technical review -->
+<config>
+    <profile>
+        <websites>1</websites>
+        <store_groups>1</store_groups>
+        <store_views>1</store_views>
+        <assign_entities_to_all_websites>0</assign_entities_to_all_websites>
+        <simple_products>10</simple_products>
+        <categories>2</categories>
+        <categories_nesting_level>1</categories_nesting_level>
+    </profile>
+</config>
