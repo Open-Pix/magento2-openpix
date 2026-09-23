@@ -109,6 +109,9 @@ class Boleto extends \Magento\Payment\Model\Method\AbstractMethod
         if (!$this->_helperData->getBoletoEnabled()) {
             return false;
         }
+        if (empty($this->_helperData->getAppID())) {
+            return false;
+        }
         return true;
     }
 
