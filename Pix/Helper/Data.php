@@ -180,6 +180,11 @@ class Data extends AbstractHelper
         return $this->getConfig('payment/openpix_pix/active');
     }
 
+    public function getBoletoEnabled()
+    {
+        return $this->getConfig('payment/openpix_boleto/active');
+    }
+
     public function getConfig($path, $clearCache = false)
     {
         if ($clearCache) {

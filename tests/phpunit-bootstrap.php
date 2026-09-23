@@ -22,6 +22,8 @@ if (!class_exists('\\Magento\\Framework\\App\\Helper\\AbstractHelper')) {
 namespace Magento\Framework\App\Helper {
     class AbstractHelper
     {
+        protected $scopeConfig;
+
         public function __construct(...$args)
         {
             // no-op
@@ -55,6 +57,19 @@ if (!class_exists('\\Magento\\Framework\\App\\Action\\Action')) {
 namespace Magento\Framework\App\Action {
     class Action {
         public function __construct(...$args) {}
+    }
+}
+PHP
+    );
+}
+
+if (!interface_exists('\\Magento\\Store\\Model\\ScopeInterface')) {
+    eval(
+        <<<'PHP'
+namespace Magento\Store\Model {
+    interface ScopeInterface
+    {
+        const SCOPE_STORE = 'store';
     }
 }
 PHP
