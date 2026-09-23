@@ -14,6 +14,7 @@
 
 *  Boleto isAvailable calls a missing helper method (#762) (90c6911b)
 *  stop disabling CSRF validation for the whole store (#764) (bcd961b7)
+*  offer the payment methods only when an App ID is configured (EQP MFTF) (#766) (55198a56)
 
 #### 3.0.3 (2026-04-20)
 
