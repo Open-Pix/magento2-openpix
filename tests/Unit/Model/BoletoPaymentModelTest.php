@@ -3,6 +3,7 @@
 use PHPUnit\Framework\TestCase;
 
 require_once __DIR__ . '/../../../Pix/Model/Pix/Boleto.php';
+require_once __DIR__ . '/../../../Pix/Helper/Data.php';
 
 /**
  * Tests for OpenPix Boleto Payment Model - Woovi features:
@@ -87,5 +88,55 @@ class BoletoPaymentModelTest extends TestCase
     {
         $ref = new ReflectionClass(\OpenPix\Pix\Model\Pix\Boleto::class);
         $this->assertTrue($ref->hasMethod('handleCreateCharge'));
+    }
+
+    public function testIsAvailableWhenBoletoIsActive()
+    {
+        $boleto = $this->createBoletoWithConfig([
+            'payment/openpix_boleto/active' => '1',
+        ]);
+
+        $this->assertTrue($boleto->isAvailable());
+    }
+
+    public function testIsNotAvailableWhenBoletoIsInactive()
+    {
+        $boleto = $this->createBoletoWithConfig([
+            'payment/openpix_boleto/active' => '0',
+        ]);
+
+        $this->assertFalse($boleto->isAvailable());
+    }
+
+    private function createBoletoWithConfig(array $config)
+    {
+        $helperRef = new ReflectionClass(\OpenPix\Pix\Helper\Data::class);
+        $helper = $helperRef->newInstanceWithoutConstructor();
+        $scopeConfig = $helperRef->getProperty('scopeConfig');
+        $scopeConfig->setAccessible(true);
+        $scopeConfig->setValue(
+            $helper,
+            new class ($config) {
+                private $config;
+
+                public function __construct(array $config)
+                {
+                    $this->config = $config;
+                }
+
+                public function getValue($path, $scope = null)
+                {
+                    return $this->config[$path] ?? null;
+                }
+            }
+        );
+
+        $boletoRef = new ReflectionClass(\OpenPix\Pix\Model\Pix\Boleto::class);
+        $boleto = $boletoRef->newInstanceWithoutConstructor();
+        $helperData = $boletoRef->getProperty('_helperData');
+        $helperData->setAccessible(true);
+        $helperData->setValue($boleto, $helper);
+
+        return $boleto;
     }
 }
