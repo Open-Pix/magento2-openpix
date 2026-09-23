@@ -1,11 +1,16 @@
 #!/usr/bin/env bash
 # Pages that list payment methods server side, where the EQP "MFTF Adobe Commerce Supplied" tests run:
-# the storefront checkout payment methods API and admin Create New Order must answer 200.
+# the storefront checkout payment methods API and admin Create New Order must answer 200, and the unconfigured
+# extension must not add payment methods (the MFTF tests expect the store's own methods only).
 source /scripts/lib.sh
 
 BASE=http://varnish
 JSON='Content-Type: application/json'
 SKU=magento-test-checkout
+
+moduleMethods() {
+  php -r '$config = simplexml_load_file("/package/etc/config.xml"); if (isset($config->default->payment)) { foreach ($config->default->payment->children() as $code => $method) { echo $code, "\n"; } }'
+}
 
 lastException() {
   head -n 1 var/log/exception.log 2>/dev/null | cut -c1-400
@@ -49,6 +54,8 @@ token=$(adminToken)
 [ "$(createProduct "$token")" = 200 ] || failed "could not create the test product via REST"
 code=$(guestCartPaymentMethods)
 [ "$code" = 200 ] || failed "GET /rest/V1/guest-carts/<cart>/payment-methods returned $code" "$(lastException)"
+unconfigured=$(moduleMethods | while IFS= read -r method; do grep -q "\"code\":\"$method\"" /tmp/payment-methods.json && echo "$method"; done || true)
+[ -z "$unconfigured" ] || failed "offered without an App ID configured: $(echo $unconfigured) (the EQP MFTF runs the extension unconfigured and expects the store's own payment methods only)"
 passed
 echo "      methods: $(grep -o '"code":"[^"]*"' /tmp/payment-methods.json | cut -d'"' -f4 | tr '\n' ' ')"
 
