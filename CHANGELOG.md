@@ -1,3 +1,20 @@
+#### 3.0.4 (2026-09-23)
+
+##### Build System / Dependencies
+
+* **change-log:**  v3.0.3 (#758) (0aa7c5c7)
+
+##### New Features
+
+* **magento-test:**  check the checkout and admin pages that list payment methods (#763) (246a7615)
+*  add magento-test to check a zip like the Marketplace technical review (#761) (9309d211)
+*  add PHPCS with Magento2 standard for local code quality checks (#759) (e63e74b1)
+
+##### Bug Fixes
+
+*  Boleto isAvailable calls a missing helper method (#762) (90c6911b)
+*  stop disabling CSRF validation for the whole store (#764) (bcd961b7)
+
 #### 3.0.3 (2026-04-20)
 
 ##### Build System / Dependencies
