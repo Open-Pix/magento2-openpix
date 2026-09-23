@@ -196,13 +196,14 @@ runInstallation() {
   PHP_VERSION=$(phpVersionFor "$MAGENTO_VERSION")
   MYSQL_IMAGE=$(mysqlImageFor "$MAGENTO_VERSION")
   PKG_NAME=$NAME PKG_VERSION=$VERSION ARTIFACTS_DIR="$WORK/artifacts" PACKAGE_DIR=$PKG_DIR
-  section "Installation & Varnish (Magento $MAGENTO_VERSION, PHP $PHP_VERSION, $MYSQL_IMAGE, OpenSearch 3, Varnish 8)"
+  section "Installation, Varnish, checkout & admin (Magento $MAGENTO_VERSION, PHP $PHP_VERSION, $MYSQL_IMAGE, OpenSearch 3, Varnish 8)"
   if ! docker info >/dev/null 2>&1; then fail "Docker is not running (use --quick to skip this stage)"; return; fi
   mkdir -p "$ARTIFACTS_DIR"
   cp "$ZIP" "$ARTIFACTS_DIR/package.zip"
   startContainers || return 0
   if compose exec -T php bash /scripts/install.sh; then ok "installation test"; else fail "installation test"; return; fi
   if runVarnishTest; then ok "varnish test"; else fail "varnish test"; fi
+  if compose exec -T php bash /scripts/checkout.sh; then ok "checkout and admin pages that list payment methods"; else fail "checkout and admin pages that list payment methods"; fi
 }
 
 summary() {

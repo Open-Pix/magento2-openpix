@@ -75,8 +75,9 @@ pnpm magento-test --clean                 # remove the Docker containers, volume
 | Code | `php -l` (errors and deprecations) and PHPCS with the EQP rules of `phpcs.xml` |
 | Installation | Magento from the Mage-OS mirror in Docker: `composer require` of the zip, `setup:install`, `setup:di:compile`, `setup:static-content:deploy`, production mode, `indexer:reindex` |
 | Varnish | the EQP scenario: with 10 products and 2 categories, home, 2 categories and 3 products must be `MISS` then `HIT` (`X-EQP-Cache` header), and again after updating 3 prices via REST |
+| Checkout & admin | the storefront checkout payment methods API (guest cart) and admin Create New Order answer 200: the pages that list payment methods server side, where the EQP MFTF tests run |
 
-It needs PHP 8.4, `composer install`, `jq` and Docker. The first Docker run downloads Magento and takes longer, the next ones reuse the volumes. The Commerce-supplied MFTF tests are not reproduced: Adobe does not require them to pass.
+It needs PHP 8.4, `composer install`, `jq` and Docker. The first Docker run downloads Magento and takes longer, the next ones reuse the volumes. The Commerce-supplied MFTF tests are not reproduced (Adobe does not require them to pass), but the Checkout & admin stage covers the pages they break on.
 
 Notes
 
