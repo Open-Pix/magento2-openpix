@@ -6,8 +6,12 @@ use OpenPix\Pix\Helper\Data;
 use OpenPix\Pix\Helper\WebhookHandler;
 use Magento\Framework\Controller\Result\JsonFactory;
 use OpenPix\Pix\Helper\OpenPixConfig;
+use Magento\Framework\App\CsrfAwareActionInterface;
+use Magento\Framework\App\Request\InvalidRequestException;
+use Magento\Framework\App\RequestInterface;
 
-class Webhook extends \Magento\Framework\App\Action\Action
+class Webhook extends \Magento\Framework\App\Action\Action implements
+    CsrfAwareActionInterface
 {
     protected $_pageFactory;
     protected $helperData;
@@ -33,7 +37,6 @@ class Webhook extends \Magento\Framework\App\Action\Action
      */
     public function execute()
     {
-
         $resultJson = $this->resultJsonFactory->create();
         $body = file_get_contents('php://input');
 
@@ -51,11 +54,18 @@ class Webhook extends \Magento\Framework\App\Action\Action
             ]);
         }
 
-        $this->helperData->debugJson("Webhook New Event!", 'debug event', \json_decode($body, true));
+        $this->helperData->debugJson(
+            'Webhook New Event!',
+            'debug event',
+            \json_decode($body, true)
+        );
 
         $result = $this->webhookHandler->handle($body);
 
-        $statusCode = isset($result['error']) && \strlen($result['error']) > 0 ? 400 : 200;
+        $statusCode =
+            isset($result['error']) && \strlen($result['error']) > 0
+                ? 400
+                : 200;
 
         $resultJson->setHttpResponseCode($statusCode);
 
@@ -73,17 +83,45 @@ class Webhook extends \Magento\Framework\App\Action\Action
             'sha256WithRSAEncryption'
         );
 
-        if(!$verify) {
+        if (!$verify) {
             $this->helperData->log('Invalid signature');
             $this->helperData->log(
-                __(sprintf(
-                    "\nSignature: %s\nPayload: %s\nisValid: %s\npublicKey: %s",
-                    $signature, $payload, $verify == 1 ? "true" : "false", $publicKey
-                ))
+                __(
+                    sprintf(
+                        "\nSignature: %s\nPayload: %s\nisValid: %s\npublicKey: %s",
+                        $signature,
+                        $payload,
+                        $verify == 1 ? 'true' : 'false',
+                        $publicKey
+                    )
+                )
             );
         }
 
         return $verify;
+    }
+
+    /**
+     * Webhooks come from the Woovi platform without a form key, they are validated by the x-webhook-signature header.
+     *
+     * @param RequestInterface $request
+     * @return InvalidRequestException|null
+     */
+    public function createCsrfValidationException(
+        RequestInterface $request
+    ): ?InvalidRequestException {
+        return null;
+    }
+
+    /**
+     * Skip the form key validation for this controller only.
+     *
+     * @param RequestInterface $request
+     * @return bool|null
+     */
+    public function validateForCsrf(RequestInterface $request): ?bool
+    {
+        return true;
     }
 
     /**
@@ -93,7 +131,9 @@ class Webhook extends \Magento\Framework\App\Action\Action
      */
     private function validateRequest(string $payload)
     {
-        $signatureHeader = $this->getRequest()->getHeader("x-webhook-signature");
+        $signatureHeader = $this->getRequest()->getHeader(
+            'x-webhook-signature'
+        );
 
         $isValid = $this->verifySignature($payload, $signatureHeader);
 

@@ -118,6 +118,43 @@ PHP
 }
 
 // Add interface stubs for mocking
+if (!interface_exists('\\Magento\\Framework\\App\\RequestInterface')) {
+    eval(
+        <<<'PHP'
+namespace Magento\Framework\App {
+    interface RequestInterface {}
+}
+PHP
+    );
+}
+
+if (
+    !class_exists('\\Magento\\Framework\\App\\Request\\InvalidRequestException')
+) {
+    eval(
+        <<<'PHP'
+namespace Magento\Framework\App\Request {
+    class InvalidRequestException extends \RuntimeException {}
+}
+PHP
+    );
+}
+
+if (!interface_exists('\\Magento\\Framework\\App\\CsrfAwareActionInterface')) {
+    eval(
+        <<<'PHP'
+namespace Magento\Framework\App {
+    interface CsrfAwareActionInterface
+    {
+        public function createCsrfValidationException(RequestInterface $request): ?Request\InvalidRequestException;
+
+        public function validateForCsrf(RequestInterface $request): ?bool;
+    }
+}
+PHP
+    );
+}
+
 if (!interface_exists('\\Magento\\Framework\\App\\Action\\Context')) {
     eval(
         <<<'PHP'
