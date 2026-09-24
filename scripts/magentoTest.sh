@@ -4,12 +4,12 @@
 #   without a zip, tests a zip built from the current Pix/ (same command as pack.sh)
 #   --quick  package and code checks only, without Docker
 #   --clean  remove the containers, volumes and image created by this script
-# MAGENTO_VERSION picks the Magento release installed by the Docker stage (default 2.4.8-p5).
+# MAGENTO_VERSION picks the Magento release installed by the Docker stage (default 2.4.9 with PHP 8.5, what the EQP runs).
 set -euo pipefail
 
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
 DOCKER_DIR="$ROOT/scripts/magentoTest"
-MAGENTO_VERSION=${MAGENTO_VERSION:-2.4.8-p5}
+MAGENTO_VERSION=${MAGENTO_VERSION:-2.4.9}
 ZIP=""
 CURRENT_CODE=false
 QUICK=false
