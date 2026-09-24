@@ -45,12 +45,12 @@ services:
     build:
       context: .
       args:
-        PHP_VERSION: ${PHP_VERSION:-8.4}
-    image: magento-test-php:${PHP_VERSION:-8.4}
+        PHP_VERSION: ${PHP_VERSION:-8.5}
+    image: magento-test-php:${PHP_VERSION:-8.5}
     command: sleep infinity
     init: true
     environment:
-      MAGENTO_VERSION: ${MAGENTO_VERSION:-2.4.8-p5}
+      MAGENTO_VERSION: ${MAGENTO_VERSION:-2.4.9}
       PKG_NAME: ${PKG_NAME:-}
       PKG_VERSION: ${PKG_VERSION:-}
       MODULE_NAME: ${MODULE_NAME:-}
@@ -71,7 +71,7 @@ services:
 
 volumes:
   magento:
-    name: magento-test-${MAGENTO_VERSION:-2.4.8-p5}
+    name: magento-test-${MAGENTO_VERSION:-2.4.9}
   composer:
     name: magento-test-composer
   varnish:

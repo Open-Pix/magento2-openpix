@@ -63,7 +63,7 @@ npm test
 pnpm magento-test                         # zip built from the current Pix/
 pnpm magento-test path/to/release.zip     # a release zip
 pnpm magento-test --quick                 # package and code checks only, no Docker (seconds)
-MAGENTO_VERSION=2.4.9 pnpm magento-test   # another Magento release (default 2.4.8-p5)
+MAGENTO_VERSION=2.4.8-p5 pnpm magento-test   # another Magento release (default 2.4.9 with PHP 8.5, what the EQP runs)
 pnpm magento-test --clean                 # remove the Docker containers, volumes and image
 ```
 
@@ -77,7 +77,7 @@ pnpm magento-test --clean                 # remove the Docker containers, volume
 | Varnish | the EQP scenario: with 10 products and 2 categories, home, 2 categories and 3 products must be `MISS` then `HIT` (`X-EQP-Cache` header), and again after updating 3 prices via REST |
 | Checkout & admin | the storefront checkout payment methods API (guest cart) and admin Create New Order answer 200, and the unconfigured extension adds no payment method: the pages and conditions of the EQP MFTF tests |
 
-It needs PHP 8.4, `composer install`, `jq` and Docker. The first Docker run downloads Magento and takes longer, the next ones reuse the volumes. The Commerce-supplied MFTF tests are not reproduced (Adobe does not require them to pass), but the Checkout & admin stage covers the pages they break on.
+It needs PHP 8.4 or newer, `composer install`, `jq` and Docker. The first Docker run downloads Magento and takes longer, the next ones reuse the volumes. The Commerce-supplied MFTF tests are not reproduced (Adobe does not require them to pass), but the Checkout & admin stage covers the pages they break on.
 
 Notes
 
